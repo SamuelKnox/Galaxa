@@ -5,7 +5,7 @@
 
 // This is JSY virtual platform library for PC and XBOX
 
-// Error codes for bitstream functions
+// Error codes for JSY functions
 typedef enum JSY_ERROR_S {
     JSY_SUCCEED = 0,
     JSY_ERROR_OOM = -100,
