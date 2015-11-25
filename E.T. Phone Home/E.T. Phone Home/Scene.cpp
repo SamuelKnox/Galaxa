@@ -1,5 +1,4 @@
 #include "Scene.h"
-#include "Entity.h"
 
 
 
@@ -16,6 +15,14 @@ Entity* Scene::GetEntities() {
 	return entities;
 }
 
-void Scene::AddEntity(Entity entity) {
-	//entities.Add(entity);
+void Scene::AddEntity(Entity* entity) {
+	entities.Add(entity);
+}
+
+void Scene::UpdateEntities() {
+
+}
+
+void Scene::DrawSprites() {
+
 }

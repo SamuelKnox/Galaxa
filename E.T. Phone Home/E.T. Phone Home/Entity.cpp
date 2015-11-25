@@ -2,8 +2,10 @@
 
 
 
-Entity::Entity()
+Entity::Entity(char* entityID, float x, float y)
 {
+	id = entityID;
+	SetPosition(x, y);
 }
 
 
@@ -11,7 +13,7 @@ Entity::~Entity()
 {
 }
 
-void Entity::Update() {
+void Entity::Update(float elapsedTime) {
 
 }
 

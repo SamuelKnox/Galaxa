@@ -2,13 +2,15 @@
 class Entity
 {
 public:
-	Entity();
+	Entity(char* id, float x, float y);
 	~Entity();
-	virtual void Update();
+	virtual void Update(float elapsedTime);
+	virtual void Draw() = 0;
 	void SetPosition(float x, float y);
 	struct Position {
 		float x;
 		float y;
 	} position;
 	Position GetPosition();
+	char* id;
 };

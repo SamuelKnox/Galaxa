@@ -2,8 +2,9 @@
 
 
 
-Collidable::Collidable()
+Collidable::Collidable(char* collidableID, float x, float y, char* image) : Sprite(collidableID, x, y, image)
 {
+	Physics::RegisterCollidable(this);
 }
 
 

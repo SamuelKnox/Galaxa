@@ -2,8 +2,9 @@
 
 
 
-Movable::Movable()
+Movable::Movable(char* movableID, float x, float y, char* image, float initialSpeed) : Collidable(movableID, x, y, image)
 {
+	speed = initialSpeed;
 }
 
 
@@ -11,15 +12,19 @@ Movable::~Movable()
 {
 }
 
-void Movable::Update() {
-	Collidable::Update();
-	UpdatePosition();
+void Movable::Update(float elapsedTime) {
+	Collidable::Update(elapsedTime);
+	UpdatePosition(elapsedTime);
+	Collidable* collidable = Physics::SendMoveEvent(this);
+	if (collidable != nullptr) {
+		OnCollisionEnter(collidable);
+	}
 }
 
-void Movable::UpdatePosition() {
+void Movable::UpdatePosition(float elapsedTime) {
 	Position oldPosition = GetPosition();
-	float newX = oldPosition.x + velocity.x * speed;
-	float newY = oldPosition.y + velocity.y * speed;
+	float newX = oldPosition.x + velocity.x * speed * elapsedTime;
+	float newY = oldPosition.y + velocity.y * speed * elapsedTime;
 	SetPosition(newX, newY);
 }
 
