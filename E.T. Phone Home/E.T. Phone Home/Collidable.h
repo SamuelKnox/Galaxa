@@ -6,5 +6,5 @@ class Collidable :
 public:
 	Collidable();
 	~Collidable();
+	bool IsColliding(Collidable other);
 };
-
