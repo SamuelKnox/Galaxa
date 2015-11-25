@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{3197BC2A-FFC6-4205-94C0-C2EA2E1A7DD2}</ProjectGuid>
-    <RootNamespace>ETPhoneHome</RootNamespace>
+    <ProjectGuid>{6DCAE3F3-141C-4089-BF95-F092FE6954B8}</ProjectGuid>
+    <RootNamespace>jsy_test</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -118,23 +118,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Collidable.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="EntityFactory.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="Movable.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="Sprite.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Collidable.cpp" />
-    <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="EntityFactory.cpp" />
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Movable.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Sprite.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
