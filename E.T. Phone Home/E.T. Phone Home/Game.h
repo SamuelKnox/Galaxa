@@ -1,4 +1,8 @@
-#pragma once
+#ifndef _GAME_H_
+#define _GAME_H_
+
+#include "Scene.h"
+
 class Game
 {
 public:
@@ -13,3 +17,4 @@ private:
 	Scene currentScene;
 };
 
+#endif

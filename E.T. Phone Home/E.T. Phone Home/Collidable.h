@@ -1,10 +1,16 @@
-#pragma once
+#ifndef _COLLIDABLE_H_
+#define _COLLIDABLE_H_
+
 #include "Sprite.h"
-class Collidable :
-	public Sprite
+
+class Collidable : public Sprite
 {
+
 public:
 	Collidable();
 	~Collidable();
-	bool IsColliding(Collidable other);
+
+	bool8_t IsColliding(Collidable other);
 };
+
+#endif

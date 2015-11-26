@@ -1,25 +1,16 @@
 #include "Entity.h"
 
-
-
 Entity::Entity()
 {
+	SetPosition(0.0f, 0.0f);
 }
 
-
-Entity::~Entity()
+Entity::Entity(float_t x, float_t y)
 {
+	SetPosition(x, y);
 }
 
-void Entity::Update() {
+void Entity::Update()
+{
 
-}
-
-void Entity::SetPosition(float x, float y) {
-	position.x = x;
-	position.y = y;
-}
-
-Entity::Position Entity::GetPosition() {
-	return position;
 }

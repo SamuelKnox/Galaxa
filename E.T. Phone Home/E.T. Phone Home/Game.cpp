@@ -1,7 +1,4 @@
 #include "Game.h"
-#include "Scene.h"
-
-
 
 Game::Game()
 {

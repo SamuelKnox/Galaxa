@@ -1,18 +1,26 @@
-#pragma once
+#ifndef _SPRITE_H_
+#define _SPRITE_H_
+
 #include "Entity.h"
+
 class Sprite :
 	public Entity
 {
 public:
 	Sprite();
+	Sprite(char8_t *path, float_t initWidth, float_t initHeight);
 	~Sprite();
-	virtual void Draw();
-	float GetWidth();
-	float GetHeight();
+
+	void Draw();
+	float_t GetWidth() { return width; }
+	float_t GetHeight() { return height; }
 
 private:
-	char* imagePath;
-	float width;
-	float height;
+	float_t width;
+	float_t height;
+
+	char8_t* imagePath;
+	
 };
 
+#endif

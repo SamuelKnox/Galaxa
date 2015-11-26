@@ -9,4 +9,10 @@ typedef short int16_t;
 typedef unsigned short uint16_t;
 typedef int bool8_t;
 
+typedef struct
+{
+	float_t x;
+	float_t y;
+}Vector2D;
+
 #endif // include guard

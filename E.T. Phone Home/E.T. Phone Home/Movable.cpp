@@ -1,7 +1,5 @@
 #include "Movable.h"
 
-
-
 Movable::Movable()
 {
 }
@@ -17,17 +15,9 @@ void Movable::Update() {
 }
 
 void Movable::UpdatePosition() {
-	Position oldPosition = GetPosition();
-	float newX = oldPosition.x + velocity.x * speed;
-	float newY = oldPosition.y + velocity.y * speed;
+	Vector2D oldPosition = GetPosition();
+	float newX = oldPosition.x + velocity.x;
+	float newY = oldPosition.y + velocity.y;
+
 	SetPosition(newX, newY);
-}
-
-void Movable::SetVelocity(float x, float y) {
-	velocity.x = x;
-	velocity.y = y;
-}
-
-Movable::Velocity Movable::GetVelocity() {
-	return velocity;
 }

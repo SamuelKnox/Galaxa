@@ -1,20 +1,24 @@
-#pragma once
+#ifndef _MOVABLE_H_
+#define _MOVABLE_H_
+
 #include "Collidable.h"
-class Movable :
-	public Collidable
+
+class Movable : public Collidable
 {
+
 public:
 	Movable();
 	~Movable();
+
 	virtual void Update();
-	void SetVelocity(float x, float y);
-	struct Velocity {
-		float x;
-		float y;
-	} velocity;
-	Velocity GetVelocity();
+
+	Vector2D GetVelocity() { return velocity;  }
+	void SetVelocity(float initX, float initY) { velocity.x = initX; velocity.y = initY; }
 
 private:
 	void UpdatePosition();
-	float speed;
+
+	Vector2D velocity;
 };
+
+#endif
