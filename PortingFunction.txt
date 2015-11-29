@@ -1,5 +1,10 @@
 http://www.flipcode.com/archives/A_2D_Guide_To_DirectX_8_Graphics-Using_2D_graphics_in_a_3D_Environment.shtml
 
+// Windows.h, windows API
+
+// Windows GDI, double buffer
+WINGDIAPI BOOL  WINAPI SwapBuffers(HDC);
+
 // SOIL...use d3dx8
 unsigned int
 SOIL_load_OGL_texture(
