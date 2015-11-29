@@ -6,6 +6,7 @@
 #include <math.h>	// Header File For Math Operations
 #include <gl\gl.h>	// Header File For The OpenGL32 Library
 #include <gl\glu.h>												// Header File For The GLu32 Library
+#include "SOIL.h"
 
 #include "baseTypes.h"
 #include "openglframework.h"	
@@ -46,9 +47,19 @@ void SpriteManager::init()
 {
 	printf("Initing the SpriteManager.\n");
 
-	player = new ET(0.0f, 0.0f, 0.0f, 0.0f);
-	player->setID(0);
+	spriteTextureMaps = (GLuint*)malloc(NUM_OBJECTS * sizeof(GLuint));
+	spriteTextureMaps[PLAYER] = SOIL_load_OGL_texture(PLAYER_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+	spriteTextureMaps[ENEMY_GREEN] = SOIL_load_OGL_texture(ENEMY_SPRITE_GREEN, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+	spriteTextureMaps[ENEMY_PURPLE] = SOIL_load_OGL_texture(ENEMY_SPRITE_PURPLE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+	spriteTextureMaps[BULLET] = SOIL_load_OGL_texture(MISSILE_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 
+	player = new ET(0.0f, 0.0f, 0.0f, 0.0f, PLAYER);
+
+	bullets = (Bullet**)malloc(MAX_NUM_MISSILES * sizeof(Bullet*));
 	for (int i = 0; i < MAX_NUM_MISSILES; i++) {
 		bullets[i] = nullptr;
 	}
@@ -64,16 +75,14 @@ void SpriteManager::updateSprites(DWORD milliseconds)
 		}
 	}
 
-	// TODO: Make this transition to a different level/background
-	if (CheckCollisions()) {
-		exit(0);
-	}
 
     lastSpawnDuration += milliseconds;
     if (lastSpawnDuration >= ENEMY_RESPAWN_TIME_MILLISEC) {
         lastSpawnDuration = 0;
         spawnEnemy();
     }
+
+	CheckBulletCollisions();
 }
 
 ET* SpriteManager::getET()
@@ -99,41 +108,57 @@ void SpriteManager::renderSprites()
         }
     }
 }
+GLuint SpriteManager::getSpriteTextureMap(int32_t objectType)
+{
+	return spriteTextureMaps[objectType];
+}
 void SpriteManager::shutdown()
 {
 	delete player;
+	for (int i = 0; i < MAX_NUM_MISSILES; i++)
+	{
+		delete bullets[i];
+	}
 
+	free(spriteTextureMaps);
+	free(bullets);
 }
 
-void SpriteManager::CreateBullet(float_t x, float_t y, float_t xVel, float_t yVel) {
-	for (int i = 0; i < MAX_NUM_MISSILES; i++) {
+void SpriteManager::CreateBullet(float_t x, float_t y, float_t xVel, float_t yVel) 
+{
+	for (int i = 0; i < MAX_NUM_MISSILES; i++) 
+	{
 		if (bullets[i] == nullptr) {
-			bullets[i] = new Bullet(x, y, xVel, yVel);
-			bullets[i]->setVelocity(xVel, yVel);
-			bullets[i]->setID(1 + i);
+			bullets[i] = new Bullet(x, y, xVel, yVel, BULLET);
 			break;
 		}
 	}
 }
 
-bool8_t SpriteManager::CheckCollisions()
+void SpriteManager::CheckBulletCollisions()
 {
-	//for (int32_t i = 0; i < NUM_HOLES; i++) {
-	//	// Check if player & holes collide
-	//	FieldC* field = FieldManagerC::GetInstance()->holes[i];
+	FieldC *field = FieldManagerC::GetInstance()->getFieldPtr();
+	float_t rightSide = field->getPosition()->x + ((float_t)field->getWidth() / 2.0f);
+	float_t leftSide = field->getPosition()->x - ((float_t)field->getWidth() / 2.0f);
+	float_t topSide = field->getPosition()->y - ((float_t)field->getHeight() / 2.0f);
+	float_t bottomSide = field->getPosition()->y + ((float_t)field->getHeight() / 2.0f);
 
-	//	if (field->activeState == StateManagerC::GetInstance()->getState()) {
-	//		bool8_t left = field->getPosition()->x + field->getWidth() < player->getPosition()->x;
-	//		bool8_t right = field->getPosition()->x > player->getPosition()->x + player->getWidth();
-	//		bool8_t up = field->getPosition()->y + field->getHeight() < player->getPosition()->y;
-	//		bool8_t down = field->getPosition()->y > player->getPosition()->y + player->getHeight();
-
-	//		if (!(left || right || up || down)) {
-	//			return true;
-	//		}
-	//	}
-	//}
-	return false;
+	for (int i = 0; i < MAX_NUM_MISSILES; i++)
+	{
+		if (bullets[i] != nullptr)
+		{			
+			Bullet *missle = bullets[i];
+			if ((missle->getPosition()->x - missle->getWidth() / 2 <= leftSide) || 
+				(missle->getPosition()->x + missle->getWidth() / 2 >= rightSide) ||
+				(missle->getPosition()->y + missle->getHeight() / 2 >= bottomSide) ||
+				(missle->getPosition()->x - missle->getHeight() / 2 <= topSide))
+			{
+				delete missle;
+				bullets[i] = nullptr;
+			}
+		}
+	}
+	
 }
 
 void SpriteManager::spawnEnemy() {
@@ -142,7 +167,7 @@ void SpriteManager::spawnEnemy() {
     }
 
     if (enemies[indexEnemy] == nullptr) {
-        enemies[indexEnemy] = new Enemy();
+        enemies[indexEnemy] = new Enemy(ENEMY_PURPLE);
     }
 
     float bgWidth = GameManager::GetInstance()->getBackgroundWidth();

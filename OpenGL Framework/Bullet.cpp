@@ -14,28 +14,29 @@
 #include "Object.h"
 #include "Sprite.h"
 #include "Bullet.h"
+#include "SpriteManager.h"
 #include "gamedefs.h"
 
 
-Bullet::Bullet(float_t x, float_t y, float_t xVel, float_t yVel)
+Bullet::Bullet(float_t x, float_t y, float_t xVel, float_t yVel, int32_t gameObjectType)
 {
+	// Object
 	mPosition.x = x;
 	mPosition.y = y;
 	mVelocity.x = xVel;
 	mVelocity.y = yVel;
+	mCollInfo.shape = CollInfoC::SHAPE_RECTANGLE;
 
+	// Sprite
 	mWidth = MISSILE_WIDTH;
 	mHeight = MISSILE_HEIGHT;
+	numSprites = MISSILE_NUM_SPRITES;
+	currentSprite = 0;
+
+	mType = gameObjectType;
 
 	mEnabled = true;
 	mIsFacingLeft = false;
-
-	numSprites = MISSILE_NUM_SPRITES;
-	mCollInfo.shape = CollInfoC::SHAPE_RECTANGLE;
-
-	// TODO: Move this to interface layer to make platform-independent
-	mSpriteID = SOIL_load_OGL_texture(MISSILE_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
-		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 }
 
 

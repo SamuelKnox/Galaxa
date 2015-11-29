@@ -9,9 +9,12 @@
 
 // Player
 #define PLAYER_SPRITE "assets/player.png"
-#define PLAYER_WIDTH 46
-#define PLAYER_HEIGHT 64
+#define PLAYER_WIDTH 48
+#define PLAYER_HEIGHT 48
 #define PLAYER_NUM_SPRITES 1
+#define MOVE_FORCE 1
+#define SHOT_FORCE 5
+#define SHOT_RATE 1
 
 // Enemies
 #define ENEMY_SPRITE_GREEN "assets/enemy_green.png"
@@ -24,7 +27,7 @@
 
 // Projectiles
 #define MAX_NUM_MISSILES 100
-#define MISSILE_SPRITE "assets\missle.png"
+#define MISSILE_SPRITE "assets/missile.png"
 #define MISSILE_WIDTH 12
 #define MISSILE_HEIGHT 20
 #define MISSILE_NUM_SPRITES 1

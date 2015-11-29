@@ -28,7 +28,8 @@ protected:
 	float_t mWidth;
 	float_t mHeight;
 
-	GLuint mSpriteID;
+	//GLuint mSpriteID;
+	int32_t mType;
 	int32_t numSprites;
 	int32_t currentSprite;
 

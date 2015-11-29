@@ -12,6 +12,7 @@
 #include "object.h"
 //#include "inputmapper.h"
 #include "Sprite.h"
+#include "SpriteManager.h"
 #include "field.h"
 #include "fieldmanager.h"
 #include "gamedefs.h"
@@ -46,6 +47,6 @@ void Sprite::render()
 	float_t yPosBot = mPosition.y + mHeight / 2;
 
 	float_t xTextureCoord = (float_t)currentSprite * (1.0f / numSprites);
-
-	DrawSprite(mSpriteID, mIsFacingLeft, xPosLeft, xPosRight, yPosTop, yPosBot, xTextureCoord, (float_t)numSprites);
+	GLuint spriteID = SpriteManager::GetInstance()->getSpriteTextureMap(mType);
+	DrawSprite(spriteID, mIsFacingLeft, xPosLeft, xPosRight, yPosTop, yPosBot, xTextureCoord, (float_t)numSprites);
 }

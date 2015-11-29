@@ -15,7 +15,7 @@ public:
 	//	ET_NECK4
 	//};
 
-	ET(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY);
+	ET(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType);
 	~ET();
 
 	void updateET(DWORD milliseconds);
@@ -25,6 +25,7 @@ private:
 	bool8_t mCanMove;
 
 	float_t mMoveForce;
+	float_t mShotTimer;
 
 	void CheckForUserInput();
 	void CheckBoundaries();

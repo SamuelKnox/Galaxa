@@ -2,43 +2,29 @@
 #include "SOIL.h"
 #include "Enemy.h"
 
-Enemy::Enemy() {
-
-    mWidth = ENEMY_WIDTH;
-    mHeight = ENEMY_HEIGHT;
-
-    mEnabled = true;
-
-    currentSprite = 0;
-    numSprites = PLAYER_NUM_SPRITES;
-    mCollInfo.shape = CollInfoC::SHAPE_RECTANGLE;
-
-    // TODO: Move this to interface layer to make platform-independent
-    mSpriteID = SOIL_load_OGL_texture(ENEMY_SPRITE_GREEN, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
-        SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
-}
-
-Enemy::Enemy(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY)
+Enemy::Enemy(int32_t enemyType) 
 {
-    mPosition.x = initPosX;
-    mPosition.y = initPosY;
-    mVelocity.x = initVelX;
-    mVelocity.y = initVelY;
+	// Object
+	mPosition.x = 0.0f;
+	mPosition.y = 0.0f;
+	mVelocity.x = 0.0f;
+	mVelocity.y = 0.0f;
+	mCollInfo.shape = CollInfoC::SHAPE_RECTANGLE;
 
+	// Sprite
     mWidth = ENEMY_WIDTH;
     mHeight = ENEMY_HEIGHT;
+	numSprites = ENEMY_NUM_SPRITES;
+	currentSprite = 0;	// No animations
 
     mEnabled = true;
+	mIsFacingLeft = false;
 
-    currentSprite = 0;
-    numSprites = PLAYER_NUM_SPRITES;
-    mCollInfo.shape = CollInfoC::SHAPE_RECTANGLE;
+	mType = enemyType;
 
-    // TODO: Move this to interface layer to make platform-independent
-    mSpriteID = SOIL_load_OGL_texture(ENEMY_SPRITE_GREEN, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
-        SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+	// Enemy
+
 }
-
 
 Enemy::~Enemy()
 {

@@ -26,30 +26,29 @@
 #include "SpriteManager.h"
 
 
-ET::ET(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY)
+ET::ET(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType)
 {
-
+	// Object
 	mPosition.x = initPosX;
 	mPosition.y = initPosY;
 	mVelocity.x = initVelX;
 	mVelocity.y = initVelY;
-
-	mWidth = PLAYER_WIDTH;
-	mHeight = PLAYER_HEIGHT;
-
-	mEnabled = true;
-	mIsMoving = false;
-	mCanMove = true;
-	mIsFacingLeft = false;
-
-	currentSprite = 0;
-	numSprites = PLAYER_NUM_SPRITES;
 	mCollInfo.shape = CollInfoC::SHAPE_RECTANGLE;
 
-	// TODO: Move this to interface layer to make platform-independent
-	mSpriteID = SOIL_load_OGL_texture(PLAYER_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
-		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
-	
+	// Sprite
+	mWidth = PLAYER_WIDTH;
+	mHeight = PLAYER_HEIGHT;
+	numSprites = PLAYER_NUM_SPRITES;
+	currentSprite = 0; // No animations
+
+	mType = gameObjectType;
+
+	mEnabled = true;
+	mIsFacingLeft = false;
+
+	// Player
+	mIsMoving = false;
+	mCanMove = true;
 }
 
 ET::~ET()
@@ -57,10 +56,11 @@ ET::~ET()
 
 void ET::updateET(DWORD milliseconds)
 {
-	// Check for movement input and update position
-	CheckForUserInput();
-	//mPosition.x += mVelocity.x*milliseconds / 10;
-	//mPosition.y += mVelocity.y*milliseconds / 10;
+	// Check for movement input if able to move
+	if (mCanMove)
+	{
+		CheckForUserInput();
+	}
 
 	CheckBoundaries();
 
@@ -83,6 +83,7 @@ void ET::CheckForUserInput()
 	SHORT keyDown = GetKeyState(VK_DOWN);
 	SHORT keyShoot = GetKeyState(VK_SPACE);
 
+	// Check vertical movement
 	if ((keyUp & 0x8000))
 	{
 		mVelocity.y = 1.0f;
@@ -96,6 +97,7 @@ void ET::CheckForUserInput()
 		mVelocity.y = 0.0f;
 	}
 
+	// Check horizontal movement
 	if ((keyLeft & 0x8000))
 	{
 		mVelocity.x = -1.0f;
@@ -110,8 +112,10 @@ void ET::CheckForUserInput()
 	{
 		mVelocity.x = 0.0f;
 	}
+
+	// Check for firing missles
 	if (keyShoot & 0x8000) {
-		SpriteManager::GetInstance()->CreateBullet(getPosition()->x, getPosition()->y, 0, 1.0f);
+		SpriteManager::GetInstance()->CreateBullet(getPosition()->x, getPosition()->y, getVelocity()->x, SHOT_FORCE);
 	}
 }
 
@@ -124,8 +128,6 @@ void ET::CheckBoundaries()
 	float_t topSide = field->getPosition()->y - ((float_t)field->getHeight() / 2.0f);
 	float_t bottomSide = field->getPosition()->y + ((float_t)field->getHeight() / 2.0f);
 
-
-	// TODO: These will become transitions to different levels on each side
 	if (mPosition.x - mWidth / 2 <= leftSide)
 	{
 		mPosition.x = leftSide + mWidth / 2;
