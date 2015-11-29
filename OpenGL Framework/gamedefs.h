@@ -21,6 +21,7 @@
 #define ENEMY_NUM_SPRITES 1
 
 // Projectiles
+#define MAX_NUM_BULLETS 100
 #define MISSLE_SPRITE "assets/missle.png"
 #define MISSLE_WIDTH 12
 #define MISSLE_HEIGHT 20
@@ -29,10 +30,3 @@
 // Fields
 #define NUM_HOLES 16
 #define LINE_WIDTH 1
-
-// Bullets
-#define MAX_NUM_BULLETS 100
-#define BULLET_SPRITE "assets/sprites/bullets/bullet.png"
-#define BULLET_WIDTH 25
-#define BULLET_HEIGHT 25
-#define BULLET_NUM_SPRITES 1
