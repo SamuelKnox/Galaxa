@@ -9,7 +9,7 @@ class ObjectC
 public:
     ObjectC(float initPosX, float initPosY, float initVelX, float initVelY);
     ObjectC();
-    ~ObjectC();
+    virtual ~ObjectC();
     void setPosition(Coord2D *posToSet) {mPosition.x = posToSet->x;mPosition.y = posToSet->y;};
     Coord2D *getPosition() {return &mPosition;};
     void setVelocity(Coord2D *velToSet) {mVelocity.x = velToSet->x;mVelocity.y = velToSet->y;};

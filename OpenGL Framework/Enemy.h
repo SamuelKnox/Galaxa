@@ -1,13 +1,24 @@
 #ifndef _ENEMY_H_
 #define _ENEMY_H_
 
-#include "Object.h"
+#include <windows.h>
 
-class Enemy : public ObjectC
+#include "baseTypes.h"
+#include "Sprite.h"
+#include "Trajectory.h"
+
+class Enemy : public Sprite
 {
 public:
     Enemy();
     ~Enemy();
+
+    void SetTrajectory(Trajectory * trajectory) { mTrajectory = trajectory; };
+    void update(DWORD milliseconds);
+
+private:
+    Trajectory* mTrajectory;
+
 };
 
 

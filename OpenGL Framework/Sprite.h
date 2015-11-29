@@ -1,6 +1,10 @@
 #ifndef _SPRITE_H
 #define _SPRITE_H
 
+#include <gl\gl.h>
+
+#include "Object.h"
+
 class Sprite : public ObjectC
 {
 	friend class ET;

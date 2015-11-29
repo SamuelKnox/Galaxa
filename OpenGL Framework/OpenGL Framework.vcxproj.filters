@@ -20,6 +20,7 @@
     <ClCompile Include="ET.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Trajectory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ball.h" />
@@ -46,5 +47,6 @@
     <ClInclude Include="ET.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Trajectory.h" />
   </ItemGroup>
 </Project>
