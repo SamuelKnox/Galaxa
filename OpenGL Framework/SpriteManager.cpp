@@ -39,7 +39,7 @@ void SpriteManager::init()
 	player = new ET(0.0f, 0.0f, 0.0f, 0.0f);
 	player->setID(0);
 
-	for (int i = 0; i < MAX_NUM_BULLETS; i++) {
+	for (int i = 0; i < MAX_NUM_MISSILES; i++) {
 		bullets[i] = nullptr;
 	}
 }
@@ -48,7 +48,7 @@ void SpriteManager::updateSprites(DWORD milliseconds)
 {
 	player->update(milliseconds);
 	player->updateET(milliseconds);
-	for (int i = 0; i < MAX_NUM_BULLETS; i++) {
+	for (int i = 0; i < MAX_NUM_MISSILES; i++) {
 		if (bullets[i] != nullptr) {
 			bullets[i]->update(milliseconds);
 		}
@@ -68,7 +68,7 @@ ET* SpriteManager::getET()
 void SpriteManager::renderSprites()
 {
 	player->render();
-	for (int i = 0; i < MAX_NUM_BULLETS; i++) {
+	for (int i = 0; i < MAX_NUM_MISSILES; i++) {
 		if (bullets[i] != nullptr) {
 			bullets[i]->render();
 		}
@@ -80,10 +80,10 @@ void SpriteManager::shutdown()
 
 }
 
-void SpriteManager::CreateBullet(float_t xVel, float_t yVel) {
-	for (int i = 0; i < MAX_NUM_BULLETS; i++) {
+void SpriteManager::CreateBullet(float_t x, float_t y, float_t xVel, float_t yVel) {
+	for (int i = 0; i < MAX_NUM_MISSILES; i++) {
 		if (bullets[i] == nullptr) {
-			bullets[i] = new Bullet();
+			bullets[i] = new Bullet(x, y, xVel, yVel);
 			bullets[i]->setVelocity(xVel, yVel);
 			bullets[i]->setID(1 + i);
 			break;

@@ -111,7 +111,7 @@ void ET::CheckForUserInput()
 		mVelocity.x = 0.0f;
 	}
 	if (keyShoot & 0x8000) {
-		SpriteManager::GetInstance()->CreateBullet(0, -1.0f);
+		SpriteManager::GetInstance()->CreateBullet(getPosition()->x, getPosition()->y, 0, 1.0f);
 	}
 }
 

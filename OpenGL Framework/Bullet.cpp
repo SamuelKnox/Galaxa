@@ -17,24 +17,24 @@
 #include "gamedefs.h"
 
 
-Bullet::Bullet()
+Bullet::Bullet(float_t x, float_t y, float_t xVel, float_t yVel)
 {
-	mPosition.x = 0;
-	mPosition.y = 0;
-	mVelocity.x = 0;
-	mVelocity.y = 0;
+	mPosition.x = x;
+	mPosition.y = y;
+	mVelocity.x = xVel;
+	mVelocity.y = yVel;
 
-	mWidth = BULLET_WIDTH;
-	mHeight = BULLET_HEIGHT;
+	mWidth = MISSILE_WIDTH;
+	mHeight = MISSILE_HEIGHT;
 
 	mEnabled = true;
 	mIsFacingLeft = false;
 
-	numSprites = BULLET_NUM_SPRITES;
+	numSprites = MISSILE_NUM_SPRITES;
 	mCollInfo.shape = CollInfoC::SHAPE_RECTANGLE;
 
 	// TODO: Move this to interface layer to make platform-independent
-	mSpriteID = SOIL_load_OGL_texture(BULLET_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+	mSpriteID = SOIL_load_OGL_texture(MISSILE_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 }
 

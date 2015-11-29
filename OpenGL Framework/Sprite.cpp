@@ -46,4 +46,3 @@ void Sprite::render()
 
 	DrawSprite(mSpriteID, mIsFacingLeft, xPosLeft, xPosRight, yPosTop, yPosBot, xTextureCoord, (float_t)numSprites);
 }
-

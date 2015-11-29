@@ -21,11 +21,11 @@
 #define ENEMY_NUM_SPRITES 1
 
 // Projectiles
-#define MAX_NUM_BULLETS 100
-#define MISSLE_SPRITE "assets/missle.png"
-#define MISSLE_WIDTH 12
-#define MISSLE_HEIGHT 20
-#define MISSLE_ENEMY_NUM_SPRITES 1
+#define MAX_NUM_MISSILES 100
+#define MISSILE_SPRITE "assets\missle.png"
+#define MISSILE_WIDTH 12
+#define MISSILE_HEIGHT 20
+#define MISSILE_NUM_SPRITES 1
 
 // Fields
 #define NUM_HOLES 16
