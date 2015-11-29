@@ -1,3 +1,6 @@
+#ifndef _BASE_TYPES_H
+#define _BASE_TYPES_H
+
 
 typedef float float_t;
 typedef unsigned int uint32_t;
@@ -12,3 +15,5 @@ typedef struct
 	float_t x;
 	float_t y;
 }Coord2D;
+
+#endif

@@ -1,16 +1,11 @@
 #ifndef _OBJECT_H
 #define _OBJECT_H
 
-class BallC;
-class FieldC;
-class Sprite;
-class ET;
+#include "baseTypes.h"
+#include "collInfo.h"
+
 class ObjectC
 {
-    friend class BallC;
-	friend class FieldC;
-	friend class Sprite;
-	friend class ET;
 public:
     ObjectC(float initPosX, float initPosY, float initVelX, float initVelY);
     ObjectC();
@@ -25,7 +20,7 @@ public:
 	int32_t getID() {return mID;};
 	void setID(int32_t id) {mID = id;};
 	virtual void render()=0;
-private:
+protected:
     Coord2D mPosition;
     Coord2D mVelocity;
     CollInfoC mCollInfo;

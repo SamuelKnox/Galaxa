@@ -1,3 +1,6 @@
+#ifndef _COLLINFO_H_
+#define _COLLINFO_H_
+
 class CollInfoC
 {
 public:
@@ -13,3 +16,5 @@ public:
     float param1;
     float param2;
 };
+
+#endif

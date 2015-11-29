@@ -96,6 +96,7 @@
   <ItemGroup>
     <ClCompile Include="ball.cpp" />
     <ClCompile Include="BallManager.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="ET.cpp" />
     <ClCompile Include="field.cpp" />
     <ClCompile Include="FieldManager.cpp" />
@@ -118,6 +119,7 @@
     <ClInclude Include="BallManager.h" />
     <ClInclude Include="baseTypes.h" />
     <ClInclude Include="collInfo.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="ET.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="FieldManager.h" />
