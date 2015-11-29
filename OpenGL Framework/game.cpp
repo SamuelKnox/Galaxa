@@ -52,7 +52,7 @@ void CGame::init()
 
 	//BallManagerC::GetInstance()->init();
 	SpriteManager::GetInstance()->init();
-	StateManagerC::GetInstance()->setState(StateManagerC::FOREST);
+	StateManagerC::GetInstance()->setState(StateManagerC::SPACE);
 	FieldManagerC::GetInstance()->init();
 	//SpriteDemoManagerC::GetInstance()->init(28,26);
 	GameManager::GetInstance()->init(BG_WIDTH, BG_HEIGHT);

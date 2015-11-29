@@ -39,9 +39,9 @@ void SpriteDemoManagerC::init(int height, int width)
 	randomizeSprites();
 	
 /* load an image file directly as a new OpenGL texture */
-	mSpriteTextureMap = SOIL_load_OGL_texture(BG_FOUR_DIAMOND_PITS, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+	/*mSpriteTextureMap = SOIL_load_OGL_texture(BG_FOUR_DIAMOND_PITS, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
-
+*/
 
 	mVertexArray = (VertexFormatPos3Tex2 *)malloc(height*width*4*sizeof(VertexFormatPos3Tex2));
 }

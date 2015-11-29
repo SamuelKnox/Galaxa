@@ -1,26 +1,30 @@
 
-// Backgrond Images
-#define NUM_BACKGROUNDS 9
-#define BG_WIDTH 648
-#define BG_HEIGHT 428
+// ***** Backgrond Images *****
+#define BACKGROUND "assets/background.png"
+#define BG_WIDTH 640
+#define BG_HEIGHT 960
+#define NUM_BACKGROUNDS 1
 
-#define BG_TITLE_SCREEN "assets/sprites/backgrounds/00_title_screen.png"
-#define BG_FOREST "assets/sprites/backgrounds/01_forest.png"
-#define BG_ARROW_PITS "assets/sprites/backgrounds/02_arrow_pits.png"
-#define BG_FOUR_DIAMOND_PITS "assets/sprites/backgrounds/03_four_diamond_pits.png"
-#define BG_WIDE_DIAMOND_PITS "assets/sprites/backgrounds/05_wide_diamond_pits.png"
-#define BG_EIGHT_PITS "assets/sprites/backgrounds/06_eight_pits.png"
-#define BG_WASHINGTON_DC "assets/sprites/backgrounds/07_washington_dc.png"
-#define BG_PIT "assets/sprites/backgrounds/08_pit.png"
-#define BG_ET_HOME "assets/sprites/backgrounds/09_et_home.png"
+// ***** Sprite Images *****
 
-// Sprite Images
+// Player
+#define PLAYER_SPRITE "assets/player.png"
+#define PLAYER_WIDTH 46
+#define PLAYER_HEIGHT 64
+#define PLAYER_NUM_SPRITES 1
 
-// E.T.
-#define ET_SPRITE_SHEET "assets/sprites/et/et.png"
-#define ET_WIDTH 42
-#define ET_HEIGHT 64
-#define ET_NUM_SPRITES 7
+// Enemies
+#define ENEMY_SPRITE_GREEN "assets/enemy_green.png"
+#define ENEMY_SPRITE_PURPLE "assets/enemy_purple.png"
+#define ENEMY_WIDTH 42
+#define ENEMY_HEIGHT 38
+#define ENEMY_NUM_SPRITES 1
+
+// Projectiles
+#define MISSLE_SPRITE "assets/missle.png"
+#define MISSLE_WIDTH 12
+#define MISSLE_HEIGHT 20
+#define MISSLE_ENEMY_NUM_SPRITES 1
 
 // Fields
 #define NUM_HOLES 16

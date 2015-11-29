@@ -29,7 +29,7 @@ FieldManagerC *FieldManagerC::CreateInstance()
 }
 void FieldManagerC::init()
 {
-	border = new FieldC(0.0f, -150.0f, 125.0f, 600.0f, 0x00FF0000, StateManagerC::FOUR_DIAMOND_PITS);
+	border = new FieldC(0.0f, 0.0f, 385.0f, 583.0f, 0x00FF0000, StateManagerC::SPACE);
 
 	/*holes[0] = new FieldC(-126.0f, -44.0f, 12.0f, 48.0f, 0x00000000, StateManagerC::FOUR_DIAMOND_PITS);
 	holes[1] = new FieldC(-126.0f, 84.0f, 12.0f, 48.0f, 0x00000000, StateManagerC::FOUR_DIAMOND_PITS);

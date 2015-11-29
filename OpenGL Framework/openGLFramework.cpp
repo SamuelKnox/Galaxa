@@ -5,6 +5,7 @@
 #include <gl/gl.h>														// Header File For The OpenGL32 Library
 #include <gl/glu.h>														// Header File For The GLu32 Library
 #include "baseTypes.h"
+#include "gamedefs.h"
 #include "openglframework.h"														// Header File For The NeHeGL Basecode
 #include "game.h"
 
@@ -378,8 +379,8 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	window.keys					= &keys;								// Window Key Structure
 	window.init.application		= &application;							// Window Application
 	window.init.title			= title;	// Window Title
-	window.init.width			= CGame::mScreenWidth;						// Window Width
-	window.init.height			= CGame::mScreenHeight;						// Window Height
+	window.init.width			= BG_WIDTH;						// Window Width
+	window.init.height			= BG_HEIGHT;						// Window Height
 	window.init.bitsPerPixel	= CGame::mBitsPerPixel;						// Bits Per Pixel
 	window.init.isFullScreen	= TRUE;									// Fullscreen? (Set To TRUE)
 

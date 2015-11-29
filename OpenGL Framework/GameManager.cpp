@@ -35,8 +35,9 @@ void GameManager::init(int32_t width, int32_t height)
 	// Load background texture maps
 	mBackgroundTextureMaps = (GLuint *)malloc(NUM_BACKGROUNDS * sizeof(GLuint));
 
-	mBackgroundTextureMaps[StateManagerC::FOREST] = SOIL_load_OGL_texture(BG_FOREST, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+	mBackgroundTextureMaps[StateManagerC::SPACE] = SOIL_load_OGL_texture(BACKGROUND, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+
 }
 void GameManager::shutdown()
 {

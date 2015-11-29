@@ -33,20 +33,20 @@ ET::ET(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY)
 	mVelocity.x = initVelX;
 	mVelocity.y = initVelY;
 
-	mWidth = ET_WIDTH;
-	mHeight = ET_HEIGHT;
+	mWidth = PLAYER_WIDTH;
+	mHeight = PLAYER_HEIGHT;
 
 	mEnabled = true;
 	mIsMoving = false;
 	mCanMove = true;
 	mIsFacingLeft = false;
 
-	currentSprite = ET_IDLE;
-	numSprites = ET_NUM_SPRITES;
+	currentSprite = 0;
+	numSprites = PLAYER_NUM_SPRITES;
 	mCollInfo.shape = CollInfoC::SHAPE_RECTANGLE;
 
 	// TODO: Move this to interface layer to make platform-independent
-	mSpriteID = SOIL_load_OGL_texture(ET_SPRITE_SHEET, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+	mSpriteID = SOIL_load_OGL_texture(PLAYER_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 	
 }
@@ -63,7 +63,7 @@ void ET::update(DWORD milliseconds)
 
 	CheckBoundaries();
 
-	mIsMoving = (mVelocity.x != 0 || mVelocity.y != 0);
+	/*mIsMoving = (mVelocity.x != 0 || mVelocity.y != 0);
 	if (mIsMoving)
 	{
 		currentSprite = (currentSprite + 1) % 3;
@@ -71,7 +71,7 @@ void ET::update(DWORD milliseconds)
 	else
 	{
 		currentSprite = ET_IDLE;
-	}
+	}*/
 }
 
 void ET::CheckForUserInput()

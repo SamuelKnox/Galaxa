@@ -4,14 +4,7 @@ public:
 	enum STATES
 	{
 		TITLE_SCREEN,
-		FOREST,
-		ARROW_PITS,
-		FOUR_DIAMOND_PITS,
-		WIDE_DIAMOND_PITS,
-		EIGHT_PITS,
-		WASHINGTON_DC,	
-		PIT,
-		ET_HOME
+		SPACE
 	};
 
 	static StateManagerC	*CreateInstance();
