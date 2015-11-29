@@ -113,6 +113,7 @@
     <ClCompile Include="SpriteDemoManager.cpp" />
     <ClCompile Include="SpriteManager.cpp" />
     <ClCompile Include="stateManager.cpp" />
+	<ClCompile Include="Bullet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ball.h" />
@@ -139,6 +140,7 @@
     <ClInclude Include="SpriteManager.h" />
     <ClInclude Include="stateManager.h" />
     <ClInclude Include="types.h" />
+	<ClInclude Include="Bullet.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

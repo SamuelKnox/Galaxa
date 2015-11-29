@@ -23,6 +23,7 @@
 #include "random.h"
 #include "stateManager.h"
 #include "inputmanager.h"
+#include "SpriteManager.h"
 
 
 ET::ET(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY)
@@ -54,12 +55,12 @@ ET::ET(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY)
 ET::~ET()
 {};
 
-void ET::update(DWORD milliseconds)
+void ET::updateET(DWORD milliseconds)
 {
 	// Check for movement input and update position
 	CheckForUserInput();
-	mPosition.x += mVelocity.x*milliseconds / 10;
-	mPosition.y += mVelocity.y*milliseconds / 10;
+	//mPosition.x += mVelocity.x*milliseconds / 10;
+	//mPosition.y += mVelocity.y*milliseconds / 10;
 
 	CheckBoundaries();
 
@@ -80,6 +81,7 @@ void ET::CheckForUserInput()
 	SHORT keyRight = GetKeyState(VK_RIGHT);
 	SHORT keyUp = GetKeyState(VK_UP);
 	SHORT keyDown = GetKeyState(VK_DOWN);
+	SHORT keyShoot = GetKeyState(VK_SPACE);
 
 	if ((keyUp & 0x8000))
 	{
@@ -107,6 +109,9 @@ void ET::CheckForUserInput()
 	else
 	{
 		mVelocity.x = 0.0f;
+	}
+	if (keyShoot & 0x8000) {
+		SpriteManager::GetInstance()->CreateBullet(0, -1.0f);
 	}
 }
 
