@@ -48,7 +48,7 @@ ET::ET(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY)
 	// TODO: Move this to interface layer to make platform-independent
 	mSpriteID = SOIL_load_OGL_texture(ET_SPRITE_SHEET, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
-
+	
 }
 
 ET::~ET()
@@ -72,20 +72,6 @@ void ET::update(DWORD milliseconds)
 	{
 		currentSprite = ET_IDLE;
 	}
-	//UpdateScoreboard();
-}
-
-void ET::UpdateScoreboard() {
-	//set the position of the text in the window using the x and y coordinates
-	glRasterPos2f(0, 0);
-	//get the length of the string to display
-	int len = 5;
-
-	//loop to display character by character
-	for (int i = 0; i < len; i++)
-	{
-		//glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, str ing[i]);
-	}
 }
 
 void ET::CheckForUserInput()
@@ -97,12 +83,10 @@ void ET::CheckForUserInput()
 
 	if ((keyUp & 0x8000))
 	{
-		movement--;
 		mVelocity.y = 1.0f;
 	}
 	else if ((keyDown & 0x8000))
 	{
-		movement--;
 		mVelocity.y = -1.0f;
 	}
 	else
@@ -112,13 +96,11 @@ void ET::CheckForUserInput()
 
 	if ((keyLeft & 0x8000))
 	{
-		movement--;
 		mVelocity.x = -1.0f;
 		mIsFacingLeft = true;
 	}
 	else if ((keyRight & 0x8000))
 	{
-		movement--;
 		mVelocity.x = 1.0f;
 		mIsFacingLeft = false;
 	}

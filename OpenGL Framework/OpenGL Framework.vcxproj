@@ -96,11 +96,11 @@
   <ItemGroup>
     <ClCompile Include="ball.cpp" />
     <ClCompile Include="BallManager.cpp" />
-    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="ET.cpp" />
     <ClCompile Include="field.cpp" />
     <ClCompile Include="FieldManager.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="keyProcess.cpp" />
     <ClCompile Include="object.cpp" />
@@ -118,12 +118,12 @@
     <ClInclude Include="BallManager.h" />
     <ClInclude Include="baseTypes.h" />
     <ClInclude Include="collInfo.h" />
-    <ClInclude Include="Enemy.h" />
     <ClInclude Include="ET.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="FieldManager.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gamedefs.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="gameObjects.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Object.h" />

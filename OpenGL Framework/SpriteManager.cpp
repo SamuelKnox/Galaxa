@@ -35,8 +35,7 @@ void SpriteManager::init()
 {
 	printf("Initing the SpriteManager.\n");
 
-	player = (ET*)malloc(sizeof(ET));
-	player = new ET(0.0f, -500.0f, 0.0f, 0.0f);
+	player = new ET(0.0f, 0.0f, 0.0f, 0.0f);
 	player->setID(0);
 }
 
@@ -67,20 +66,20 @@ void SpriteManager::shutdown()
 
 bool8_t SpriteManager::CheckCollisions()
 {
-	for (int32_t i = 0; i < NUM_HOLES; i++) {
-		// Check if player & holes collide
-		FieldC* field = FieldManagerC::GetInstance()->holes[i];
+	//for (int32_t i = 0; i < NUM_HOLES; i++) {
+	//	// Check if player & holes collide
+	//	FieldC* field = FieldManagerC::GetInstance()->holes[i];
 
-		if (field->activeState == StateManagerC::GetInstance()->getState()) {
-			bool8_t left = field->getPosition()->x + field->getWidth() < player->getPosition()->x;
-			bool8_t right = field->getPosition()->x > player->getPosition()->x + player->getWidth();
-			bool8_t up = field->getPosition()->y + field->getHeight() < player->getPosition()->y;
-			bool8_t down = field->getPosition()->y > player->getPosition()->y + player->getHeight();
+	//	if (field->activeState == StateManagerC::GetInstance()->getState()) {
+	//		bool8_t left = field->getPosition()->x + field->getWidth() < player->getPosition()->x;
+	//		bool8_t right = field->getPosition()->x > player->getPosition()->x + player->getWidth();
+	//		bool8_t up = field->getPosition()->y + field->getHeight() < player->getPosition()->y;
+	//		bool8_t down = field->getPosition()->y > player->getPosition()->y + player->getHeight();
 
-			if (!(left || right || up || down)) {
-				return true;
-			}
-		}
-	}
+	//		if (!(left || right || up || down)) {
+	//			return true;
+	//		}
+	//	}
+	//}
 	return false;
 }

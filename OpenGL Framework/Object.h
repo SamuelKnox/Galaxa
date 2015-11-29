@@ -25,7 +25,7 @@ public:
 	int32_t getID() {return mID;};
 	void setID(int32_t id) {mID = id;};
 	virtual void render()=0;
-protected:
+private:
     Coord2D mPosition;
     Coord2D mVelocity;
     CollInfoC mCollInfo;

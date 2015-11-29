@@ -12,7 +12,7 @@ public:
 	void shutdown();
 
 	FieldC *border;
-	FieldC *holes[NUM_HOLES];
+	/*FieldC *holes[NUM_HOLES];*/
 private:
 	static FieldManagerC *sInstance;
 	FieldManagerC(){};

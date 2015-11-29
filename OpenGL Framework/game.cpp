@@ -24,6 +24,7 @@
 #include "FieldManager.h"
 #include "InputManager.h"
 #include "SpriteDemoManager.h"
+#include "GameManager.h"
 
 // Declarations
 const char8_t CGame::mGameTitle[]="Framework1";
@@ -44,30 +45,34 @@ void CGame::init()
 	StateManagerC::CreateInstance();
 	FieldManagerC::CreateInstance();
 	InputManagerC::CreateInstance();
-	SpriteDemoManagerC::CreateInstance();
+	//SpriteDemoManagerC::CreateInstance();
+	GameManager::CreateInstance();
 
 	InputManagerC::GetInstance()->init();
 
 	//BallManagerC::GetInstance()->init();
 	SpriteManager::GetInstance()->init();
-	StateManagerC::GetInstance()->setState(StateManagerC::PIT);
+	StateManagerC::GetInstance()->setState(StateManagerC::FOREST);
 	FieldManagerC::GetInstance()->init();
-	SpriteDemoManagerC::GetInstance()->init(28,26);
+	//SpriteDemoManagerC::GetInstance()->init(28,26);
+	GameManager::GetInstance()->init(BG_WIDTH, BG_HEIGHT);
 }
 void CGame::UpdateFrame(DWORD milliseconds)			
 {
 	keyProcess();
-	SpriteDemoManagerC::GetInstance()->updateSprites(milliseconds);
+	//SpriteDemoManagerC::GetInstance()->updateSprites(milliseconds);
 	//BallManagerC::GetInstance()->updateBalls(milliseconds);
 	SpriteManager::GetInstance()->updateSprites(milliseconds);
 	InputManagerC::GetInstance()->update();
+	GameManager::GetInstance()->update(milliseconds);
 }
 
 void CGame::DrawScene(void)											
 {
 	startOpenGLDrawing();
 	//BallManagerC::GetInstance()->renderBalls();
-	SpriteDemoManagerC::GetInstance()->renderSprites();
+	//SpriteDemoManagerC::GetInstance()->renderSprites();
+	GameManager::GetInstance()->render();
 	FieldManagerC::GetInstance()->renderField();
 	SpriteManager::GetInstance()->renderSprites();
 }
@@ -84,12 +89,15 @@ void CGame::shutdown()
 	SpriteManager::GetInstance()->shutdown();
 	StateManagerC::GetInstance()->shutdown();
 	FieldManagerC::GetInstance()->shutdown();
-	SpriteDemoManagerC::GetInstance()->shutdown();
+	GameManager::GetInstance()->shutdown();
+	//SpriteDemoManagerC::GetInstance()->shutdown();
 }
 void CGame::DestroyGame(void)
 {
-	//delete BallManagerC::GetInstance();	
+	//delete BallManagerC::GetInstance();
+	//delete SpriteDemoManagerC::GetInstance();
 	delete SpriteManager::GetInstance();
 	delete StateManagerC::GetInstance();	
 	delete FieldManagerC::GetInstance();	
+	delete GameManager::GetInstance();
 }

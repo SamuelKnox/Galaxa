@@ -31,7 +31,7 @@ void FieldManagerC::init()
 {
 	border = new FieldC(0.0f, -150.0f, 125.0f, 600.0f, 0x00FF0000, StateManagerC::FOUR_DIAMOND_PITS);
 
-	holes[0] = new FieldC(-126.0f, -44.0f, 12.0f, 48.0f, 0x00000000, StateManagerC::FOUR_DIAMOND_PITS);
+	/*holes[0] = new FieldC(-126.0f, -44.0f, 12.0f, 48.0f, 0x00000000, StateManagerC::FOUR_DIAMOND_PITS);
 	holes[1] = new FieldC(-126.0f, 84.0f, 12.0f, 48.0f, 0x00000000, StateManagerC::FOUR_DIAMOND_PITS);
 	holes[2] = new FieldC(130.0f, -44.0f, 12.0f, 48.0f, 0x00000000, StateManagerC::FOUR_DIAMOND_PITS);
 	holes[3] = new FieldC(130.0f, 84.0f, 12.0f, 48.0f, 0x00000000, StateManagerC::FOUR_DIAMOND_PITS);
@@ -49,7 +49,7 @@ void FieldManagerC::init()
 	holes[12] = new FieldC(-140.0f, 30.0f, 15.0f, 50.0f, 0x00000000, StateManagerC::EIGHT_PITS);
 	holes[13] = new FieldC(-20.0f, -70.0f, 15.0f, 50.0f, 0x00000000, StateManagerC::EIGHT_PITS);
 	holes[14] = new FieldC(-15.0f, 100.0f, 15.0f, 50.0f, 0x00000000, StateManagerC::EIGHT_PITS);
-	holes[15] = new FieldC(120.0f, 15.0f, 15.0f, 50.0f, 0x00000000, StateManagerC::EIGHT_PITS);
+	holes[15] = new FieldC(120.0f, 15.0f, 15.0f, 50.0f, 0x00000000, StateManagerC::EIGHT_PITS);*/
 }
 FieldC *FieldManagerC::getFieldPtr()
 {
@@ -58,11 +58,11 @@ FieldC *FieldManagerC::getFieldPtr()
 void FieldManagerC::renderField()
 {
 	border->render();
-	for (int32_t i = 0; i < NUM_HOLES; i++) {
+	/*for (int32_t i = 0; i < NUM_HOLES; i++) {
 		if (holes[i]->activeState == StateManagerC::GetInstance()->getState()) {
 			holes[i]->render();
 		}
-	}
+	}*/
 }
 void FieldManagerC::shutdown()
 {
