@@ -2,7 +2,7 @@
 #include "SOIL.h"
 #include "Enemy.h"
 
-Enemy::Enemy(int32_t enemyType) 
+Enemy::Enemy()
 {
 	// Object
 	mPosition.x = 0.0f;
@@ -19,8 +19,6 @@ Enemy::Enemy(int32_t enemyType)
 
     mEnabled = true;
 	mIsFacingLeft = false;
-
-	mType = enemyType;
 
 	// Enemy
 
@@ -41,4 +39,9 @@ void Enemy::update(DWORD milliseconds)
     {
 
     }
+}
+
+void Enemy::setSpriteType(int32_t type) {
+    mType = type;
+    currentSprite = 0;
 }

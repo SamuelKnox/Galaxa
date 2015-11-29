@@ -15,6 +15,8 @@ float getRangedRandom(float min, float max)
 }
 int getRangedRandom(int min, int max)
 {
+    max += 1;
+
     int r = rand();
 
     float r2 = (float)r/(float)RAND_MAX;

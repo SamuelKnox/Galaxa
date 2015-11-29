@@ -10,11 +10,12 @@
 class Enemy : public Sprite
 {
 public:
-    Enemy(int32_t enemyType);
+    Enemy();
     ~Enemy();
 
     void SetTrajectory(Trajectory * trajectory) { mTrajectory = trajectory; };
     void update(DWORD milliseconds);
+    void setSpriteType(int32_t type);
 
 private:
     Trajectory* mTrajectory;
