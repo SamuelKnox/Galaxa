@@ -114,6 +114,7 @@
     <ClCompile Include="SpriteManager.cpp" />
     <ClCompile Include="stateManager.cpp" />
 	<ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Trajectory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ball.h" />
@@ -139,6 +140,7 @@
     <ClInclude Include="SpriteDemoManager.h" />
     <ClInclude Include="SpriteManager.h" />
     <ClInclude Include="stateManager.h" />
+    <ClInclude Include="Trajectory.h" />
     <ClInclude Include="types.h" />
 	<ClInclude Include="Bullet.h" />
   </ItemGroup>

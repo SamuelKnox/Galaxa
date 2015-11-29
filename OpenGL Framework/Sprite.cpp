@@ -37,6 +37,9 @@ void Sprite::update(DWORD milliseconds) {
 
 void Sprite::render()
 {
+    if (!mEnabled)
+        return;
+
 	float_t xPosLeft = mPosition.x - mWidth / 2;
 	float_t xPosRight = mPosition.x + mWidth / 2;
 	float_t yPosTop = mPosition.y - mHeight / 2;

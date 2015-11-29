@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <gl\gl.h>	
 #include "Object.h"
+
 class Sprite : public ObjectC
 {
 public:
