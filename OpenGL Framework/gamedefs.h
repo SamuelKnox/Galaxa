@@ -29,3 +29,10 @@
 // Fields
 #define NUM_HOLES 16
 #define LINE_WIDTH 1
+
+// Bullets
+#define MAX_NUM_BULLETS 100
+#define BULLET_SPRITE "assets/sprites/bullets/bullet.png"
+#define BULLET_WIDTH 25
+#define BULLET_HEIGHT 25
+#define BULLET_NUM_SPRITES 1

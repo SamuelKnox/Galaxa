@@ -30,8 +30,9 @@ Sprite::Sprite()
 Sprite::~Sprite()
 {}
 
-void Sprite::update(DWORD milliseconds)
-{
+void Sprite::update(DWORD milliseconds) {
+	mPosition.x += mVelocity.x*milliseconds / 10;
+	mPosition.y += mVelocity.y*milliseconds / 10;
 }
 
 void Sprite::render()
@@ -41,7 +42,7 @@ void Sprite::render()
 	float_t yPosTop = mPosition.y - mHeight / 2;
 	float_t yPosBot = mPosition.y + mHeight / 2;
 
-	float_t xTextureCoord = (float_t) currentSprite * (1.0f / numSprites);
+	float_t xTextureCoord = (float_t)currentSprite * (1.0f / numSprites);
 
 	DrawSprite(mSpriteID, mIsFacingLeft, xPosLeft, xPosRight, yPosTop, yPosBot, xTextureCoord, (float_t)numSprites);
 }

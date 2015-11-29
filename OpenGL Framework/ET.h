@@ -18,7 +18,7 @@ public:
 	ET(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY);
 	~ET();
 
-	void update(DWORD milliseconds);
+	void updateET(DWORD milliseconds);
 
 private:
 	bool8_t mIsMoving;

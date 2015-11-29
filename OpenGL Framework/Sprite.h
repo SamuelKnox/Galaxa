@@ -1,9 +1,10 @@
 #ifndef _SPRITE_H
 #define _SPRITE_H
-
+#include <windows.h>
+#include <gl\gl.h>	
+#include "Object.h"
 class Sprite : public ObjectC
 {
-	friend class ET;
 public:
 	Sprite();
 	~Sprite();
@@ -18,7 +19,7 @@ public:
 	void setHeight(float_t height) { mHeight = height; }
 	float_t getHeight() { return mHeight; }
 
-private:
+protected:
 
 	bool8_t mEnabled;
 	bool8_t mIsFacingLeft;
