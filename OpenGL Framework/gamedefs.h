@@ -19,6 +19,8 @@
 #define ENEMY_WIDTH 42
 #define ENEMY_HEIGHT 38
 #define ENEMY_NUM_SPRITES 1
+#define ENEMY_MAX_ENEMIES 5
+#define ENEMY_RESPAWN_TIME_MILLISEC 1000
 
 // Projectiles
 #define MISSLE_SPRITE "assets/missle.png"

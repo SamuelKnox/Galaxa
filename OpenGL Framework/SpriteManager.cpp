@@ -19,6 +19,8 @@
 #include "FieldManager.h"
 #include "stateManager.h"
 #include "SpriteManager.h"
+#include "random.h"
+#include "GameManager.h"
 
 
 SpriteManager* SpriteManager::sInstance = NULL;
@@ -29,6 +31,14 @@ SpriteManager *SpriteManager::CreateInstance()
 	assert(sInstance == NULL);
 	sInstance = new SpriteManager();
 	return sInstance;
+}
+
+SpriteManager::~SpriteManager() {
+    for (int i = 0; i < ENEMY_MAX_ENEMIES; i++) {
+        if (enemies[i] != nullptr) {
+            delete enemies[i];
+        }
+    }
 }
 
 void SpriteManager::init()
@@ -47,6 +57,12 @@ void SpriteManager::updateSprites(DWORD milliseconds)
 	if (CheckCollisions()) {
 		exit(0);
 	}
+
+    lastSpawnDuration += milliseconds;
+    if (lastSpawnDuration >= ENEMY_RESPAWN_TIME_MILLISEC) {
+        lastSpawnDuration = 0;
+        spawnEnemy();
+    }
 }
 
 ET* SpriteManager::getET()
@@ -57,6 +73,12 @@ ET* SpriteManager::getET()
 void SpriteManager::renderSprites()
 {
 	player->render();
+
+    for (int i = 0; i < ENEMY_MAX_ENEMIES; i++) {
+        if (enemies[i] != nullptr) {
+            enemies[i]->render();
+        }
+    }
 }
 void SpriteManager::shutdown()
 {
@@ -82,4 +104,19 @@ bool8_t SpriteManager::CheckCollisions()
 	//	}
 	//}
 	return false;
+}
+
+void SpriteManager::spawnEnemy() {
+    if (++indexEnemy == ENEMY_MAX_ENEMIES) {
+        indexEnemy = 0;
+    }
+
+    if (enemies[indexEnemy] == nullptr) {
+        enemies[indexEnemy] = new Enemy();
+    }
+
+    float bgWidth = GameManager::GetInstance()->getBackgroundWidth();
+    float bgHeight = GameManager::GetInstance()->getBackgroundHeight();
+    enemies[indexEnemy]->setPosition(getRangedRandom(-bgWidth / 2.0f, bgWidth / 2.0f), getRangedRandom(-bgHeight / 2.0f, bgHeight / 2.0f));
+    enemies[indexEnemy]->setVelocity(0.0f, 0.0f);
 }

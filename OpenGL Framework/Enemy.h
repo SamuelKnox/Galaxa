@@ -11,6 +11,7 @@ class Enemy : public Sprite
 {
 public:
     Enemy();
+    Enemy(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY);
     ~Enemy();
 
     void SetTrajectory(Trajectory * trajectory) { mTrajectory = trajectory; };
