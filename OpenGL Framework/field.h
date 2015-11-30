@@ -1,7 +1,7 @@
 class FieldC : public ObjectC
 {
 public:
-	FieldC(float_t x, float_t y, uint32_t height, uint32_t width, uint32_t initColor, uint32_t initState);
+	FieldC(float_t x, float_t y, uint32_t width, uint32_t height, uint32_t initColor, uint32_t initState);
     ~FieldC();
     void setColor(uint32_t color) {mFieldColor = color;};
     long getColor() {return mFieldColor;};

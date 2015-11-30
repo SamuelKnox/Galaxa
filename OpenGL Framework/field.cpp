@@ -17,7 +17,7 @@ void FieldC::moveUp()
 	int y;
 	y=5;
 }
-FieldC::FieldC(float_t x, float_t y, uint32_t height, uint32_t width, uint32_t initColor, uint32_t initState)
+FieldC::FieldC(float_t x, float_t y, uint32_t width, uint32_t height, uint32_t initColor, uint32_t initState)
 {
     mEnabled = true;
     mFieldColor = initColor;

@@ -18,7 +18,7 @@
 #include "gamedefs.h"
 
 
-Bullet::Bullet(float_t x, float_t y, float_t xVel, float_t yVel, int32_t gameObjectType)
+Bullet::Bullet(float_t x, float_t y, float_t xVel, float_t yVel, int32_t objectType, int32_t ownerType)
 {
 	// Object
 	mPosition.x = x;
@@ -33,10 +33,13 @@ Bullet::Bullet(float_t x, float_t y, float_t xVel, float_t yVel, int32_t gameObj
 	numSprites = MISSILE_NUM_SPRITES;
 	currentSprite = 0;
 
-	mType = gameObjectType;
+	mType = objectType;
 
 	mEnabled = true;
 	mIsFacingLeft = false;
+
+	// Bullet
+	mOwnerType = ownerType;
 }
 
 

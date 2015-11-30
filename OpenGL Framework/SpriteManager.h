@@ -31,7 +31,7 @@ public:
 	GLuint getSpriteTextureMap(int32_t objectType);
 
 	ET* getET();
-	void CreateBullet(float_t x, float_t y, float_t xVel, float_t yVel);
+	void CreateBullet(float_t x, float_t y, float_t xVel, float_t yVel, int32_t ownerType);
 
 private:
 	SpriteManager() {};

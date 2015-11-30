@@ -12,9 +12,9 @@
 #define PLAYER_WIDTH 48
 #define PLAYER_HEIGHT 48
 #define PLAYER_NUM_SPRITES 1
-#define MOVE_FORCE 1
+#define MOVE_FORCE 3
 #define SHOT_FORCE 5
-#define SHOT_RATE 1
+#define SHOT_RATE 100
 
 // Enemies
 #define ENEMY_SPRITE_GREEN "assets/enemy_green.png"

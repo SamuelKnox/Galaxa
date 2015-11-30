@@ -124,12 +124,12 @@ void SpriteManager::shutdown()
 	free(bullets);
 }
 
-void SpriteManager::CreateBullet(float_t x, float_t y, float_t xVel, float_t yVel) 
+void SpriteManager::CreateBullet(float_t x, float_t y, float_t xVel, float_t yVel, int32_t ownerType) 
 {
 	for (int i = 0; i < MAX_NUM_MISSILES; i++) 
 	{
 		if (bullets[i] == nullptr) {
-			bullets[i] = new Bullet(x, y, xVel, yVel, BULLET);
+			bullets[i] = new Bullet(x, y, xVel, yVel, BULLET, ownerType);
 			break;
 		}
 	}
@@ -138,27 +138,74 @@ void SpriteManager::CreateBullet(float_t x, float_t y, float_t xVel, float_t yVe
 void SpriteManager::CheckBulletCollisions()
 {
 	FieldC *field = FieldManagerC::GetInstance()->getFieldPtr();
-	float_t rightSide = field->getPosition()->x + ((float_t)field->getWidth() / 2.0f);
 	float_t leftSide = field->getPosition()->x - ((float_t)field->getWidth() / 2.0f);
+	float_t rightSide = field->getPosition()->x + ((float_t)field->getWidth() / 2.0f);
 	float_t topSide = field->getPosition()->y - ((float_t)field->getHeight() / 2.0f);
 	float_t bottomSide = field->getPosition()->y + ((float_t)field->getHeight() / 2.0f);
 
-	for (int i = 0; i < MAX_NUM_MISSILES; i++)
+	for (int32_t i = 0; i < MAX_NUM_MISSILES; i++)
 	{
 		if (bullets[i] != nullptr)
-		{			
-			Bullet *missle = bullets[i];
-			if ((missle->getPosition()->x - missle->getWidth() / 2 <= leftSide) || 
-				(missle->getPosition()->x + missle->getWidth() / 2 >= rightSide) ||
-				(missle->getPosition()->y + missle->getHeight() / 2 >= bottomSide) ||
-				(missle->getPosition()->x - missle->getHeight() / 2 <= topSide))
+		{
+			Bullet *missile = bullets[i];
+			float_t missileLeft = missile->getPosition()->x - missile->getWidth() / 2;
+			float_t missileRight = missile->getPosition()->x + missile->getWidth() / 2;
+			float_t missileUp = missile->getPosition()->y - missile->getHeight() / 2;
+			float_t missileDown = missile->getPosition()->y + missile->getHeight() / 2;
+
+			// Check if missile is out of bounds 
+			if ((missileLeft <= leftSide) || (missileRight >= rightSide) ||
+				(missileUp >= bottomSide) || (missileDown <= topSide))
 			{
-				delete missle;
+				delete missile;
 				bullets[i] = nullptr;
+				continue;
 			}
+
+			// Check if missile has hit an enemy or player, depending on who fired it
+			if (missile->GetOwnerType() == PLAYER)
+			{
+				for (int32_t j = 0; j < ENEMY_MAX_ENEMIES; j++)
+				{
+					if (enemies[j] != nullptr)
+					{
+						Enemy *enemy = enemies[j];
+						float_t enemyLeft = enemy->getPosition()->x - enemy->getWidth() / 2;
+						float_t enemyRight = enemy->getPosition()->x + enemy->getWidth() / 2;
+						float_t enemyUp = enemy->getPosition()->y - enemy->getHeight() / 2;
+						float_t enemyDown = enemy->getPosition()->y + enemy->getHeight() / 2;
+
+						if ((enemyLeft <= missileRight) && (enemyRight >= missileLeft) &&
+							(enemyUp <= missileDown) && (enemyDown >= missileUp))
+						{
+							delete missile;
+							bullets[i] = nullptr;
+							delete enemy;
+							enemies[j] = nullptr;
+							break;
+						}
+					}
+				}
+			}
+			else
+			{
+				float_t playerLeft = player->getPosition()->x - player->getWidth() / 2;
+				float_t playerRight = player->getPosition()->x + player->getWidth() / 2;
+				float_t playerUp = player->getPosition()->y - player->getHeight() / 2;
+				float_t playerDown = player->getPosition()->y + player->getHeight() / 2;
+
+				if ((playerLeft <= missileRight) && (playerRight >= missileLeft) &&
+					(playerUp <= missileDown) && (playerDown >= missileUp))
+				{
+					delete missile;
+					bullets[i] = nullptr;
+					// TODO: Player got hit
+					break;
+				}
+			}
+
 		}
 	}
-	
 }
 
 void SpriteManager::spawnEnemy() {
@@ -170,8 +217,8 @@ void SpriteManager::spawnEnemy() {
         enemies[indexEnemy] = new Enemy(ENEMY_PURPLE);
     }
 
-    float bgWidth = GameManager::GetInstance()->getBackgroundWidth();
-    float bgHeight = GameManager::GetInstance()->getBackgroundHeight();
+    float_t bgWidth = (float_t) GameManager::GetInstance()->getBackgroundWidth();
+	float_t bgHeight = (float_t) GameManager::GetInstance()->getBackgroundHeight();
     enemies[indexEnemy]->setPosition(getRangedRandom(-bgWidth / 2.0f, bgWidth / 2.0f), getRangedRandom(-bgHeight / 2.0f, bgHeight / 2.0f));
     enemies[indexEnemy]->setVelocity(0.0f, 0.0f);
 }

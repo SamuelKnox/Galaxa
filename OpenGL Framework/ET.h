@@ -23,9 +23,10 @@ public:
 private:
 	bool8_t mIsMoving;
 	bool8_t mCanMove;
+	bool8_t mCanShoot;
 
 	float_t mMoveForce;
-	float_t mShotTimer;
+	DWORD mShotTimer;
 
 	void CheckForUserInput();
 	void CheckBoundaries();

@@ -53,11 +53,10 @@ void GameManager::render()
 	glBegin(GL_QUADS);
 	{
 		glColor4ub(0xFF, 0xFF, 0xFF, 0xFF);
-
-		glTexCoord2f(0.0f, 0.0f); glVertex3f(-mBackgroundWidth / 2, -mBackgroundHeight / 2, 0.0f);
-		glTexCoord2f(1.0f, 0.0f); glVertex3f(mBackgroundWidth / 2, -mBackgroundHeight / 2, 0.0f);
-		glTexCoord2f(1.0f, 1.0f); glVertex3f(mBackgroundWidth / 2, mBackgroundHeight / 2, 0.0f);
-		glTexCoord2f(0.0f, 1.0f); glVertex3f(-mBackgroundWidth / 2, mBackgroundHeight / 2, 0.0f);
+		glTexCoord2f(0.0f, 0.0f); glVertex3f((GLfloat) -mBackgroundWidth / 2,	(GLfloat) -mBackgroundHeight / 2,	0.0f);
+		glTexCoord2f(1.0f, 0.0f); glVertex3f((GLfloat) mBackgroundWidth / 2,	(GLfloat) -mBackgroundHeight / 2,	0.0f);
+		glTexCoord2f(1.0f, 1.0f); glVertex3f((GLfloat) mBackgroundWidth / 2,	(GLfloat) mBackgroundHeight / 2,	0.0f);
+		glTexCoord2f(0.0f, 1.0f); glVertex3f((GLfloat) -mBackgroundWidth / 2,	(GLfloat) mBackgroundHeight / 2,	0.0f);
 	}
 	
 	glEnd();

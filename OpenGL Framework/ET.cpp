@@ -49,6 +49,8 @@ ET::ET(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, i
 	// Player
 	mIsMoving = false;
 	mCanMove = true;
+	mCanShoot = true;
+	mShotTimer = 0;
 }
 
 ET::~ET()
@@ -56,6 +58,16 @@ ET::~ET()
 
 void ET::updateET(DWORD milliseconds)
 {
+	// Update shot timer
+	if (!mCanShoot)
+	{
+		mShotTimer += milliseconds;
+		if (mShotTimer >= SHOT_RATE)
+		{
+			mCanShoot = true;
+		}
+	}
+
 	// Check for movement input if able to move
 	if (mCanMove)
 	{
@@ -86,11 +98,11 @@ void ET::CheckForUserInput()
 	// Check vertical movement
 	if ((keyUp & 0x8000))
 	{
-		mVelocity.y = 1.0f;
+		mVelocity.y = MOVE_FORCE;
 	}
 	else if ((keyDown & 0x8000))
 	{
-		mVelocity.y = -1.0f;
+		mVelocity.y = -MOVE_FORCE;
 	}
 	else
 	{
@@ -100,12 +112,12 @@ void ET::CheckForUserInput()
 	// Check horizontal movement
 	if ((keyLeft & 0x8000))
 	{
-		mVelocity.x = -1.0f;
+		mVelocity.x = -MOVE_FORCE;
 		mIsFacingLeft = true;
 	}
 	else if ((keyRight & 0x8000))
 	{
-		mVelocity.x = 1.0f;
+		mVelocity.x = MOVE_FORCE;
 		mIsFacingLeft = false;
 	}
 	else
@@ -114,8 +126,10 @@ void ET::CheckForUserInput()
 	}
 
 	// Check for firing missles
-	if (keyShoot & 0x8000) {
-		SpriteManager::GetInstance()->CreateBullet(getPosition()->x, getPosition()->y, getVelocity()->x, SHOT_FORCE);
+	if (mCanShoot && (keyShoot & 0x8000)) {
+		mCanShoot = false;
+		mShotTimer = 0;
+		SpriteManager::GetInstance()->CreateBullet(getPosition()->x, getPosition()->y, 0.0f, SHOT_FORCE, SpriteManager::PLAYER);
 	}
 }
 

@@ -17,18 +17,19 @@ void DrawCircle(float_t radius, float_t x, float_t y, char8_t r, char8_t g, char
 	if(!filled)
 	{
 		glDisable(GL_TEXTURE_2D);
-		glColor4ub(r, g, b,0x20);
+		glColor4ub(r, g, b, 0x20);
 		// Set the point size
 		glPointSize(1.0);
 		glBegin(GL_POINTS);
-		float_t radiusMax = radius + 2.0f;
-		float_t radiusMin = radius - 2.0f;
-		for (int i=0; i < 360; i+=3)
+		GLfloat radiusMax = radius + 2.0f;
+		GLfloat radiusMin = radius - 2.0f;
+		for (int32_t i = 0; i < 360; i += 3)
 		{
-			float degInRad = i*DEG2RAD;
-			glVertex2f(x + (cos(degInRad)*radius),y + (sin(degInRad)*radius));
-			glVertex2f(x + (cos(degInRad)*radiusMax),y + (sin(degInRad)*radiusMax));
-			glVertex2f(x + (cos(degInRad)*radiusMin),y + (sin(degInRad)*radiusMin));
+			GLfloat degInRad = i*DEG2RAD;
+			#pragma warning(disable : 4244)
+			glVertex2f(x + (cos(degInRad)*radius),		y + (sin(degInRad)*radius));
+			glVertex2f(x + (cos(degInRad)*radiusMax),	y + (sin(degInRad)*radiusMax));
+			glVertex2f(x + (cos(degInRad)*radiusMin),	y + (sin(degInRad)*radiusMin));
 		}
 		glEnd();
 	}

@@ -69,6 +69,7 @@ BOOL CreateWindowGL (GL_Window* window)									// This Code Creates Our OpenGL 
 	DWORD windowExtendedStyle = WS_EX_APPWINDOW;						// Define The Window's Extended Style
 
 	ShowCursor(TRUE);
+	#pragma warning(disable : 4838)
 	PIXELFORMATDESCRIPTOR pfd =											// pfd Tells Windows How We Want Things To Be
 	{
 		sizeof (PIXELFORMATDESCRIPTOR),									// Size Of This Pixel Format Descriptor
@@ -368,6 +369,8 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	MSG					msg;											// Window Message Structure
 	DWORD				tickCount;										// Used For The Tick Counter
 	char8_t				title[20];
+
+	#pragma warning(disable : 4996)
 	strncpy(title,CGame::GetInstance()->GetGameTitle(),19);
 
 	// Fill Out Application Data
