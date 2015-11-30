@@ -6,6 +6,7 @@
 #include "gamedefs.h"
 #include "baseTypes.h"
 #include "Enemy.h"
+#include "Explosion.h"
 
 class SpriteManager
 {
@@ -16,6 +17,8 @@ public:
 		ENEMY_GREEN,
 		ENEMY_PURPLE,
 		BULLET,
+		EXPLOSION_PLAYER,
+		EXPLOSION_ENEMY,
 		NUM_OBJECTS
 	};
 
@@ -38,15 +41,19 @@ private:
 	static SpriteManager *sInstance;
 
 	GLuint *spriteTextureMaps;
+
+	// GameObjects
 	ET* player;
+	Bullet* bullets[MAX_NUM_MISSILES] = { nullptr };
     Enemy* enemies[ENEMY_MAX_ENEMIES] = { nullptr };
+	Explosion* explosions[MAX_EXPLOSIONS] = { nullptr };
 
     void spawnEnemy();
     DWORD lastSpawnDuration = 0;
     unsigned indexEnemy = 0;
 
-	Bullet** bullets;
 
+	void CheckBoundaryCollisions();
 	void CheckBulletCollisions();
 };
 
