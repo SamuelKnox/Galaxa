@@ -385,15 +385,15 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	window.init.width			= BG_WIDTH;						// Window Width
 	window.init.height			= BG_HEIGHT;						// Window Height
 	window.init.bitsPerPixel	= CGame::mBitsPerPixel;						// Bits Per Pixel
-	window.init.isFullScreen	= TRUE;									// Fullscreen? (Set To TRUE)
+	window.init.isFullScreen	= FALSE;									// Fullscreen? (Set To TRUE)
 
 	ZeroMemory (&keys, sizeof (Keys));									// Zero keys Structure
 
 	// Ask The User If They Want To Start In FullScreen Mode?
-	if (MessageBox (HWND_DESKTOP, "Would You Like To Run In Fullscreen Mode?", "Start FullScreen?", MB_YESNO | MB_ICONQUESTION) == IDNO)
-	{
-		window.init.isFullScreen = FALSE;								// If Not, Run In Windowed Mode
-	}
+	//if (MessageBox (HWND_DESKTOP, "Would You Like To Run In Fullscreen Mode?", "Start FullScreen?", MB_YESNO | MB_ICONQUESTION) == IDNO)
+	//{
+	//	window.init.isFullScreen = FALSE;								// If Not, Run In Windowed Mode
+	//}
 
 	// Register A Class For Our Window To Use
 	if (RegisterWindowClass (&application) == FALSE)					// Did Registering A Class Fail?

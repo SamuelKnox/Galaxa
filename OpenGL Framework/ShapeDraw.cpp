@@ -60,6 +60,36 @@ void DrawLine(float_t startX, float_t startY, float_t endX, float_t endY, char8_
 
 }
 
+void DrawBackground(GLuint backgroundID, float_t width, float_t height, float_t yTexCoord, float_t numSprites)
+{
+	GLfloat yTexCoordUp = yTexCoord;
+	GLfloat yTexCoordDown = yTexCoord + (1.0f / numSprites);
+
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, backgroundID);
+	glColor4ub(0xFF, 0xFF, 0xFF, 0xFF);
+	glBegin(GL_QUADS);
+	{
+		// Top-Left
+		glTexCoord2f(0.0f, yTexCoordUp);
+		glVertex3f(-width / 2, -height / 2, 0.0f);
+
+		// Top-Right
+		glTexCoord2f(1.0f, yTexCoordUp);
+		glVertex3f(width / 2, -height / 2, 0.0f);
+
+		// Bot-Right
+		glTexCoord2f(1.0f, yTexCoordDown);
+		glVertex3f(width / 2, height / 2, 0.0f);
+
+		// Bot-Left
+		glTexCoord2f(0.0f, yTexCoordDown);
+		glVertex3f(-width / 2, height / 2, 0.0f);
+
+	}
+	glEnd();
+}
+
 void DrawSprite(GLuint spriteID, bool8_t isFlipped,
 				float_t xPosLeft, float_t xPosRight, 
 				float_t yPosTop, float_t yPosBot,

@@ -27,6 +27,8 @@ private:
 	int32_t mBackgroundWidth;
 	int32_t mBackgroundHeight;
 
+	float_t mBackgroundOffset;
+
 	DWORD mLastUpdateTime;
 	DWORD mCurrentTime;
 

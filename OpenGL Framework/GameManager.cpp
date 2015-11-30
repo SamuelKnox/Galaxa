@@ -10,6 +10,7 @@
 
 #include "baseTypes.h"
 #include "gamedefs.h"
+#include "ShapeDraw.h"
 #include "stateManager.h"
 #include "openglframework.h"
 #include "soil.h"
@@ -31,6 +32,7 @@ void GameManager::init(int32_t width, int32_t height)
 {
 	mBackgroundHeight = height;
 	mBackgroundWidth = width;
+	mBackgroundOffset = 0.0f;
 
 	// Load background texture maps
 	mBackgroundTextureMaps = (GLuint *)malloc(NUM_BACKGROUNDS * sizeof(GLuint));
@@ -46,21 +48,29 @@ void GameManager::shutdown()
 void GameManager::render()
 {
 
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, mCurrentBackground);
+	//glEnable(GL_TEXTURE_2D);
+	//glBindTexture(GL_TEXTURE_2D, mCurrentBackground);
 
-	// Draw background for current level
-	glBegin(GL_QUADS);
+	//// Draw background for current level
+	//glBegin(GL_QUADS);
+	//{
+	//	glColor4ub(0xFF, 0xFF, 0xFF, 0xFF);
+	//	glTexCoord2f(0.0f, 0.0f); glVertex3f((GLfloat) -mBackgroundWidth / 2,	(GLfloat) -mBackgroundHeight / 2,	0.0f);
+	//	glTexCoord2f(1.0f, 0.0f); glVertex3f((GLfloat) mBackgroundWidth / 2,	(GLfloat) -mBackgroundHeight / 2,	0.0f);
+	//	glTexCoord2f(1.0f, 1.0f); glVertex3f((GLfloat) mBackgroundWidth / 2,	(GLfloat) mBackgroundHeight / 2,	0.0f);
+	//	glTexCoord2f(0.0f, 1.0f); glVertex3f((GLfloat) -mBackgroundWidth / 2,	(GLfloat) mBackgroundHeight / 2,	0.0f);
+	//}
+	//
+	//glEnd();
+
+	mBackgroundOffset = (mBackgroundOffset + SCROLL_RATE);
+	if (mBackgroundOffset > 1.0f / NUM_BACKGROUNDS)
 	{
-		glColor4ub(0xFF, 0xFF, 0xFF, 0xFF);
-		glTexCoord2f(0.0f, 0.0f); glVertex3f((GLfloat) -mBackgroundWidth / 2,	(GLfloat) -mBackgroundHeight / 2,	0.0f);
-		glTexCoord2f(1.0f, 0.0f); glVertex3f((GLfloat) mBackgroundWidth / 2,	(GLfloat) -mBackgroundHeight / 2,	0.0f);
-		glTexCoord2f(1.0f, 1.0f); glVertex3f((GLfloat) mBackgroundWidth / 2,	(GLfloat) mBackgroundHeight / 2,	0.0f);
-		glTexCoord2f(0.0f, 1.0f); glVertex3f((GLfloat) -mBackgroundWidth / 2,	(GLfloat) mBackgroundHeight / 2,	0.0f);
+		//mBackgroundOffset = mBackgroundOffset - 1.0f / NUM_BACKGROUNDS;
+		mBackgroundOffset = 0.0f;
 	}
 	
-	glEnd();
-
+	DrawBackground(mCurrentBackground, mBackgroundWidth, mBackgroundHeight, mBackgroundOffset, NUM_BACKGROUNDS);
 }
 void GameManager::update(DWORD milliseconds)
 {
