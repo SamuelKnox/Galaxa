@@ -16,7 +16,7 @@
 
 #include "Explosion.h"
 
-Explosion::Explosion(float_t initPosX, float_t initPosY, int32_t explosionType)
+Explosion::Explosion(float_t initPosX, float_t initPosY, uint32_t explosionType, uint32_t pointType)
 {
 	// Object
 	mPosition.x = initPosX;
@@ -45,21 +45,61 @@ Explosion::Explosion(float_t initPosX, float_t initPosY, int32_t explosionType)
 
 	mEnabled = true;
 	mIsFacingLeft = false;
+
+	// Explosion
+	mIsFinished = false;
+	mPointType = pointType;
+	mAnimationTimer = 0;
+	mAnimationRate = EXPLOSION_RATE_MS;
 }
 
 
 Explosion::~Explosion()
 {}
 
-bool8_t Explosion::CycleExplosionAnimation()
+bool8_t Explosion::CycleExplosionAnimation(DWORD milliseconds)
 {
-	if (currentSprite < END)
+	mAnimationTimer += milliseconds;
+	if (mAnimationTimer < EXPLOSION_RATE_MS)
 	{
-		currentSprite++;
 		return false;
 	}
 	else
 	{
-		return true;
+		mAnimationTimer = 0;
+
+		if (mType == SpriteManager::EXPLOSION_PLAYER)
+		{
+			mIsFinished = (currentSprite == END);
+			if (!mIsFinished)
+			{
+				currentSprite++;
+			}
+		}
+		else if (mType == SpriteManager::EXPLOSION_ENEMY)
+		{
+			if (currentSprite == END)
+			{
+				mType = SpriteManager::POINTS;
+				currentSprite = mPointType;
+				mWidth = POINTS_WIDTH;
+				mHeight = POINTS_HEIGHT;
+				numSprites = POINTS_NUM_SPRITES;
+				mAnimationRate = POINTS_RATE_MS;
+			}
+			else if (!mIsFinished)
+			{
+				currentSprite++;
+			}
+		}
+		else if (mType == SpriteManager::POINTS)
+		{
+			mIsFinished = true;
+		}
+
+		
+
+		return mIsFinished;
 	}
+	
 }

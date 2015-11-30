@@ -50,7 +50,7 @@ void Enemy::update(DWORD milliseconds)
         ET * player = SpriteManager::GetInstance()->getET();
         float_t velX = (player->getPosition()->x - (mPosition.x));
         float_t velY = (player->getPosition()->y - (mPosition.y));
-        float_t length = sqrt(velY * velY + velX * velX);
+        float_t length = (float_t) sqrt(velY * velY + velX * velX);
         velY *= SHOT_FORCE / length;
         velX *= SHOT_FORCE / length;
         SpriteManager::GetInstance()->CreateBullet(mPosition.x, mPosition.y, velX, velY, SpriteManager::ENEMY_GREEN);

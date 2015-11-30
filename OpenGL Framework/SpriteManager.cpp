@@ -59,6 +59,8 @@ void SpriteManager::init()
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 	spriteTextureMaps[EXPLOSION_ENEMY] = SOIL_load_OGL_texture(EXPLOSION_ENEMY_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+	spriteTextureMaps[POINTS] = SOIL_load_OGL_texture(POINTS_SPRITES, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 
 	player = new ET(0.0f, 0.0f, 0.0f, 0.0f, PLAYER);
 }
@@ -87,7 +89,7 @@ void SpriteManager::updateSprites(DWORD milliseconds)
 	{
 		if (explosions[i] != nullptr)
 		{
-			if (explosions[i]->CycleExplosionAnimation())
+			if (explosions[i]->CycleExplosionAnimation(milliseconds))
 			{
 				delete explosions[i];
 				explosions[i] = nullptr;
@@ -182,13 +184,13 @@ void SpriteManager::CreateBullet(float_t x, float_t y, float_t xVel, float_t yVe
 	}
 }
 
-void SpriteManager::CreateExplosion(float_t x, float_t y, int32_t explosionType)
+void SpriteManager::CreateExplosion(float_t x, float_t y, uint32_t explosionType, uint32_t pointType)
 {
 	for (int i = 0; i < MAX_EXPLOSIONS; i++)
 	{
 		if (explosions[i] == nullptr)
 		{
-			explosions[i] = new Explosion(x, y, explosionType);
+			explosions[i] = new Explosion(x, y, explosionType, pointType);
 			break;
 		}
 	}
@@ -274,7 +276,7 @@ void SpriteManager::CheckBulletCollisions()
 						if ((enemyLeft <= missileRight) && (enemyRight >= missileLeft) &&
 							(enemyUp <= missileDown) && (enemyDown >= missileUp))
 						{
-							CreateExplosion(enemy->getPosition()->x, enemy->getPosition()->y, EXPLOSION_ENEMY);
+							CreateExplosion(enemy->getPosition()->x, enemy->getPosition()->y, EXPLOSION_ENEMY, POINTS_500);
 							delete missile;
 							bullets[i] = nullptr;
 							delete enemy;
@@ -297,7 +299,7 @@ void SpriteManager::CheckBulletCollisions()
 					delete missile;
 					bullets[i] = nullptr;
 					// TODO: Player got hit
-					CreateExplosion(player->getPosition()->x, player->getPosition()->y, EXPLOSION_PLAYER);
+					CreateExplosion(player->getPosition()->x, player->getPosition()->y, EXPLOSION_PLAYER, POINTS_NONE);
 					break;
 				}
 			}

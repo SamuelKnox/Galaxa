@@ -445,6 +445,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 						{
 							// Process Application Loop
 							tickCount = GetTickCount ();				// Get The Tick Count
+							//tickCount /= (DWORD) GAME_SPEED;
 							CGame::GetInstance()->UpdateFrame(tickCount - window.lastTickCount);	// Update The Counter
 							window.lastTickCount = tickCount;			// Set Last Count To Current Count
 							CGame::GetInstance()->DrawScene();			// Draw Our Scene

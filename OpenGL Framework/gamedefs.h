@@ -1,10 +1,12 @@
 
+#define GAME_SPEED 10000
+
 // ***** Backgrond Images *****
 #define BACKGROUND "assets/background2.png"
 #define BG_WIDTH		640
 #define BG_HEIGHT		960
 #define NUM_BACKGROUNDS 2
-#define SCROLL_RATE		0.0005f
+#define SCROLL_RATE		0.10f
 
 // ***** Sprite Images *****
 
@@ -38,11 +40,18 @@
 #define EXPLOSION_PLAYER_SPRITE "assets/explosion_player.png"
 #define EXPLOSION_PLAYER_WIDTH			80
 #define EXPLOSION_PLAYER_HEIGHT			72
-#define EXPLOSION_ENEMY_SPRITE "assets/explosion_enemy.png"
+#define EXPLOSION_ENEMY_SPRITE	"assets/explosion_enemy.png"
 #define EXPLOSION_ENEMY_WIDTH			56
 #define EXPLOSION_ENEMY_HEIGHT			56
 #define EXPLOSION_NUM_SPRITES			4
 #define MAX_EXPLOSIONS					ENEMY_MAX_ENEMIES+1
+#define EXPLOSION_RATE_MS				100
+
+#define POINTS_SPRITES		"assets/scores.png"
+#define POINTS_WIDTH		36
+#define POINTS_HEIGHT		16
+#define POINTS_NUM_SPRITES	8
+#define POINTS_RATE_MS		500
 
 // Fields
 #define NUM_HOLES	16

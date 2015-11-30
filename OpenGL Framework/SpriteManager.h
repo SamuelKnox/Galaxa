@@ -19,7 +19,21 @@ public:
 		BULLET,
 		EXPLOSION_PLAYER,
 		EXPLOSION_ENEMY,
+		POINTS,
 		NUM_OBJECTS
+	};
+
+	enum POINT_TYPES
+	{
+		POINTS_150,
+		POINTS_500,
+		POINTS_800,
+		POINTS_1000,
+		POINTS_1500,
+		POINTS_1600,
+		POINTS_2000,
+		POINTS_3000,
+		POINTS_NONE
 	};
 
 	static SpriteManager *CreateInstance();
@@ -35,7 +49,7 @@ public:
 
 	ET* getET();
 	void CreateBullet(float_t x, float_t y, float_t xVel, float_t yVel, int32_t ownerType);
-	void CreateExplosion(float_t x, float_t y, int32_t explosionType);
+	void CreateExplosion(float_t x, float_t y, uint32_t explosionType, uint32_t pointType);
 
 private:
 	SpriteManager() {};

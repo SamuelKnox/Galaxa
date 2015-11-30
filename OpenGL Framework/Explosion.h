@@ -12,13 +12,21 @@ public:
 		START,
 		MIDDLE_1,
 		MIDDLE_2,
-		END
+		END,
+		POINTS
 	};
 
-	Explosion(float_t initPosX, float_t initPosY, int32_t explosionType);
+	Explosion(float_t initPosX, float_t initPosY, uint32_t explosionType, uint32_t pointType);
 	~Explosion();
 
-	bool8_t CycleExplosionAnimation();
+	bool8_t CycleExplosionAnimation(DWORD milliseconds);
+
+private:
+
+	bool8_t mIsFinished;
+	uint32_t mPointType;
+	DWORD mAnimationRate;
+	DWORD mAnimationTimer;
 };
 
 #endif

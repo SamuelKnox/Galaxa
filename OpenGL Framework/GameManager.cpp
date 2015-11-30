@@ -63,14 +63,7 @@ void GameManager::render()
 	//
 	//glEnd();
 
-	mBackgroundOffset = (mBackgroundOffset + SCROLL_RATE);
-	if (mBackgroundOffset > 1.0f / NUM_BACKGROUNDS)
-	{
-		//mBackgroundOffset = mBackgroundOffset - 1.0f / NUM_BACKGROUNDS;
-		mBackgroundOffset = 0.0f;
-	}
-	
-	DrawBackground(mCurrentBackground, mBackgroundWidth, mBackgroundHeight, mBackgroundOffset, NUM_BACKGROUNDS);
+	DrawBackground(mCurrentBackground, (float_t) mBackgroundWidth, (float_t) mBackgroundHeight, mBackgroundOffset, NUM_BACKGROUNDS);
 }
 void GameManager::update(DWORD milliseconds)
 {
@@ -78,6 +71,14 @@ void GameManager::update(DWORD milliseconds)
 
 	int32_t currentState = StateManagerC::GetInstance()->getState();
 	mCurrentBackground = mBackgroundTextureMaps[currentState];
+
+	// TODO: Check if scrolling
+	mBackgroundOffset = mBackgroundOffset + (milliseconds * SCROLL_RATE / 1000.0f);
+	if (mBackgroundOffset > 1.0f / NUM_BACKGROUNDS)
+	{
+		//mBackgroundOffset = mBackgroundOffset - 1.0f / NUM_BACKGROUNDS;
+		mBackgroundOffset = 0.0f;
+	}
 
 	// TODO: setup title screen and manage scoreboard stuff
 }
