@@ -1,9 +1,10 @@
 
 // ***** Backgrond Images *****
-#define BACKGROUND "assets/background.png"
+#define BACKGROUND "assets/background2.png"
 #define BG_WIDTH		640
 #define BG_HEIGHT		960
-#define NUM_BACKGROUNDS 1
+#define NUM_BACKGROUNDS 2
+#define SCROLL_RATE		0.0005f
 
 // ***** Sprite Images *****
 
