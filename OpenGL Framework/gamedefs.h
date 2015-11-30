@@ -35,3 +35,6 @@
 // Fields
 #define NUM_HOLES 16
 #define LINE_WIDTH 1
+
+// FallTrajectory
+#define FALL_TRAJECTORY_SPEED 100.0f

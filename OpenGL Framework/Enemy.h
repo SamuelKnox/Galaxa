@@ -13,9 +13,10 @@ public:
     Enemy();
     ~Enemy();
 
-    void SetTrajectory(Trajectory * trajectory) { mTrajectory = trajectory; };
     void update(DWORD milliseconds);
     void setSpriteType(int32_t type);
+    void setPosition(float x, float y);
+    void reset();
 
 private:
     Trajectory* mTrajectory;

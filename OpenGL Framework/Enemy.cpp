@@ -1,6 +1,7 @@
 #include "gamedefs.h"
 #include "SOIL.h"
 #include "Enemy.h"
+#include "FallTrajectory.h"
 
 Enemy::Enemy()
 {
@@ -20,12 +21,15 @@ Enemy::Enemy()
     mEnabled = true;
 	mIsFacingLeft = false;
 
-	// Enemy
+    mTrajectory = new FallTrajectory();
 
 }
 
 Enemy::~Enemy()
 {
+    if (mTrajectory != nullptr) {
+        delete mTrajectory;
+    }
 }
 
 void Enemy::update(DWORD milliseconds)
@@ -35,13 +39,19 @@ void Enemy::update(DWORD milliseconds)
         mTrajectory->update(milliseconds);
         mTrajectory->GetPosition(mPosition);
     }
-    else
-    {
-
-    }
 }
 
 void Enemy::setSpriteType(int32_t type) {
     mType = type;
     currentSprite = 0;
+}
+
+void Enemy::reset() {
+    mTrajectory->reset();
+}
+
+void Enemy::setPosition(float x, float y) {
+    mPosition.x = x;
+    mPosition.y = y;
+    mTrajectory->SetPosition(mPosition);
 }

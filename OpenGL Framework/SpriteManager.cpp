@@ -23,6 +23,7 @@
 #include "SpriteManager.h"
 #include "random.h"
 #include "GameManager.h"
+#include "FallTrajectory.h"
 
 
 SpriteManager* SpriteManager::sInstance = NULL;
@@ -75,6 +76,11 @@ void SpriteManager::updateSprites(DWORD milliseconds)
 		}
 	}
 
+    for (int i = 0; i < ENEMY_MAX_ENEMIES; i++) {
+        if (enemies[i] != nullptr) {
+            enemies[i]->update(milliseconds);
+        }
+    }
 
     lastSpawnDuration += milliseconds;
     if (lastSpawnDuration >= ENEMY_RESPAWN_TIME_MILLISEC) {
@@ -173,6 +179,6 @@ void SpriteManager::spawnEnemy() {
     float bgWidth = GameManager::GetInstance()->getBackgroundWidth();
     float bgHeight = GameManager::GetInstance()->getBackgroundHeight();
     enemies[indexEnemy]->setPosition(getRangedRandom(-bgWidth / 2.0f, bgWidth / 2.0f), getRangedRandom(-bgHeight / 2.0f, bgHeight / 2.0f));
-    enemies[indexEnemy]->setVelocity(0.0f, 0.0f);
     enemies[indexEnemy]->setSpriteType(getRangedRandom(ENEMY_GREEN, ENEMY_PURPLE));
+    enemies[indexEnemy]->reset();
 }
