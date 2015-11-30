@@ -20,8 +20,9 @@
     <ClCompile Include="ET.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
-	<ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Trajectory.cpp" />
+    <ClCompile Include="FallTrajectory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ball.h" />
@@ -48,7 +49,8 @@
     <ClInclude Include="ET.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Enemy.h" />
-	<ClInclude Include="Bullet.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Trajectory.h" />
+    <ClInclude Include="FallTrajectory.h" />
   </ItemGroup>
 </Project>

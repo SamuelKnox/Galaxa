@@ -50,3 +50,8 @@ void Sprite::render()
 	GLuint spriteID = SpriteManager::GetInstance()->getSpriteTextureMap(mType);
 	DrawSprite(spriteID, mIsFacingLeft, xPosLeft, xPosRight, yPosTop, yPosBot, xTextureCoord, (float_t)numSprites);
 }
+
+void Sprite::setSpriteType(int32_t type) {
+    mType = type;
+    currentSprite = 0;
+}

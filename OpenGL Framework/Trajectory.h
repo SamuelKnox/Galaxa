@@ -12,11 +12,14 @@ public:
     virtual ~Trajectory();
 
     virtual void update(DWORD milliseconds) = 0;
+    void reset();
     void GetPosition(Coord2D & position) const;
     void SetPosition(const Coord2D & position);
 
-private:
+protected:
     Coord2D mPosition;
+    Coord2D mOriginalPosition;
+    DWORD tickCount = 0;
 };
 
 #endif

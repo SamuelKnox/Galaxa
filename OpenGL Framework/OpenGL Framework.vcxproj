@@ -98,6 +98,7 @@
     <ClCompile Include="BallManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="ET.cpp" />
+    <ClCompile Include="FallTrajectory.cpp" />
     <ClCompile Include="field.cpp" />
     <ClCompile Include="FieldManager.cpp" />
     <ClCompile Include="game.cpp" />
@@ -113,7 +114,7 @@
     <ClCompile Include="SpriteDemoManager.cpp" />
     <ClCompile Include="SpriteManager.cpp" />
     <ClCompile Include="stateManager.cpp" />
-	<ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Trajectory.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -123,6 +124,7 @@
     <ClInclude Include="collInfo.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="ET.h" />
+    <ClInclude Include="FallTrajectory.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="FieldManager.h" />
     <ClInclude Include="game.h" />
@@ -142,7 +144,7 @@
     <ClInclude Include="stateManager.h" />
     <ClInclude Include="Trajectory.h" />
     <ClInclude Include="types.h" />
-	<ClInclude Include="Bullet.h" />
+    <ClInclude Include="Bullet.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

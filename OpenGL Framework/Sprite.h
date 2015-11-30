@@ -20,6 +20,8 @@ public:
 	void setHeight(float_t height) { mHeight = height; }
 	float_t getHeight() { return mHeight; }
 
+    virtual void setSpriteType(int32_t type);
+
 protected:
 
 	bool8_t mEnabled;
