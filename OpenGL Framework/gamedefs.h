@@ -37,6 +37,9 @@
 #define EXPLOSION_PLAYER_SPRITE "assets/explosion_player.png"
 #define EXPLOSION_PLAYER_WIDTH			80
 #define EXPLOSION_PLAYER_HEIGHT			72
+#define EXPLOSION_ENEMY_SPRITE "assets/explosion_enemy.png"
+#define EXPLOSION_ENEMY_WIDTH			56
+#define EXPLOSION_ENEMY_HEIGHT			56
 #define EXPLOSION_NUM_SPRITES			4
 #define MAX_EXPLOSIONS					ENEMY_MAX_ENEMIES+1
 

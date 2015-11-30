@@ -57,6 +57,8 @@ void SpriteManager::init()
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 	spriteTextureMaps[EXPLOSION_PLAYER] = SOIL_load_OGL_texture(EXPLOSION_PLAYER_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+	spriteTextureMaps[EXPLOSION_ENEMY] = SOIL_load_OGL_texture(EXPLOSION_ENEMY_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 
 	player = new ET(0.0f, 0.0f, 0.0f, 0.0f, PLAYER);
 }
@@ -180,6 +182,18 @@ void SpriteManager::CreateBullet(float_t x, float_t y, float_t xVel, float_t yVe
 	}
 }
 
+void SpriteManager::CreateExplosion(float_t x, float_t y, int32_t explosionType)
+{
+	for (int i = 0; i < MAX_EXPLOSIONS; i++)
+	{
+		if (explosions[i] == nullptr)
+		{
+			explosions[i] = new Explosion(x, y, explosionType);
+			break;
+		}
+	}
+}
+
 void SpriteManager::CheckBoundaryCollisions()
 {
 	FieldC *field = FieldManagerC::GetInstance()->getFieldPtr();
@@ -260,6 +274,7 @@ void SpriteManager::CheckBulletCollisions()
 						if ((enemyLeft <= missileRight) && (enemyRight >= missileLeft) &&
 							(enemyUp <= missileDown) && (enemyDown >= missileUp))
 						{
+							CreateExplosion(enemy->getPosition()->x, enemy->getPosition()->y, EXPLOSION_ENEMY);
 							delete missile;
 							bullets[i] = nullptr;
 							delete enemy;
@@ -282,14 +297,7 @@ void SpriteManager::CheckBulletCollisions()
 					delete missile;
 					bullets[i] = nullptr;
 					// TODO: Player got hit
-					for (int k = 0; k < MAX_EXPLOSIONS; k++)
-					{
-						if (explosions[k] == nullptr)
-						{
-							explosions[k] = new Explosion(player->getPosition()->x, player->getPosition()->y, EXPLOSION_PLAYER);
-							break;
-						}
-					}
+					CreateExplosion(player->getPosition()->x, player->getPosition()->y, EXPLOSION_PLAYER);
 					break;
 				}
 			}

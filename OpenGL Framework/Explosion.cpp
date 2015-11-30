@@ -32,6 +32,12 @@ Explosion::Explosion(float_t initPosX, float_t initPosY, int32_t explosionType)
 		mHeight = EXPLOSION_PLAYER_HEIGHT;
 		numSprites = EXPLOSION_NUM_SPRITES;
 	}
+	else if (explosionType == SpriteManager::EXPLOSION_ENEMY)
+	{
+		mWidth = EXPLOSION_ENEMY_WIDTH;
+		mHeight = EXPLOSION_ENEMY_HEIGHT;
+		numSprites = EXPLOSION_NUM_SPRITES;
+	}
 	
 	currentSprite = START; // No animations
 

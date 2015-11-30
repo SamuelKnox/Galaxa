@@ -35,6 +35,7 @@ public:
 
 	ET* getET();
 	void CreateBullet(float_t x, float_t y, float_t xVel, float_t yVel, int32_t ownerType);
+	void CreateExplosion(float_t x, float_t y, int32_t explosionType);
 
 private:
 	SpriteManager() {};
