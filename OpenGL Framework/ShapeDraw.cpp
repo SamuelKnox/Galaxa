@@ -81,7 +81,6 @@ void DrawSprite(GLuint spriteID, bool8_t isFlipped,
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, spriteID);
 	glColor4ub(0xFF, 0xFF, 0xFF, 0xFF);
-
 	glBegin(GL_QUADS);
 	{		
 		// Top-Left

@@ -25,9 +25,7 @@
 #include "GameManager.h"
 #include "FallTrajectory.h"
 
-
 SpriteManager* SpriteManager::sInstance = NULL;
-
 
 SpriteManager *SpriteManager::CreateInstance()
 {
@@ -57,37 +55,52 @@ void SpriteManager::init()
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 	spriteTextureMaps[BULLET] = SOIL_load_OGL_texture(MISSILE_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+	spriteTextureMaps[EXPLOSION_PLAYER] = SOIL_load_OGL_texture(EXPLOSION_PLAYER_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 
 	player = new ET(0.0f, 0.0f, 0.0f, 0.0f, PLAYER);
-
-	bullets = (Bullet**)malloc(MAX_NUM_MISSILES * sizeof(Bullet*));
-	for (int i = 0; i < MAX_NUM_MISSILES; i++) {
-		bullets[i] = nullptr;
-	}
 }
 
 void SpriteManager::updateSprites(DWORD milliseconds)
 {
 	player->update(milliseconds);
 	player->updateET(milliseconds);
-	for (int i = 0; i < MAX_NUM_MISSILES; i++) {
-		if (bullets[i] != nullptr) {
+	for (int i = 0; i < MAX_NUM_MISSILES; i++) 
+	{
+		if (bullets[i] != nullptr) 
+		{
 			bullets[i]->update(milliseconds);
 		}
 	}
 
-    for (int i = 0; i < ENEMY_MAX_ENEMIES; i++) {
-        if (enemies[i] != nullptr) {
+    for (int i = 0; i < ENEMY_MAX_ENEMIES; i++) 
+	{
+        if (enemies[i] != nullptr) 
+		{
             enemies[i]->update(milliseconds);
         }
     }
 
+	for (int i = 0; i < MAX_EXPLOSIONS; i++)
+	{
+		if (explosions[i] != nullptr)
+		{
+			if (explosions[i]->CycleExplosionAnimation())
+			{
+				delete explosions[i];
+				explosions[i] = nullptr;
+			}
+		}
+	}
+
     lastSpawnDuration += milliseconds;
-    if (lastSpawnDuration >= ENEMY_RESPAWN_TIME_MILLISEC) {
+    if (lastSpawnDuration >= ENEMY_RESPAWN_TIME_MILLISEC) 
+	{
         lastSpawnDuration = 0;
         spawnEnemy();
     }
 
+	CheckBoundaryCollisions();
 	CheckBulletCollisions();
 }
 
@@ -101,33 +114,59 @@ void SpriteManager::renderSprites()
 	player->render();
 
 
-	for (int i = 0; i < MAX_NUM_MISSILES; i++) {
-		if (bullets[i] != nullptr) {
+	for (int i = 0; i < MAX_NUM_MISSILES; i++) 
+	{
+		if (bullets[i] != nullptr) 
+		{
 			bullets[i]->render();
 		}
 	}
 
-
-    for (int i = 0; i < ENEMY_MAX_ENEMIES; i++) {
-        if (enemies[i] != nullptr) {
+    for (int i = 0; i < ENEMY_MAX_ENEMIES; i++) 
+	{
+        if (enemies[i] != nullptr) 
+		{
             enemies[i]->render();
         }
     }
+
+	for (int i = 0; i < MAX_EXPLOSIONS; i++)
+	{
+		if (explosions[i] != nullptr)
+		{
+			explosions[i]->render();
+		}
+	}
 }
+
 GLuint SpriteManager::getSpriteTextureMap(int32_t objectType)
 {
 	return spriteTextureMaps[objectType];
 }
+
 void SpriteManager::shutdown()
 {
 	delete player;
+
 	for (int i = 0; i < MAX_NUM_MISSILES; i++)
 	{
 		delete bullets[i];
 	}
 
+	for (int i = 0; i < ENEMY_MAX_ENEMIES; i++)
+	{
+		delete enemies[i];
+	}
+
+	for (int i = 0; i < MAX_EXPLOSIONS; i++)
+	{
+		delete explosions[i];
+	}
+
 	free(spriteTextureMaps);
 	free(bullets);
+	free(enemies);
+	free(explosions);
 }
 
 void SpriteManager::CreateBullet(float_t x, float_t y, float_t xVel, float_t yVel, int32_t ownerType) 
@@ -141,7 +180,7 @@ void SpriteManager::CreateBullet(float_t x, float_t y, float_t xVel, float_t yVe
 	}
 }
 
-void SpriteManager::CheckBulletCollisions()
+void SpriteManager::CheckBoundaryCollisions()
 {
 	FieldC *field = FieldManagerC::GetInstance()->getFieldPtr();
 	float_t leftSide = field->getPosition()->x - ((float_t)field->getWidth() / 2.0f);
@@ -167,6 +206,43 @@ void SpriteManager::CheckBulletCollisions()
 				bullets[i] = nullptr;
 				continue;
 			}
+		}
+	}
+
+	// NOTE: this can be removed if enemies no longer just fall off screen
+	for (int32_t j = 0; j < ENEMY_MAX_ENEMIES; j++)
+	{
+		if (enemies[j] != nullptr)
+		{
+			Enemy *enemy = enemies[j];
+			float_t enemyLeft = enemy->getPosition()->x - enemy->getWidth() / 2;
+			float_t enemyRight = enemy->getPosition()->x + enemy->getWidth() / 2;
+			float_t enemyUp = enemy->getPosition()->y - enemy->getHeight() / 2;
+			float_t enemyDown = enemy->getPosition()->y + enemy->getHeight() / 2;
+
+			// Check if enemy is out of bounds
+			if ((enemyLeft <= leftSide) || (enemyRight >= rightSide) ||
+				(enemyUp >= bottomSide) || (enemyDown <= topSide))
+			{
+				delete enemy;
+				enemies[j] = nullptr;
+				continue;
+			}
+		}
+	}
+}
+
+void SpriteManager::CheckBulletCollisions()
+{
+	for (int32_t i = 0; i < MAX_NUM_MISSILES; i++)
+	{
+		if (bullets[i] != nullptr)
+		{
+			Bullet *missile = bullets[i];
+			float_t missileLeft = missile->getPosition()->x - missile->getWidth() / 2;
+			float_t missileRight = missile->getPosition()->x + missile->getWidth() / 2;
+			float_t missileUp = missile->getPosition()->y - missile->getHeight() / 2;
+			float_t missileDown = missile->getPosition()->y + missile->getHeight() / 2;
 
 			// Check if missile has hit an enemy or player, depending on who fired it
 			if (missile->GetOwnerType() == PLAYER)
@@ -206,6 +282,14 @@ void SpriteManager::CheckBulletCollisions()
 					delete missile;
 					bullets[i] = nullptr;
 					// TODO: Player got hit
+					for (int k = 0; k < MAX_EXPLOSIONS; k++)
+					{
+						if (explosions[k] == nullptr)
+						{
+							explosions[k] = new Explosion(player->getPosition()->x, player->getPosition()->y, EXPLOSION_PLAYER);
+							break;
+						}
+					}
 					break;
 				}
 			}
@@ -223,9 +307,9 @@ void SpriteManager::spawnEnemy() {
         enemies[indexEnemy] = new Enemy();
     }
 
-    float_t bgWidth = (float_t) GameManager::GetInstance()->getBackgroundWidth();
-	float_t bgHeight = (float_t) GameManager::GetInstance()->getBackgroundHeight();
-    enemies[indexEnemy]->setPosition(getRangedRandom(-bgWidth / 2.0f, bgWidth / 2.0f), getRangedRandom(-bgHeight / 2.0f, bgHeight / 2.0f));
+    float_t bgWidth = (float_t) GameManager::GetInstance()->getBackgroundWidth() - enemies[indexEnemy]->getWidth();
+	float_t bgHeight = (float_t) GameManager::GetInstance()->getBackgroundHeight() - enemies[indexEnemy]->getHeight();
+    enemies[indexEnemy]->setPosition(getRangedRandom(-bgWidth / 2.0f, bgWidth / 2.0f), getRangedRandom(0.0f, bgHeight / 2.0f));
     enemies[indexEnemy]->setSpriteType(getRangedRandom(ENEMY_GREEN, ENEMY_PURPLE));
     enemies[indexEnemy]->reset();
 }

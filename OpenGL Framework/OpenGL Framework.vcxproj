@@ -98,6 +98,7 @@
     <ClCompile Include="BallManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="ET.cpp" />
+    <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="FallTrajectory.cpp" />
     <ClCompile Include="field.cpp" />
     <ClCompile Include="FieldManager.cpp" />
@@ -124,6 +125,7 @@
     <ClInclude Include="collInfo.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="ET.h" />
+    <ClInclude Include="Explosion.h" />
     <ClInclude Include="FallTrajectory.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="FieldManager.h" />

@@ -23,6 +23,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Trajectory.cpp" />
     <ClCompile Include="FallTrajectory.cpp" />
+    <ClCompile Include="Explosion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ball.h" />
@@ -52,5 +53,6 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Trajectory.h" />
     <ClInclude Include="FallTrajectory.h" />
+    <ClInclude Include="Explosion.h" />
   </ItemGroup>
 </Project>
