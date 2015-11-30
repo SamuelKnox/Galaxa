@@ -1,7 +1,10 @@
+#include <math.h>
 #include "gamedefs.h"
 #include "SOIL.h"
 #include "Enemy.h"
 #include "FallTrajectory.h"
+#include "SpriteManager.h"
+#include "ET.h"
 
 Enemy::Enemy()
 {
@@ -38,6 +41,19 @@ void Enemy::update(DWORD milliseconds)
     if (mTrajectory != nullptr) {
         mTrajectory->update(milliseconds);
         mTrajectory->GetPosition(mPosition);
+    }
+
+    // Check for firing missles
+    lastShootDuration += milliseconds;
+    if (lastShootDuration >= ENEMY_SHOOT_TIME_MILLISEC) {
+        lastShootDuration = 0;
+        ET * player = SpriteManager::GetInstance()->getET();
+        float_t velX = (player->getPosition()->x - (mPosition.x));
+        float_t velY = (player->getPosition()->y - (mPosition.y));
+        float_t length = sqrt(velY * velY + velX * velX);
+        velY *= SHOT_FORCE / length;
+        velX *= SHOT_FORCE / length;
+        SpriteManager::GetInstance()->CreateBullet(mPosition.x, mPosition.y, velX, velY, SpriteManager::ENEMY_GREEN);
     }
 }
 

@@ -20,6 +20,7 @@ public:
 
 private:
     Trajectory* mTrajectory;
+    DWORD lastShootDuration = 0;
 
 };
 
