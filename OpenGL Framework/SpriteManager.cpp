@@ -14,7 +14,7 @@
 #include "collinfo.h"
 #include "object.h"
 #include "Sprite.h"
-#include "ET.h"
+#include "Player.h"
 #include "Bullet.h"
 #include "random.h"
 #include "field.h"
@@ -74,8 +74,7 @@ void SpriteManager::init()
 
 	mInGame = false;
 
-	player = new ET(0.0f, 0.0f, 0.0f, 0.0f, PLAYER);
-    player->setFireSfxId(SoundManager::GetInstance()->LoadSound(PLAYER_SFX_FIRE));
+	player = Player::CreatePlayer(0.0f, 0.0f, 0.0f, 0.0f, PLAYER);
 }
 
 void SpriteManager::updateSprites(DWORD milliseconds)
@@ -126,7 +125,7 @@ void SpriteManager::updateSprites(DWORD milliseconds)
 	CheckBulletCollisions();
 }
 
-ET* SpriteManager::getET()
+Player* SpriteManager::getET()
 {
 	return player;
 }
@@ -233,8 +232,7 @@ void SpriteManager::resetGame()
 void SpriteManager::startGame()
 {
 	resetGame();
-	player = new ET(0.0f, 0.0f, 0.0f, 0.0f, PLAYER);
-    player->setFireSfxId(SoundManager::GetInstance()->LoadSound(PLAYER_SFX_FIRE));
+	player = Player::CreatePlayer(0.0f, 0.0f, 0.0f, 0.0f, PLAYER);
 	mInGame = true;
 }
 

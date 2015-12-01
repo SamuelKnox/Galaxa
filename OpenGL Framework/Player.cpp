@@ -14,7 +14,7 @@
 #include "collInfo.h"
 #include "object.h"
 #include "Sprite.h"
-#include "ET.h"
+#include "Player.h"
 
 #include "field.h"
 #include "fieldmanager.h"
@@ -27,7 +27,15 @@
 #include "SoundManager.h"
 
 
-ET::ET(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType)
+Player* Player::CreatePlayer(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType) {
+    Player* player = new Player(initPosX, initPosY, initVelX, initVelY, gameObjectType);
+
+    static uint32_t id = SoundManager::GetInstance()->LoadSound(PLAYER_SFX_FIRE);
+    player->setFireSfxId(id);
+    return player;
+}
+
+Player::Player(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType)
 {
 	// Object
 	mPosition.x = initPosX;
@@ -54,10 +62,10 @@ ET::ET(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, i
 	mShotTimer = 0;
 }
 
-ET::~ET()
+Player::~Player()
 {};
 
-void ET::updateET(DWORD milliseconds)
+void Player::updateET(DWORD milliseconds)
 {
 	// Update shot timer
 	if (!mCanShoot)
@@ -88,7 +96,7 @@ void ET::updateET(DWORD milliseconds)
 	}*/
 }
 
-void ET::CheckForUserInput()
+void Player::CheckForUserInput()
 {
 	SHORT keyLeft = GetKeyState(VK_LEFT);
 	SHORT keyRight = GetKeyState(VK_RIGHT);
@@ -137,7 +145,7 @@ void ET::CheckForUserInput()
 	}
 }
 
-void ET::CheckBoundaries()
+void Player::CheckBoundaries()
 {
 	FieldC *field = FieldManagerC::GetInstance()->getFieldPtr();
 

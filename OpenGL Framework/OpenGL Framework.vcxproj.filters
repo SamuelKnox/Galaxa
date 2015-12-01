@@ -17,7 +17,6 @@
     <ClCompile Include="stateManager.cpp" />
     <ClCompile Include="SpriteManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="ET.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Bullet.cpp" />
@@ -25,6 +24,7 @@
     <ClCompile Include="FallTrajectory.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ball.h" />
@@ -48,7 +48,6 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="SpriteManager.h" />
     <ClInclude Include="Sprite.h" />
-    <ClInclude Include="ET.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Bullet.h" />
@@ -56,5 +55,6 @@
     <ClInclude Include="FallTrajectory.h" />
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
 </Project>

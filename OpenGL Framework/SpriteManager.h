@@ -1,7 +1,7 @@
 #ifndef _SPRITE_MANAGER_H
 #define _SPRITE_MANAGER_H
 
-#include "ET.h"
+#include "Player.h"
 #include "Bullet.h"
 #include "gamedefs.h"
 #include "baseTypes.h"
@@ -51,7 +51,7 @@ public:
 	void	startGame();
 	void	endGame();
 
-	ET* getET();
+	Player* getET();
 	void CreateBullet(float_t x, float_t y, float_t xVel, float_t yVel, int32_t ownerType);
 	void CreateExplosion(float_t x, float_t y, uint32_t explosionType, uint32_t pointType);
 
@@ -62,7 +62,7 @@ private:
 	GLuint *spriteTextureMaps;
 
 	// GameObjects
-	ET* player = nullptr;
+	Player* player = nullptr;
 	Bullet* bullets[MAX_NUM_MISSILES] = { nullptr };
     Enemy* enemies[ENEMY_MAX_ENEMIES] = { nullptr };
 	Explosion* explosions[MAX_EXPLOSIONS] = { nullptr };

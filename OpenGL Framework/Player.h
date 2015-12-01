@@ -3,7 +3,7 @@
 
 #include "Sprite.h"
 
-class ET : public Sprite
+class Player : public Sprite
 {
 public:
 	//enum ET_STATES
@@ -17,14 +17,18 @@ public:
 	//	ET_NECK4
 	//};
 
-	ET(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType);
-	~ET();
+    // Factory function
+    static Player* CreatePlayer(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType);
+	~Player();
 
 	void updateET(DWORD milliseconds);
 
     void setFireSfxId(uint32_t fireSFXId) { mFireSFXId = fireSFXId; };
 
 private:
+    Player(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType);
+
+
 	bool8_t mIsMoving;
 	bool8_t mCanMove;
 	bool8_t mCanShoot;
