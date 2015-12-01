@@ -4,6 +4,7 @@
 #include "Enemy.h"
 #include "FallTrajectory.h"
 #include "SpriteManager.h"
+#include "SoundManager.h"
 #include "ET.h"
 
 Enemy::Enemy()
@@ -30,6 +31,7 @@ Enemy::Enemy()
 
 Enemy::~Enemy()
 {
+    SoundManager::GetInstance()->PlaySoundResource(mKillSFXId);
     if (mTrajectory != nullptr) {
         delete mTrajectory;
     }

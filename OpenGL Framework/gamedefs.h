@@ -19,6 +19,7 @@
 
 // Player
 #define PLAYER_SPRITE "assets/player.png"
+#define PLAYER_SFX_FIRE	".\\assets\\sfx\\fire.mp3"
 #define PLAYER_WIDTH		48
 #define PLAYER_HEIGHT		48
 #define PLAYER_NUM_SPRITES	1
@@ -29,6 +30,7 @@
 // Enemies
 #define ENEMY_SPRITE_GREEN	"assets/enemy_green.png"
 #define ENEMY_SPRITE_PURPLE "assets/enemy_purple.png"
+#define ENEMY_SFX_KILL	".\\assets\\sfx\\kill.mp3"
 #define ENEMY_WIDTH					42
 #define ENEMY_HEIGHT				38
 #define ENEMY_NUM_SPRITES			1

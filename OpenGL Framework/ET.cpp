@@ -24,6 +24,7 @@
 #include "stateManager.h"
 #include "inputmanager.h"
 #include "SpriteManager.h"
+#include "SoundManager.h"
 
 
 ET::ET(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType)
@@ -130,6 +131,9 @@ void ET::CheckForUserInput()
 		mCanShoot = false;
 		mShotTimer = 0;
 		SpriteManager::GetInstance()->CreateBullet(getPosition()->x, getPosition()->y, 0.0f, SHOT_FORCE, SpriteManager::PLAYER);
+        if (mFireSFXId != 0) {
+            SoundManager::GetInstance()->PlaySoundResource(mFireSFXId);
+        }
 	}
 }
 

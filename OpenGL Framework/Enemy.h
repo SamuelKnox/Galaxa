@@ -16,12 +16,14 @@ public:
     void update(DWORD milliseconds);
     void setSpriteType(int32_t type);
     void setPosition(float x, float y);
+    void setKillSfxId(uint32_t killSFXId) { mKillSFXId = killSFXId; };
     void reset();
 
 private:
     Trajectory* mTrajectory;
     DWORD lastShootDuration = 0;
 
+    uint32_t mKillSFXId;
 };
 
 

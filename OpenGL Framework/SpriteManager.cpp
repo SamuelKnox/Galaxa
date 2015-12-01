@@ -24,6 +24,7 @@
 #include "random.h"
 #include "GameManager.h"
 #include "FallTrajectory.h"
+#include "SoundManager.h"
 
 SpriteManager* SpriteManager::sInstance = NULL;
 
@@ -73,6 +74,8 @@ void SpriteManager::init()
 
 	mInGame = false;
 
+	player = new ET(0.0f, 0.0f, 0.0f, 0.0f, PLAYER);
+    player->setKillSfxId(SoundManager::GetInstance()->LoadSound(PLAYER_SFX_FIRE));
 }
 
 void SpriteManager::updateSprites(DWORD milliseconds)
@@ -385,6 +388,8 @@ void SpriteManager::spawnEnemy() {
 
     if (enemies[indexEnemy] == nullptr) {
         enemies[indexEnemy] = new Enemy();
+        static uint32_t id = SoundManager::GetInstance()->LoadSound(ENEMY_SFX_KILL);
+        enemies[indexEnemy]->setKillSfxId(id);
     }
 
     float_t bgWidth = (float_t) GameManager::GetInstance()->getBackgroundWidth() - enemies[indexEnemy]->getWidth();
