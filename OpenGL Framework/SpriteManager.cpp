@@ -382,9 +382,10 @@ void SpriteManager::spawnEnemy() {
         int type = getRangedRandom(ENEMY_GREEN, ENEMY_YELLOW);
         Trajectory * trajectory = NULL;
         if ((type == ENEMY_YELLOW) || (type == ENEMY_RED))
-            trajectory = new SideTrajectory(enemies[indexEnemy]);
+			trajectory = new FallTrajectory(enemies[indexEnemy]);
         else
-            trajectory = new FallTrajectory(enemies[indexEnemy]);
+			trajectory = new SideTrajectory(enemies[indexEnemy]);
+
 		enemies[indexEnemy]->setTrajectory(trajectory);
 		enemies[indexEnemy]->setPosition(getRangedRandom(-bgWidth / 2.0f, bgWidth / 2.0f), getRangedRandom(bgHeight / 4.0f, bgHeight / 2.0f));
 		enemies[indexEnemy]->setSpriteType(type);
