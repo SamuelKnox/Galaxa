@@ -16,6 +16,7 @@ public:
     void update(DWORD milliseconds);
     void setSpriteType(int32_t type);
     void setPosition(float x, float y);
+	void setTrajectory(Trajectory* newTrajectory);
     void setKillSfxId(uint32_t killSFXId) { mKillSFXId = killSFXId; };
     void reset();
     void killed();

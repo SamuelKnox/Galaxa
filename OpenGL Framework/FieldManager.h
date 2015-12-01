@@ -1,4 +1,8 @@
+#ifndef _FIELD_MANAGER_H_
+#define _FIELD_MANAGER_H_
+
 #include "gamedefs.h"
+
 class FieldManagerC
 {
 public:
@@ -17,3 +21,5 @@ private:
 	static FieldManagerC *sInstance;
 	FieldManagerC(){};
 };
+
+#endif

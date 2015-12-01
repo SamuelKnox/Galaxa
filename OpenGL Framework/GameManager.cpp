@@ -112,6 +112,7 @@ void GameManager::checkForInput()
 		{
 			mGameState = IN_GAME;
 			SpriteManager::GetInstance()->startGame();
+			scoreboard->Reset();
 		}
 	}
 	else if (mGameState == GAME_OVER)

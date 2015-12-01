@@ -2,9 +2,9 @@
 #include <assert.h>
 #include <windows.h>											// Header File For Windows
 #include <stdio.h>												// Header File For Standard Input / Output
-#include <stdarg.h>	// Header File For Variable Argument Routines
-#include <math.h>	// Header File For Math Operations
-#include <gl\gl.h>	// Header File For The OpenGL32 Library
+#include <stdarg.h>												// Header File For Variable Argument Routines
+#include <math.h>												// Header File For Math Operations
+#include <gl\gl.h>												// Header File For The OpenGL32 Library
 #include <gl\glu.h>												// Header File For The GLu32 Library
 #include "SOIL.h"
 
@@ -24,9 +24,12 @@
 #include "random.h"
 #include "GameManager.h"
 #include "FallTrajectory.h"
+#include "SideTrajectory.h"
 #include "SoundManager.h"
 
 SpriteManager* SpriteManager::sInstance = NULL;
+
+static const int32_t points[SpriteManager::POINTS_NONE] = { 150, 500, 800, 1000, 1500, 1600, 2000, 3000 };
 
 SpriteManager *SpriteManager::CreateInstance()
 {
@@ -57,6 +60,12 @@ void SpriteManager::init()
 	spriteTextureMaps[ENEMY_PURPLE] = SOIL_load_OGL_texture(ENEMY_SPRITE_PURPLE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 
+	spriteTextureMaps[ENEMY_RED] = SOIL_load_OGL_texture(ENEMY_SPRITE_RED, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+
+	spriteTextureMaps[ENEMY_YELLOW] = SOIL_load_OGL_texture(ENEMY_SPRITE_YELLOW, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+
 	spriteTextureMaps[BULLET] = SOIL_load_OGL_texture(MISSILE_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 
@@ -74,8 +83,10 @@ void SpriteManager::init()
 
 	spriteTextureMaps[HLINE] = SOIL_load_OGL_texture(HORIZONTAL_LINE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
-
 	spriteTextureMaps[VLINE] = SOIL_load_OGL_texture(VERTICAL_LINE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+
+	spriteTextureMaps[LABEL] = SOIL_load_OGL_texture(HIGH_SCORE_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 
 	mInGame = false;
@@ -305,17 +316,6 @@ void SpriteManager::CheckBoundaryCollisions()
 			bullets[i] = nullptr;
 		}
 	}
-
-	// Destroy enemies that go offscreen
-	// NOTE: this can be removed if enemies no longer just fall off screen
-	for (int32_t j = 0; j < ENEMY_MAX_ENEMIES; j++)
-	{
-		if (enemies[j] != nullptr && CheckSpriteHitBoundaries(enemies[j]))
-		{
-			delete enemies[j];
-			enemies[j] = nullptr;
-		}
-	}
 }
 
 void SpriteManager::CheckBulletCollisions()
@@ -337,13 +337,15 @@ void SpriteManager::CheckBulletCollisions()
 					{
 						if (CheckSpriteCollision(bullets[i], enemies[j]))
 						{
-							CreateExplosion(enemies[j]->getPosition()->x, enemies[j]->getPosition()->y, EXPLOSION_ENEMY, POINTS_500);
+							CreateExplosion(enemies[j]->getPosition()->x, enemies[j]->getPosition()->y, EXPLOSION_ENEMY, enemies[j]->getType());
+							GameManager::GetInstance()->scoreboard->score += points[enemies[j]->getType()];
+
 							delete bullets[i];
 							bullets[i] = nullptr;
+
                             enemies[j]->killed();
 							delete enemies[j];
 							enemies[j] = nullptr;
-							GameManager::GetInstance()->scoreboard->score += 500;
 							break;
 						}
 					}
@@ -381,13 +383,16 @@ void SpriteManager::spawnEnemy() {
         enemies[indexEnemy] = new Enemy();
         static uint32_t id = SoundManager::GetInstance()->LoadSound(ENEMY_SFX_KILL);
         enemies[indexEnemy]->setKillSfxId(id);
-    }
 
-    float_t bgWidth = (float_t) GameManager::GetInstance()->getBackgroundWidth() - enemies[indexEnemy]->getWidth();
-	float_t bgHeight = (float_t) GameManager::GetInstance()->getBackgroundHeight() - enemies[indexEnemy]->getHeight();
-    enemies[indexEnemy]->setPosition(getRangedRandom(-bgWidth / 2.0f, bgWidth / 2.0f), getRangedRandom(0.0f, bgHeight / 2.0f));
-    enemies[indexEnemy]->setSpriteType(getRangedRandom(ENEMY_GREEN, ENEMY_PURPLE));
-    enemies[indexEnemy]->reset();
+		float_t bgWidth = (float_t)GameManager::GetInstance()->getBackgroundWidth() - enemies[indexEnemy]->getWidth();
+		float_t bgHeight = (float_t)GameManager::GetInstance()->getBackgroundHeight() - enemies[indexEnemy]->getHeight();
+
+		SideTrajectory *trajectory = new SideTrajectory(enemies[indexEnemy]);
+		enemies[indexEnemy]->setTrajectory(trajectory);
+		enemies[indexEnemy]->setPosition(getRangedRandom(-bgWidth / 2.0f, bgWidth / 2.0f), getRangedRandom(bgHeight / 4.0f, bgHeight / 2.0f));
+		enemies[indexEnemy]->setSpriteType(getRangedRandom(ENEMY_GREEN, ENEMY_YELLOW));
+		enemies[indexEnemy]->reset();
+    } 
 }
 
 bool8_t SpriteManager::CheckSpriteHitBoundaries(Sprite *sprite)

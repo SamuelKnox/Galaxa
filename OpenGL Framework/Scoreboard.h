@@ -12,9 +12,11 @@ public:
 	~Scoreboard();
 	int32_t score;
 	void Render();
+	void Reset();
 
 private:
 	Sprite* lines[NUM_LINES] = { nullptr };
+	Sprite* label;
 };
 
 #endif

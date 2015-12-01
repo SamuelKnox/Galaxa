@@ -25,8 +25,8 @@ Enemy::Enemy()
     mEnabled = true;
 	mIsFacingLeft = false;
 
-    mTrajectory = new FallTrajectory();
-
+	// Enemy
+	mTrajectory = nullptr;
 }
 
 void Enemy::killed() {
@@ -75,4 +75,14 @@ void Enemy::setPosition(float x, float y) {
     mPosition.x = x;
     mPosition.y = y;
     mTrajectory->SetPosition(mPosition);
+}
+
+void Enemy::setTrajectory(Trajectory* newTrajectory)
+{
+	if (mTrajectory != nullptr)
+	{
+		delete mTrajectory;
+	}
+	mTrajectory = newTrajectory;
+	mTrajectory->SetPosition(mPosition);
 }

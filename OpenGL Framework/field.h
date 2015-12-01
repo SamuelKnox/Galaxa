@@ -1,3 +1,6 @@
+#ifndef _FIELD_H_
+#define _FIELD_H_
+
 class FieldC : public ObjectC
 {
 public:
@@ -20,3 +23,5 @@ private:
 	uint32_t mWidth;
 	bool8_t mEnabled;
 };
+
+#endif

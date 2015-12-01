@@ -21,6 +21,8 @@ public:
 	void setHeight(float_t height) { mHeight = height; }
 	float_t getHeight() { return mHeight; }
 
+	int32_t getType() { return mType; }
+
     virtual void setSpriteType(int32_t type);
 
 protected:

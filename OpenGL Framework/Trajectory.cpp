@@ -1,5 +1,6 @@
-#include "Trajectory.h"
 
+#include "Sprite.h"
+#include "Trajectory.h"
 
 Trajectory::Trajectory()
 {

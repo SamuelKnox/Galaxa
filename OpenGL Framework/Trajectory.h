@@ -2,6 +2,7 @@
 #define _TRAJECTORY_H_
 
 #include "baseTypes.h"
+#include "Sprite.h"
 #include <windows.h>
 
 class Trajectory
@@ -17,6 +18,7 @@ public:
     void SetPosition(const Coord2D & position);
 
 protected:
+	Sprite* mSprite;
     Coord2D mPosition;
     Coord2D mOriginalPosition;
     DWORD tickCount = 0;

@@ -19,7 +19,7 @@
 // ***** Sprite Images *****
 
 // Player
-#define PLAYER_SPRITE "assets/player.png"
+#define PLAYER_SPRITE	"assets/player.png"
 #define PLAYER_SFX_FIRE	".\\assets\\sfx\\fire.mp3"
 #define PLAYER_SFX_HIT	".\\assets\\sfx\\hit.wav"
 #define PLAYER_WIDTH		48
@@ -33,7 +33,9 @@
 // Enemies
 #define ENEMY_SPRITE_GREEN	"assets/enemy_green.png"
 #define ENEMY_SPRITE_PURPLE "assets/enemy_purple.png"
-#define ENEMY_SFX_KILL	".\\assets\\sfx\\kill.mp3"
+#define ENEMY_SPRITE_RED	"assets/enemy_red.png"
+#define ENEMY_SPRITE_YELLOW "assets/enemy_yellow.png"
+#define ENEMY_SFX_KILL		".\\assets\\sfx\\kill.mp3"
 #define ENEMY_WIDTH					42
 #define ENEMY_HEIGHT				38
 #define ENEMY_NUM_SPRITES			1
@@ -66,10 +68,13 @@
 #define POINTS_NUM_SPRITES	8
 #define POINTS_RATE_MS		500
 
-// Game Over
+// Labels
 #define GAMEOVER_SPRITE		"assets/gameover.png"
 #define GAMEOVER_WIDTH		360
 #define GAMEOVER_HEIGHT		60
+#define HIGH_SCORE_SPRITE	"assets/label.png"
+#define HIGH_SCORE_WIDTH	236
+#define HIGH_SCORE_HEIGHT	16
 
 // Fields
 #define NUM_HOLES	16
@@ -78,14 +83,17 @@
 // FallTrajectory
 #define FALL_TRAJECTORY_SPEED 100.0f
 
+// SideTrajectory
+#define SIDE_TRAJECTORY_SPEED 100.0f
+
 // Scoreboard
 #define HORIZONTAL_LINE "assets/sprites/lines/horizontal_line.png"
-#define VERTICAL_LINE "assets/sprites/lines/vertical_line.png"
-#define SCOREBOARD_X 275
-#define SCOREBOARD_Y 450
-#define SCOREBOARD_HORIZONTAL_WIDTH 24
+#define VERTICAL_LINE	"assets/sprites/lines/vertical_line.png"
+#define DIGIT_SEPARATION 24
+#define SCOREBOARD_HORIZONTAL_WIDTH 16
 #define SCOREBOARD_HORIZONTAL_HEIGHT 4
 #define SCOREBOARD_VERTICAL_WIDTH 4
-#define SCOREBOARD_VERTICAL_HEIGHT 24
+#define SCOREBOARD_VERTICAL_HEIGHT 16
 #define NUM_LINES 70
-#define DIGIT_SEPARATION 35
+#define SCOREBOARD_X	(BG_WIDTH/2)-DIGIT_SEPARATION
+#define SCOREBOARD_Y	(BG_HEIGHT/2)-SCOREBOARD_VERTICAL_HEIGHT

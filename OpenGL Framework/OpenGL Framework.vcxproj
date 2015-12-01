@@ -115,6 +115,7 @@
     <ClCompile Include="random.cpp" />
     <ClCompile Include="Scoreboard.cpp" />
     <ClCompile Include="ShapeDraw.cpp" />
+    <ClCompile Include="SideTrajectory.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteDemoManager.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="random.h" />
     <ClInclude Include="Scoreboard.h" />
     <ClInclude Include="ShapeDraw.h" />
+    <ClInclude Include="SideTrajectory.h" />
     <ClInclude Include="SOIL.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Sprite.h" />

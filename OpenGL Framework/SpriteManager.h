@@ -13,9 +13,11 @@ class SpriteManager
 public:
 	enum GAME_OBJECTS
 	{
+		ENEMY_GREEN,	// 150pts
+		ENEMY_PURPLE,	// 500pts
+		ENEMY_RED,		// 800pts
+		ENEMY_YELLOW,	// 1000pts
 		PLAYER,
-		ENEMY_GREEN,
-		ENEMY_PURPLE,
 		BULLET,
 		EXPLOSION_PLAYER,
 		EXPLOSION_ENEMY,
@@ -23,6 +25,7 @@ public:
 		GAMEOVER,
 		HLINE,
 		VLINE,
+		LABEL,
 		NUM_OBJECTS
 	};
 
@@ -38,6 +41,7 @@ public:
 		POINTS_3000,
 		POINTS_NONE
 	};
+
 
 	static SpriteManager *CreateInstance();
 	static SpriteManager *GetInstance() { return sInstance; };
