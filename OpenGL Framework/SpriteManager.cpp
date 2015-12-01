@@ -26,6 +26,7 @@
 #include "FallTrajectory.h"
 #include "SideTrajectory.h"
 #include "SoundManager.h"
+#include "SpinTrajectory.h"
 
 SpriteManager* SpriteManager::sInstance = NULL;
 
@@ -363,7 +364,7 @@ void SpriteManager::CheckBulletCollisions()
 					delete bullets[i];
 					bullets[i] = nullptr;
 					CreateExplosion(player->getPosition()->x, player->getPosition()->y, EXPLOSION_PLAYER, POINTS_NONE);
-					player->playerHit();
+					//player->playerHit();
 					break;
 				}
 
@@ -386,11 +387,15 @@ void SpriteManager::spawnEnemy() {
 
 		float_t bgWidth = (float_t)GameManager::GetInstance()->getBackgroundWidth() - enemies[indexEnemy]->getWidth();
 		float_t bgHeight = (float_t)GameManager::GetInstance()->getBackgroundHeight() - enemies[indexEnemy]->getHeight();
-
-		SideTrajectory *trajectory = new SideTrajectory(enemies[indexEnemy]);
+        int type = getRangedRandom(ENEMY_GREEN, ENEMY_YELLOW);
+        Trajectory * trajectory = NULL;
+        if ((type == ENEMY_YELLOW) || (type == ENEMY_RED))
+            trajectory = new SideTrajectory(enemies[indexEnemy]);
+        else
+            trajectory = new FallTrajectory();
 		enemies[indexEnemy]->setTrajectory(trajectory);
 		enemies[indexEnemy]->setPosition(getRangedRandom(-bgWidth / 2.0f, bgWidth / 2.0f), getRangedRandom(bgHeight / 4.0f, bgHeight / 2.0f));
-		enemies[indexEnemy]->setSpriteType(getRangedRandom(ENEMY_GREEN, ENEMY_YELLOW));
+		enemies[indexEnemy]->setSpriteType(type);
 		enemies[indexEnemy]->reset();
     } 
 }
