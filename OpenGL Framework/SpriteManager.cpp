@@ -267,52 +267,24 @@ void SpriteManager::CreateExplosion(float_t x, float_t y, uint32_t explosionType
 
 void SpriteManager::CheckBoundaryCollisions()
 {
-	FieldC *field = FieldManagerC::GetInstance()->getFieldPtr();
-	float_t leftSide = field->getPosition()->x - ((float_t)field->getWidth() / 2.0f);
-	float_t rightSide = field->getPosition()->x + ((float_t)field->getWidth() / 2.0f);
-	float_t topSide = field->getPosition()->y - ((float_t)field->getHeight() / 2.0f);
-	float_t bottomSide = field->getPosition()->y + ((float_t)field->getHeight() / 2.0f);
-
+	// Destroy bullets that go offscreen
 	for (int32_t i = 0; i < MAX_NUM_MISSILES; i++)
 	{
-		if (bullets[i] != nullptr)
+		if (bullets[i] != nullptr && CheckSpriteHitBoundaries(bullets[i]))
 		{
-			Bullet *missile = bullets[i];
-			float_t missileLeft = missile->getPosition()->x - missile->getWidth() / 2;
-			float_t missileRight = missile->getPosition()->x + missile->getWidth() / 2;
-			float_t missileUp = missile->getPosition()->y - missile->getHeight() / 2;
-			float_t missileDown = missile->getPosition()->y + missile->getHeight() / 2;
-
-			// Check if missile is out of bounds 
-			if ((missileLeft <= leftSide) || (missileRight >= rightSide) ||
-				(missileUp >= bottomSide) || (missileDown <= topSide))
-			{
-				delete missile;
-				bullets[i] = nullptr;
-				continue;
-			}
+			delete bullets[i];
+			bullets[i] = nullptr;
 		}
 	}
 
+	// Destroy enemies that go offscreen
 	// NOTE: this can be removed if enemies no longer just fall off screen
 	for (int32_t j = 0; j < ENEMY_MAX_ENEMIES; j++)
 	{
-		if (enemies[j] != nullptr)
+		if (enemies[j] != nullptr && CheckSpriteHitBoundaries(enemies[j]))
 		{
-			Enemy *enemy = enemies[j];
-			float_t enemyLeft = enemy->getPosition()->x - enemy->getWidth() / 2;
-			float_t enemyRight = enemy->getPosition()->x + enemy->getWidth() / 2;
-			float_t enemyUp = enemy->getPosition()->y - enemy->getHeight() / 2;
-			float_t enemyDown = enemy->getPosition()->y + enemy->getHeight() / 2;
-
-			// Check if enemy is out of bounds
-			if ((enemyLeft <= leftSide) || (enemyRight >= rightSide) ||
-				(enemyUp >= bottomSide) || (enemyDown <= topSide))
-			{
-				delete enemy;
-				enemies[j] = nullptr;
-				continue;
-			}
+			delete enemies[j];
+			enemies[j] = nullptr;
 		}
 	}
 }
@@ -323,54 +295,46 @@ void SpriteManager::CheckBulletCollisions()
 	{
 		if (bullets[i] != nullptr)
 		{
-			Bullet *missile = bullets[i];
-			float_t missileLeft = missile->getPosition()->x - missile->getWidth() / 2;
-			float_t missileRight = missile->getPosition()->x + missile->getWidth() / 2;
-			float_t missileUp = missile->getPosition()->y - missile->getHeight() / 2;
-			float_t missileDown = missile->getPosition()->y + missile->getHeight() / 2;
-
-			// Check if missile has hit an enemy or player, depending on who fired it
-			if (missile->GetOwnerType() == PLAYER)
+			// Check who fired the bullet to determine who it should hit
+			if (bullets[i]->GetOwnerType() == PLAYER)
 			{
+
+				// Check if missile fired by player has hit an enemy, then destroy both enemy and bullet
+				// Also, increment player score and start explosion animation
+				
 				for (int32_t j = 0; j < ENEMY_MAX_ENEMIES; j++)
 				{
 					if (enemies[j] != nullptr)
 					{
-						Enemy *enemy = enemies[j];
-						float_t enemyLeft = enemy->getPosition()->x - enemy->getWidth() / 2;
-						float_t enemyRight = enemy->getPosition()->x + enemy->getWidth() / 2;
-						float_t enemyUp = enemy->getPosition()->y - enemy->getHeight() / 2;
-						float_t enemyDown = enemy->getPosition()->y + enemy->getHeight() / 2;
-
-						if ((enemyLeft <= missileRight) && (enemyRight >= missileLeft) &&
-							(enemyUp <= missileDown) && (enemyDown >= missileUp))
+						if (CheckSpriteCollision(bullets[i], enemies[j]))
 						{
-							CreateExplosion(enemy->getPosition()->x, enemy->getPosition()->y, EXPLOSION_ENEMY, POINTS_500);
-							delete missile;
+							CreateExplosion(enemies[j]->getPosition()->x, enemies[j]->getPosition()->y, EXPLOSION_ENEMY, POINTS_500);
+							delete bullets[i];
 							bullets[i] = nullptr;
-							delete enemy;
+							delete enemies[j];
 							enemies[j] = nullptr;
 							break;
 						}
 					}
 				}
+
+
 			}
 			else
 			{
-				float_t playerLeft = player->getPosition()->x - player->getWidth() / 2;
-				float_t playerRight = player->getPosition()->x + player->getWidth() / 2;
-				float_t playerUp = player->getPosition()->y - player->getHeight() / 2;
-				float_t playerDown = player->getPosition()->y + player->getHeight() / 2;
 
-				if ((playerLeft <= missileRight) && (playerRight >= missileLeft) &&
-					(playerUp <= missileDown) && (playerDown >= missileUp))
+				// Check if missile fired by enemy has hit the player, then destroy bullet and decrement player lives
+				// Also, increment player score and start explosion animation
+				if (CheckSpriteCollision(player, bullets[i]))
 				{
-					delete missile;
+					delete bullets[i];
 					bullets[i] = nullptr;
 					CreateExplosion(player->getPosition()->x, player->getPosition()->y, EXPLOSION_PLAYER, POINTS_NONE);
 					player->playerHit();
 					break;
 				}
+
+
 			}
 
 		}
@@ -391,4 +355,41 @@ void SpriteManager::spawnEnemy() {
     enemies[indexEnemy]->setPosition(getRangedRandom(-bgWidth / 2.0f, bgWidth / 2.0f), getRangedRandom(0.0f, bgHeight / 2.0f));
     enemies[indexEnemy]->setSpriteType(getRangedRandom(ENEMY_GREEN, ENEMY_PURPLE));
     enemies[indexEnemy]->reset();
+}
+
+bool8_t SpriteManager::CheckSpriteHitBoundaries(Sprite *sprite)
+{
+	// Check if sprite is out of bounds 
+
+	FieldC *field = FieldManagerC::GetInstance()->getFieldPtr();
+	float_t leftSide = field->getPosition()->x - ((float_t)field->getWidth() / 2.0f);
+	float_t rightSide = field->getPosition()->x + ((float_t)field->getWidth() / 2.0f);
+	float_t topSide = field->getPosition()->y - ((float_t)field->getHeight() / 2.0f);
+	float_t bottomSide = field->getPosition()->y + ((float_t)field->getHeight() / 2.0f);
+
+	float_t spriteLeft = sprite->getPosition()->x - sprite->getWidth() / 2;
+	float_t spriteRight = sprite->getPosition()->x + sprite->getWidth() / 2;
+	float_t spriteUp = sprite->getPosition()->y - sprite->getHeight() / 2;
+	float_t spriteDown = sprite->getPosition()->y + sprite->getHeight() / 2;
+
+	return	(spriteLeft <= leftSide) || (spriteRight >= rightSide) ||
+			(spriteUp >= bottomSide) || (spriteDown <= topSide);
+}
+
+bool8_t SpriteManager::CheckSpriteCollision(Sprite *sprite1, Sprite *sprite2)
+{
+	// Check if sprites are colliding
+
+	float_t sprite1Left = sprite1->getPosition()->x - sprite1->getWidth() / 2;
+	float_t sprite1Right = sprite1->getPosition()->x + sprite1->getWidth() / 2;
+	float_t sprite1Up = sprite1->getPosition()->y - sprite1->getHeight() / 2;
+	float_t sprite1Down = sprite1->getPosition()->y + sprite1->getHeight() / 2;
+
+	float_t sprite2Left = sprite2->getPosition()->x - sprite2->getWidth() / 2;
+	float_t sprite2Right = sprite2->getPosition()->x + sprite2->getWidth() / 2;
+	float_t sprite2Up = sprite2->getPosition()->y - sprite2->getHeight() / 2;
+	float_t sprite2Down = sprite2->getPosition()->y + sprite2->getHeight() / 2;
+
+	return	(sprite1Left <= sprite2Right) && (sprite1Right >= sprite2Left) &&
+			(sprite1Up <= sprite2Down) && (sprite1Down >= sprite2Up);
 }
