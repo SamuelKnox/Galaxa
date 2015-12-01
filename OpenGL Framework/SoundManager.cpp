@@ -65,6 +65,8 @@ void SoundManager::PlaySoundResource(uint32_t id) {
 
     while (currentSoundNode->id != id) {
         currentSoundNode = currentSoundNode->nextSound;
+        if (currentSoundNode == NULL)
+            return;
     }
 
     if (currentSoundNode->id == id) {
