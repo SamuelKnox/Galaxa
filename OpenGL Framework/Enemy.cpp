@@ -29,9 +29,12 @@ Enemy::Enemy()
 
 }
 
+void Enemy::killed() {
+    SoundManager::GetInstance()->PlaySoundResource(mKillSFXId);
+}
+
 Enemy::~Enemy()
 {
-    SoundManager::GetInstance()->PlaySoundResource(mKillSFXId);
     if (mTrajectory != nullptr) {
         delete mTrajectory;
     }

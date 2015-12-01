@@ -18,6 +18,7 @@ public:
     void setPosition(float x, float y);
     void setKillSfxId(uint32_t killSFXId) { mKillSFXId = killSFXId; };
     void reset();
+    void killed();
 
 private:
     Trajectory* mTrajectory;

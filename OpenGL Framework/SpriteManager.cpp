@@ -334,6 +334,7 @@ void SpriteManager::CheckBulletCollisions()
 							CreateExplosion(enemies[j]->getPosition()->x, enemies[j]->getPosition()->y, EXPLOSION_ENEMY, POINTS_500);
 							delete bullets[i];
 							bullets[i] = nullptr;
+                            enemies[j]->killed();
 							delete enemies[j];
 							enemies[j] = nullptr;
 							break;
