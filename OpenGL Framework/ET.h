@@ -20,6 +20,8 @@ public:
 
 	void updateET(DWORD milliseconds);
 
+    void setKillSfxId(uint32_t fireSFXId) { mFireSFXId = fireSFXId; };
+
 private:
 	bool8_t mIsMoving;
 	bool8_t mCanMove;
@@ -27,6 +29,8 @@ private:
 
 	float_t mMoveForce;
 	DWORD mShotTimer;
+
+    uint32_t mFireSFXId;
 
 	void CheckForUserInput();
 	void CheckBoundaries();

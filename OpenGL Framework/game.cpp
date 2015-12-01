@@ -25,6 +25,7 @@
 #include "InputManager.h"
 #include "SpriteDemoManager.h"
 #include "GameManager.h"
+#include "SoundManager.h"
 
 // Declarations
 const char8_t CGame::mGameTitle[]="Framework1";
@@ -43,11 +44,13 @@ void CGame::init()
 	FieldManagerC::CreateInstance();
 	StateManagerC::CreateInstance();
 	GameManager::CreateInstance();
+    SoundManager::CreateInstance();
 
 	GameManager::GetInstance()->init(BG_WIDTH, BG_HEIGHT);
 	StateManagerC::GetInstance()->setState(StateManagerC::SPACE);
 	FieldManagerC::GetInstance()->init();
 	SpriteManager::GetInstance()->init();
+    SoundManager::GetInstance()->init();
 }
 void CGame::UpdateFrame(DWORD milliseconds)			
 {
