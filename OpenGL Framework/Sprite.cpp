@@ -28,12 +28,36 @@ Sprite::Sprite()
 
 }
 
+Sprite::Sprite(float_t initPosX, float_t initPosY, float_t width, float_t height, int32_t gameObjectType)
+{
+	// Object
+	mPosition.x = initPosX;
+	mPosition.y = initPosY;
+	mVelocity.x = 0.0f;
+	mVelocity.y = 0.0f;
+	mCollInfo.shape = CollInfoC::SHAPE_RECTANGLE;
+
+	// Sprite
+	mWidth = width;
+	mHeight = height;
+	numSprites = 1;
+	currentSprite = 0; // No animations
+
+	mType = gameObjectType;
+
+	mEnabled = true;
+	mIsFacingLeft = false;
+}
+
 Sprite::~Sprite()
 {}
 
 void Sprite::update(DWORD milliseconds) {
-	mPosition.x += mVelocity.x*milliseconds / 10;
-	mPosition.y += mVelocity.y*milliseconds / 10;
+	if (mEnabled)
+	{
+		mPosition.x += mVelocity.x * milliseconds / 10;
+		mPosition.y += mVelocity.y * milliseconds / 10;
+	}	
 }
 
 void Sprite::render()
@@ -48,7 +72,7 @@ void Sprite::render()
 
 	float_t xTextureCoord = (float_t)currentSprite * (1.0f / numSprites);
 	GLuint spriteID = SpriteManager::GetInstance()->getSpriteTextureMap(mType);
-	DrawSprite(spriteID, mIsFacingLeft, xPosLeft, xPosRight, yPosTop, yPosBot, xTextureCoord, (float_t)numSprites);
+	DrawSprite(spriteID, mIsFacingLeft, xPosLeft, xPosRight, yPosTop, yPosBot, xTextureCoord, numSprites);
 }
 
 void Sprite::setSpriteType(int32_t type) {

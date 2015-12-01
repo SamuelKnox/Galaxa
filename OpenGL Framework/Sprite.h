@@ -8,6 +8,7 @@ class Sprite : public ObjectC
 {
 public:
 	Sprite();
+	Sprite(float_t initPosX, float_t initPosY, float_t width, float_t height, int32_t gameObjectType);
 	~Sprite();
 
 	void update(DWORD milliseconds);

@@ -49,24 +49,39 @@ void SpriteManager::init()
 	spriteTextureMaps = (GLuint*)malloc(NUM_OBJECTS * sizeof(GLuint));
 	spriteTextureMaps[PLAYER] = SOIL_load_OGL_texture(PLAYER_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+
 	spriteTextureMaps[ENEMY_GREEN] = SOIL_load_OGL_texture(ENEMY_SPRITE_GREEN, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+
 	spriteTextureMaps[ENEMY_PURPLE] = SOIL_load_OGL_texture(ENEMY_SPRITE_PURPLE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+
 	spriteTextureMaps[BULLET] = SOIL_load_OGL_texture(MISSILE_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+
 	spriteTextureMaps[EXPLOSION_PLAYER] = SOIL_load_OGL_texture(EXPLOSION_PLAYER_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+
 	spriteTextureMaps[EXPLOSION_ENEMY] = SOIL_load_OGL_texture(EXPLOSION_ENEMY_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+
 	spriteTextureMaps[POINTS] = SOIL_load_OGL_texture(POINTS_SPRITES, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 
-	player = new ET(0.0f, 0.0f, 0.0f, 0.0f, PLAYER);
+	spriteTextureMaps[GAMEOVER] = SOIL_load_OGL_texture(GAMEOVER_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+
+	mInGame = false;
+
 }
 
 void SpriteManager::updateSprites(DWORD milliseconds)
 {
+	if (!mInGame)
+	{
+		return;
+	}
+
 	player->update(milliseconds);
 	player->updateET(milliseconds);
 	for (int i = 0; i < MAX_NUM_MISSILES; i++) 
@@ -115,8 +130,20 @@ ET* SpriteManager::getET()
 
 void SpriteManager::renderSprites()
 {
-	player->render();
+	if (gameOver != nullptr)
+	{
+		gameOver->render();
+	}
 
+	if (!mInGame)
+	{
+		return;
+	}
+
+	if (player != nullptr)
+	{
+		player->render();
+	}
 
 	for (int i = 0; i < MAX_NUM_MISSILES; i++) 
 	{
@@ -150,28 +177,70 @@ GLuint SpriteManager::getSpriteTextureMap(int32_t objectType)
 
 void SpriteManager::shutdown()
 {
-	delete player;
-
-	for (int i = 0; i < MAX_NUM_MISSILES; i++)
-	{
-		delete bullets[i];
-	}
-
-	for (int i = 0; i < ENEMY_MAX_ENEMIES; i++)
-	{
-		delete enemies[i];
-	}
-
-	for (int i = 0; i < MAX_EXPLOSIONS; i++)
-	{
-		delete explosions[i];
-	}
+	resetGame();
 
 	free(spriteTextureMaps);
 	free(bullets);
 	free(enemies);
 	free(explosions);
 }
+
+void SpriteManager::resetGame()
+{
+	if (player != nullptr)
+	{
+		delete player;
+		player = nullptr;
+	}
+
+	if (gameOver != nullptr)
+	{
+		delete gameOver;
+		gameOver = nullptr;
+	}
+
+	for (int i = 0; i < MAX_NUM_MISSILES; i++)
+	{
+		if (bullets[i] != nullptr)
+		{
+			delete bullets[i];
+			bullets[i] = nullptr;
+		}
+	}
+
+	for (int i = 0; i < ENEMY_MAX_ENEMIES; i++)
+	{
+		if (enemies[i] != nullptr)
+		{
+			delete enemies[i];
+			enemies[i] = nullptr;
+		}
+	}
+
+	for (int i = 0; i < MAX_EXPLOSIONS; i++)
+	{
+		if (explosions[i] != nullptr)
+		{
+			delete explosions[i];
+			explosions[i] = nullptr;
+		}
+	}
+}
+
+void SpriteManager::startGame()
+{
+	resetGame();
+	player = new ET(0.0f, 0.0f, 0.0f, 0.0f, PLAYER);
+	mInGame = true;
+}
+
+void SpriteManager::endGame()
+{
+	gameOver = new Sprite(0.0f, 0.0f, GAMEOVER_WIDTH, GAMEOVER_HEIGHT, GAMEOVER);
+	mInGame = false;
+	GameManager::GetInstance()->setState(GameManager::GAME_OVER);
+}
+
 
 void SpriteManager::CreateBullet(float_t x, float_t y, float_t xVel, float_t yVel, int32_t ownerType) 
 {
@@ -300,6 +369,7 @@ void SpriteManager::CheckBulletCollisions()
 					bullets[i] = nullptr;
 					// TODO: Player got hit
 					CreateExplosion(player->getPosition()->x, player->getPosition()->y, EXPLOSION_PLAYER, POINTS_NONE);
+					endGame();
 					break;
 				}
 			}

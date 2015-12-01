@@ -2,11 +2,18 @@
 #define GAME_SPEED 10000
 
 // ***** Backgrond Images *****
-#define BACKGROUND "assets/background2.png"
 #define BG_WIDTH		640
 #define BG_HEIGHT		960
-#define NUM_BACKGROUNDS 2
-#define SCROLL_RATE		0.10f
+#define NUM_BACKGROUNDS	2
+
+// Title Screen
+#define BG_TITLE_SCREEN		"assets/title_screen.png"
+#define TITLE_NUM_SPRITES	1
+
+// Space (in-game)
+#define BG_SPACE			"assets/background2.png"
+#define SPACE_NUM_SPRITES	2
+#define SCROLL_RATE			0.10f
 
 // ***** Sprite Images *****
 
@@ -47,11 +54,17 @@
 #define MAX_EXPLOSIONS					ENEMY_MAX_ENEMIES+1
 #define EXPLOSION_RATE_MS				100
 
+// Scoring Points
 #define POINTS_SPRITES		"assets/scores.png"
 #define POINTS_WIDTH		36
 #define POINTS_HEIGHT		16
 #define POINTS_NUM_SPRITES	8
 #define POINTS_RATE_MS		500
+
+// Game Over
+#define GAMEOVER_SPRITE		"assets/gameover.png"
+#define GAMEOVER_WIDTH		360
+#define GAMEOVER_HEIGHT		60
 
 // Fields
 #define NUM_HOLES	16

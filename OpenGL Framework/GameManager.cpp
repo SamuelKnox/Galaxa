@@ -7,11 +7,13 @@
 #include <gl\gl.h>												// Header File For The OpenGL32 Library
 #include <gl\glu.h>												// Header File For The GLu32 Library
 #include <assert.h>
+#include <iostream>
 
 #include "baseTypes.h"
 #include "gamedefs.h"
 #include "ShapeDraw.h"
 #include "stateManager.h"
+#include "SpriteManager.h"
 #include "openglframework.h"
 #include "soil.h"
 
@@ -30,55 +32,78 @@ GameManager *GameManager::CreateInstance()
 }
 void GameManager::init(int32_t width, int32_t height)
 {
-	mBackgroundHeight = height;
-	mBackgroundWidth = width;
-	mBackgroundOffset = 0.0f;
+	mGameState = TITLE_SCREEN;
 
 	// Load background texture maps
-	mBackgroundTextureMaps = (GLuint *)malloc(NUM_BACKGROUNDS * sizeof(GLuint));
-
-	mBackgroundTextureMaps[StateManagerC::SPACE] = SOIL_load_OGL_texture(BACKGROUND, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+	mTitleScreenBackground = SOIL_load_OGL_texture(BG_TITLE_SCREEN, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+	mSpaceBackground = SOIL_load_OGL_texture(BG_SPACE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 
+	mCurrentBackground = mTitleScreenBackground;
+	mBackgroundWidth = width;
+	mBackgroundHeight = height;
+	mBackgroundOffset = 0.0f;
+	mBackgroundNumSprites = TITLE_NUM_SPRITES;
 }
 void GameManager::shutdown()
 {
-
 }
 void GameManager::render()
 {
 
-	//glEnable(GL_TEXTURE_2D);
-	//glBindTexture(GL_TEXTURE_2D, mCurrentBackground);
+	DrawBackground(mCurrentBackground, (float_t) mBackgroundWidth, (float_t) mBackgroundHeight, mBackgroundOffset, mBackgroundNumSprites);
 
-	//// Draw background for current level
-	//glBegin(GL_QUADS);
-	//{
-	//	glColor4ub(0xFF, 0xFF, 0xFF, 0xFF);
-	//	glTexCoord2f(0.0f, 0.0f); glVertex3f((GLfloat) -mBackgroundWidth / 2,	(GLfloat) -mBackgroundHeight / 2,	0.0f);
-	//	glTexCoord2f(1.0f, 0.0f); glVertex3f((GLfloat) mBackgroundWidth / 2,	(GLfloat) -mBackgroundHeight / 2,	0.0f);
-	//	glTexCoord2f(1.0f, 1.0f); glVertex3f((GLfloat) mBackgroundWidth / 2,	(GLfloat) mBackgroundHeight / 2,	0.0f);
-	//	glTexCoord2f(0.0f, 1.0f); glVertex3f((GLfloat) -mBackgroundWidth / 2,	(GLfloat) mBackgroundHeight / 2,	0.0f);
-	//}
-	//
-	//glEnd();
-
-	DrawBackground(mCurrentBackground, (float_t) mBackgroundWidth, (float_t) mBackgroundHeight, mBackgroundOffset, NUM_BACKGROUNDS);
 }
 void GameManager::update(DWORD milliseconds)
 {
-	mCurrentTime += milliseconds;
-
-	int32_t currentState = StateManagerC::GetInstance()->getState();
-	mCurrentBackground = mBackgroundTextureMaps[currentState];
-
-	// TODO: Check if scrolling
-	mBackgroundOffset = mBackgroundOffset + (milliseconds * SCROLL_RATE / 1000.0f);
-	if (mBackgroundOffset > 1.0f / NUM_BACKGROUNDS)
+	// Check for user input if at title or gameover screens
+	if (mGameState == TITLE_SCREEN || mGameState == GAME_OVER)
 	{
-		//mBackgroundOffset = mBackgroundOffset - 1.0f / NUM_BACKGROUNDS;
-		mBackgroundOffset = 0.0f;
+		SHORT startKey = GetKeyState(VK_SPACE);
+		if ((startKey & 0x8000))
+		{
+			mGameState = IN_GAME;
+			SpriteManager::GetInstance()->startGame();
+		}
 	}
 
-	// TODO: setup title screen and manage scoreboard stuff
+	// Update background if state has changed
+	if (mGameState == TITLE_SCREEN && mCurrentBackground != mTitleScreenBackground)
+	{
+		mCurrentBackground = mTitleScreenBackground;
+		mBackgroundOffset = 0.0f;
+		mBackgroundNumSprites = TITLE_NUM_SPRITES;
+	}
+	else if (mGameState == IN_GAME && mCurrentBackground != mSpaceBackground)
+	{
+		mCurrentBackground = mSpaceBackground;
+		mBackgroundOffset = 0.0f;
+		mBackgroundNumSprites = SPACE_NUM_SPRITES;
+	}
+
+	// Check if offset should be updated for scrolling
+	if (mBackgroundNumSprites > 1)
+	{
+		mBackgroundOffset = mBackgroundOffset + (milliseconds * SCROLL_RATE / 1000.0f);
+		if (mBackgroundOffset > 1.0f / NUM_BACKGROUNDS)
+		{
+			//mBackgroundOffset = mBackgroundOffset - 1.0f / NUM_BACKGROUNDS;
+			mBackgroundOffset = 0.0f;
+		}
+	}
+}
+
+int32_t GameManager::getState()
+{
+	return mGameState;
+}
+void GameManager::setState(int32_t state)
+{
+	mGameState = state;
+}
+
+void GameManager::startNewGame()
+{
+
 }

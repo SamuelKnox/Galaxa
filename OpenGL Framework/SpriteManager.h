@@ -20,6 +20,7 @@ public:
 		EXPLOSION_PLAYER,
 		EXPLOSION_ENEMY,
 		POINTS,
+		GAMEOVER,
 		NUM_OBJECTS
 	};
 
@@ -46,6 +47,9 @@ public:
 	void	renderSprites();
 
 	GLuint getSpriteTextureMap(int32_t objectType);
+	void	resetGame();
+	void	startGame();
+	void	endGame();
 
 	ET* getET();
 	void CreateBullet(float_t x, float_t y, float_t xVel, float_t yVel, int32_t ownerType);
@@ -58,15 +62,17 @@ private:
 	GLuint *spriteTextureMaps;
 
 	// GameObjects
-	ET* player;
+	ET* player = nullptr;
 	Bullet* bullets[MAX_NUM_MISSILES] = { nullptr };
     Enemy* enemies[ENEMY_MAX_ENEMIES] = { nullptr };
 	Explosion* explosions[MAX_EXPLOSIONS] = { nullptr };
+	Sprite* gameOver = nullptr;
 
     void spawnEnemy();
     DWORD lastSpawnDuration = 0;
     unsigned indexEnemy = 0;
 
+	bool8_t mInGame;
 
 	void CheckBoundaryCollisions();
 	void CheckBulletCollisions();

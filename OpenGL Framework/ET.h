@@ -1,6 +1,8 @@
 #ifndef _ET_H
 #define _ET_H
 
+#include "Sprite.h"
+
 class ET : public Sprite
 {
 public:

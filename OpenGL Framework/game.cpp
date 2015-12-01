@@ -41,11 +41,11 @@ void CGame::init()
 {
 	SpriteManager::CreateInstance();
 	FieldManagerC::CreateInstance();
-	StateManagerC::CreateInstance();
+	//StateManagerC::CreateInstance();
 	GameManager::CreateInstance();
 
 	GameManager::GetInstance()->init(BG_WIDTH, BG_HEIGHT);
-	StateManagerC::GetInstance()->setState(StateManagerC::SPACE);
+	//StateManagerC::GetInstance()->setState(StateManagerC::SPACE);
 	FieldManagerC::GetInstance()->init();
 	SpriteManager::GetInstance()->init();
 }
@@ -74,13 +74,13 @@ void CGame::shutdown()
 {
 	SpriteManager::GetInstance()->shutdown();
 	FieldManagerC::GetInstance()->shutdown();
-	StateManagerC::GetInstance()->shutdown();
+	//StateManagerC::GetInstance()->shutdown();
 	GameManager::GetInstance()->shutdown();
 }
 void CGame::DestroyGame(void)
 {
 	delete SpriteManager::GetInstance();
-	delete StateManagerC::GetInstance();	
+	//delete StateManagerC::GetInstance();	
 	delete FieldManagerC::GetInstance();	
 	delete GameManager::GetInstance();
 }
