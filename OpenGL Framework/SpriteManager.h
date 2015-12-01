@@ -45,7 +45,6 @@ public:
 	void	shutdown();
 	void	updateSprites(DWORD milliseconds);
 	void	renderSprites();
-
 	GLuint getSpriteTextureMap(int32_t objectType);
 	void	resetGame();
 	void	startGame();
@@ -60,6 +59,7 @@ private:
 	static SpriteManager *sInstance;
 
 	GLuint *spriteTextureMaps;
+	bool8_t mInGame;
 
 	// GameObjects
 	ET* player = nullptr;
@@ -68,14 +68,16 @@ private:
 	Explosion* explosions[MAX_EXPLOSIONS] = { nullptr };
 	Sprite* gameOver = nullptr;
 
-    void spawnEnemy();
-    DWORD lastSpawnDuration = 0;
-    unsigned indexEnemy = 0;
-
-	bool8_t mInGame;
-
+	// Collsions
 	void CheckBoundaryCollisions();
 	void CheckBulletCollisions();
+	bool8_t CheckSpriteHitBoundaries(Sprite *sprite);
+	bool8_t CheckSpriteCollision(Sprite *sprite1, Sprite *sprite2);
+
+	// Enemies
+    void spawnEnemy();
+    DWORD lastSpawnDuration = 0;
+    unsigned indexEnemy = 0;	
 };
 
 #endif

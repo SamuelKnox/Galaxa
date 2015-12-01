@@ -11,21 +11,16 @@
 #include "gamedefs.h"
 #include "collInfo.h"
 #include "object.h"
-#include "ball.h"
 #include "Sprite.h"
 #include "field.h"
 #include "random.h"
-#include "gameObjects.h"
 #include "openGLStuff.h"
-#include "game.h"
-#include "StateManager.h"
-#include "BallManager.h"
 #include "SpriteManager.h"
 #include "FieldManager.h"
-#include "InputManager.h"
-#include "SpriteDemoManager.h"
 #include "GameManager.h"
 #include "SoundManager.h"
+
+#include "game.h"
 
 // Declarations
 const char8_t CGame::mGameTitle[]="Framework1";
@@ -42,16 +37,15 @@ void CGame::init()
 {
 	SpriteManager::CreateInstance();
 	FieldManagerC::CreateInstance();
-	//StateManagerC::CreateInstance();
 	GameManager::CreateInstance();
     SoundManager::CreateInstance();
 
 	GameManager::GetInstance()->init(BG_WIDTH, BG_HEIGHT);
-	//StateManagerC::GetInstance()->setState(StateManagerC::SPACE);
 	FieldManagerC::GetInstance()->init();
 	SpriteManager::GetInstance()->init();
     SoundManager::GetInstance()->init();
 }
+
 void CGame::UpdateFrame(DWORD milliseconds)			
 {
 	keyProcess();
@@ -67,23 +61,22 @@ void CGame::DrawScene(void)
 	SpriteManager::GetInstance()->renderSprites();
 }
 
-
 CGame *CGame::CreateInstance()
 {
 	sInstance = new CGame();
 	return sInstance;
 }
+
 void CGame::shutdown()
 {
 	SpriteManager::GetInstance()->shutdown();
 	FieldManagerC::GetInstance()->shutdown();
-	//StateManagerC::GetInstance()->shutdown();
 	GameManager::GetInstance()->shutdown();
 }
+
 void CGame::DestroyGame(void)
 {
 	delete SpriteManager::GetInstance();
-	//delete StateManagerC::GetInstance();	
 	delete FieldManagerC::GetInstance();	
 	delete GameManager::GetInstance();
 }

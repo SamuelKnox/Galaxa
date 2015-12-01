@@ -52,13 +52,31 @@ ET::ET(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, i
 	mCanMove = true;
 	mCanShoot = true;
 	mShotTimer = 0;
+	mNumLives = PLAYER_LIVES;
+
+	for (int32_t i = 1; i <= mNumLives; i++)
+	{
+		// Get position for lives based on screen size and half player's actual size to
+		//	place them in the bottom-left corner;
+		float_t xPos = (-BG_WIDTH / 2.0f) + i * (mWidth / 2.0f);
+		float_t yPos = (BG_HEIGHT / 2.0f) - (mHeight / 2.0f);
+		mLives[i - 1] = new Sprite(xPos, yPos, mWidth / 2.0f, mHeight / 2.0f, SpriteManager::PLAYER);
+	}
 }
 
 ET::~ET()
-{};
+{
+}
 
 void ET::updateET(DWORD milliseconds)
 {
+	// Check if dead
+	if (mNumLives < 0)
+	{
+		SpriteManager::GetInstance()->endGame();
+		return;
+	}
+
 	// Update shot timer
 	if (!mCanShoot)
 	{
@@ -76,17 +94,19 @@ void ET::updateET(DWORD milliseconds)
 	}
 
 	CheckBoundaries();
-
-	/*mIsMoving = (mVelocity.x != 0 || mVelocity.y != 0);
-	if (mIsMoving)
-	{
-		currentSprite = (currentSprite + 1) % 3;
-	}
-	else
-	{
-		currentSprite = ET_IDLE;
-	}*/
 }
+
+void ET::playerHit()
+{
+	mNumLives--;
+
+	if (mNumLives >= 0)
+	{
+		delete mLives[mNumLives];
+		mLives[mNumLives] = nullptr;
+	}	
+}
+
 
 void ET::CheckForUserInput()
 {
@@ -161,5 +181,13 @@ void ET::CheckBoundaries()
 	if (mPosition.y - mHeight / 2 <= topSide)
 	{
 		mPosition.y = topSide + mHeight / 2;
+	}
+}
+
+void ET::DrawLivesLeft()
+{
+	for (int32_t i = 0; i < mNumLives; i++)
+	{
+		mLives[i]->render();
 	}
 }

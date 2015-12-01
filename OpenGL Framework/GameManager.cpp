@@ -58,15 +58,7 @@ void GameManager::render()
 void GameManager::update(DWORD milliseconds)
 {
 	// Check for user input if at title or gameover screens
-	if (mGameState == TITLE_SCREEN || mGameState == GAME_OVER)
-	{
-		SHORT startKey = GetKeyState(VK_SPACE);
-		if ((startKey & 0x8000))
-		{
-			mGameState = IN_GAME;
-			SpriteManager::GetInstance()->startGame();
-		}
-	}
+	checkForInput();
 
 	// Update background if state has changed
 	if (mGameState == TITLE_SCREEN && mCurrentBackground != mTitleScreenBackground)
@@ -103,7 +95,24 @@ void GameManager::setState(int32_t state)
 	mGameState = state;
 }
 
-void GameManager::startNewGame()
+void GameManager::checkForInput()
 {
-
+	if (mGameState == TITLE_SCREEN)
+	{
+		SHORT startKey = GetKeyState(VK_SPACE);
+		if ((startKey & 0x8000))
+		{
+			mGameState = IN_GAME;
+			SpriteManager::GetInstance()->startGame();
+		}
+	}
+	else if (mGameState == GAME_OVER)
+	{
+		SHORT startKey = GetKeyState(VK_RETURN);
+		if ((startKey & 0x8000))
+		{
+			mGameState = TITLE_SCREEN;
+			SpriteManager::GetInstance()->resetGame();
+		}
+	}
 }
