@@ -32,6 +32,7 @@ private:
 	DWORD mShotTimer;
 
     uint32_t mFireSFXId;
+    uint32_t mHitSFXId;
 	Sprite* mLives[PLAYER_LIVES] = { nullptr };
 
 	void CheckForUserInput();

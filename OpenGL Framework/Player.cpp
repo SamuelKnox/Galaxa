@@ -30,8 +30,10 @@
 Player* Player::CreatePlayer(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType) {
     Player* player = new Player(initPosX, initPosY, initVelX, initVelY, gameObjectType);
 
-    static uint32_t id = SoundManager::GetInstance()->LoadSound(PLAYER_SFX_FIRE);
-    player->setFireSfxId(id);
+    static uint32_t firSfxId = SoundManager::GetInstance()->LoadSound(PLAYER_SFX_FIRE);
+    static uint32_t hitSfxId = SoundManager::GetInstance()->LoadSound(PLAYER_SFX_HIT);
+    player->mFireSFXId = firSfxId;
+    player->mHitSFXId = hitSfxId;
     return player;
 }
 
@@ -106,7 +108,7 @@ void Player::updateET(DWORD milliseconds)
 void Player::playerHit()
 {
 	mNumLives--;
-
+    SoundManager::GetInstance()->PlaySoundResource(mHitSFXId);
 	if (mNumLives >= 0)
 	{
 		delete mLives[mNumLives];
