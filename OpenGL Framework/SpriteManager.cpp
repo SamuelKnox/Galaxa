@@ -75,7 +75,7 @@ void SpriteManager::init()
 	mInGame = false;
 
 	player = new ET(0.0f, 0.0f, 0.0f, 0.0f, PLAYER);
-    player->setKillSfxId(SoundManager::GetInstance()->LoadSound(PLAYER_SFX_FIRE));
+    player->setFireSfxId(SoundManager::GetInstance()->LoadSound(PLAYER_SFX_FIRE));
 }
 
 void SpriteManager::updateSprites(DWORD milliseconds)
@@ -234,6 +234,7 @@ void SpriteManager::startGame()
 {
 	resetGame();
 	player = new ET(0.0f, 0.0f, 0.0f, 0.0f, PLAYER);
+    player->setFireSfxId(SoundManager::GetInstance()->LoadSound(PLAYER_SFX_FIRE));
 	mInGame = true;
 }
 

@@ -22,7 +22,7 @@ public:
 
 	void updateET(DWORD milliseconds);
 
-    void setKillSfxId(uint32_t fireSFXId) { mFireSFXId = fireSFXId; };
+    void setFireSfxId(uint32_t fireSFXId) { mFireSFXId = fireSFXId; };
 
 private:
 	bool8_t mIsMoving;
