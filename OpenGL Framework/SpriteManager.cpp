@@ -73,8 +73,6 @@ void SpriteManager::init()
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 
 	mInGame = false;
-
-	player = Player::CreatePlayer(0.0f, 0.0f, 0.0f, 0.0f, PLAYER);
 }
 
 void SpriteManager::updateSprites(DWORD milliseconds)
@@ -252,6 +250,8 @@ void SpriteManager::resetGame()
 
 void SpriteManager::startGame()
 {
+    static uint32_t id = SoundManager::GetInstance()->LoadSound(START_SFX);
+    SoundManager::GetInstance()->PlaySoundResource(id);
 	resetGame();
 	player = Player::CreatePlayer(0.0f, 0.0f, 0.0f, 0.0f, PLAYER);
 	mInGame = true;

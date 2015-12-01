@@ -12,6 +12,7 @@
 
 // Space (in-game)
 #define BG_SPACE			"assets/background2.png"
+#define START_SFX			".\\assets\\sfx\\start.mp3"
 #define SPACE_NUM_SPRITES	2
 #define SCROLL_RATE			0.10f
 
