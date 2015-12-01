@@ -21,7 +21,13 @@ SoundManager::SoundManager()
 
 SoundManager::~SoundManager()
 {
-
+    SoundNode_t* currentSoundNode = listSounds;
+    while (currentSoundNode != NULL) {
+        SoundNode_t* tmp = currentSoundNode->nextSound;
+        free(currentSoundNode);
+        currentSoundNode = tmp;
+    }
+    listSounds = NULL;
 }
 
 SoundManager *SoundManager::CreateInstance()
@@ -34,7 +40,6 @@ SoundManager *SoundManager::CreateInstance()
 
 void SoundManager::init()
 {
-
 }
 
 uint32_t SoundManager::LoadSound(const char * fileName) {
@@ -74,16 +79,19 @@ void SoundManager::PlaySoundResource(uint32_t id) {
 
     if (currentSoundNode->id == id) {
 		// Fixing FMOD bug, all channels will stop if it randomly pick a low prioirty channel
+        // Use resumeChannel to set higher priority for the channel that is playing
         resumeChannel();
         Channel * channel = NULL;
         soundSystem->playSound(currentSoundNode->sound, 0, false, &channel);
+        // An old channel handle will become invalid if the sound system pick a channel, it makes the old channel handle invalid.
+        // So we need to store the new channel handle even the channel is included in our list
         putChannel(channel);
     }
 }
 
-// This two functions are for fixing FMOD bug
+// This function is for fixing FMOD bug
 void SoundManager::resumeChannel() {
-	// Find all channel and modify their priority
+	// Find all channel and modify their priority, the one that is curreny playing has high priority
     for (int i = 0; i < 32; i++) {
         if (channels[i] != NULL) {
             bool isPlaying = false;
@@ -99,11 +107,12 @@ void SoundManager::resumeChannel() {
     }
 }
 
-// This two functions are for fixing FMOD bug
+// This function is for fixing FMOD bug
 void SoundManager::putChannel(Channel * channel) {
     int index = 0;
     int low_priority = 0;
     channel->setPriority(0);
+    // Find empty or low priority, modify the priority, and put the new channel handle into our array
     for (int i = 0; i < 32; i++) {
         if (channels[i] == NULL) {
             index = i;
