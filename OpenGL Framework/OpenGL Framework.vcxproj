@@ -110,6 +110,7 @@
     <ClCompile Include="openGLFramework.cpp" />
     <ClCompile Include="openGLStuff.cpp" />
     <ClCompile Include="random.cpp" />
+    <ClCompile Include="Scoreboard.cpp" />
     <ClCompile Include="ShapeDraw.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteDemoManager.cpp" />
@@ -138,6 +139,7 @@
     <ClInclude Include="openGLFramework.h" />
     <ClInclude Include="openGLStuff.h" />
     <ClInclude Include="random.h" />
+    <ClInclude Include="Scoreboard.h" />
     <ClInclude Include="ShapeDraw.h" />
     <ClInclude Include="SOIL.h" />
     <ClInclude Include="Sprite.h" />

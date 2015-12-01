@@ -15,6 +15,7 @@
 #include "stateManager.h"
 #include "SpriteManager.h"
 #include "openglframework.h"
+#include "Scoreboard.h"
 #include "soil.h"
 
 #include "GameManager.h"
@@ -45,14 +46,21 @@ void GameManager::init(int32_t width, int32_t height)
 	mBackgroundHeight = height;
 	mBackgroundOffset = 0.0f;
 	mBackgroundNumSprites = TITLE_NUM_SPRITES;
+
+	scoreboard = new Scoreboard();
 }
 void GameManager::shutdown()
 {
+	delete scoreboard;
 }
 void GameManager::render()
 {
 
 	DrawBackground(mCurrentBackground, (float_t) mBackgroundWidth, (float_t) mBackgroundHeight, mBackgroundOffset, mBackgroundNumSprites);
+
+	if (mGameState == IN_GAME) {
+		scoreboard->Render();
+	}
 
 }
 void GameManager::update(DWORD milliseconds)

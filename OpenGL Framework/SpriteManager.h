@@ -21,6 +21,8 @@ public:
 		EXPLOSION_ENEMY,
 		POINTS,
 		GAMEOVER,
+		HLINE,
+		VLINE,
 		NUM_OBJECTS
 	};
 

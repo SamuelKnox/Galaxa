@@ -71,6 +71,12 @@ void SpriteManager::init()
 	spriteTextureMaps[GAMEOVER] = SOIL_load_OGL_texture(GAMEOVER_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 
+	spriteTextureMaps[HLINE] = SOIL_load_OGL_texture(HORIZONTAL_LINE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+
+	spriteTextureMaps[VLINE] = SOIL_load_OGL_texture(VERTICAL_LINE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+
 	mInGame = false;
 
 }
@@ -183,6 +189,7 @@ void SpriteManager::shutdown()
 	free(bullets);
 	free(enemies);
 	free(explosions);
+	
 }
 
 void SpriteManager::resetGame()
@@ -350,6 +357,7 @@ void SpriteManager::CheckBulletCollisions()
 							bullets[i] = nullptr;
 							delete enemy;
 							enemies[j] = nullptr;
+							GameManager::GetInstance()->scoreboard->score += 500;
 							break;
 						}
 					}
@@ -369,7 +377,7 @@ void SpriteManager::CheckBulletCollisions()
 					bullets[i] = nullptr;
 					// TODO: Player got hit
 					CreateExplosion(player->getPosition()->x, player->getPosition()->y, EXPLOSION_PLAYER, POINTS_NONE);
-					endGame();
+					//endGame();
 					break;
 				}
 			}

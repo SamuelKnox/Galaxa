@@ -1,6 +1,8 @@
 #ifndef GAME_MANAGER_H
 #define GAME_MANAGER_H
 
+#include "Scoreboard.h"
+
 class GameManager
 {
 public:
@@ -24,6 +26,8 @@ public:
 	int32_t		getState();
 	int32_t		getBackgroundWidth() { return mBackgroundWidth; }
 	int32_t		getBackgroundHeight() { return mBackgroundHeight; }
+
+	Scoreboard* scoreboard;
 
 private:
 	static GameManager *sInstance;

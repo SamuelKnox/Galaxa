@@ -72,3 +72,15 @@
 
 // FallTrajectory
 #define FALL_TRAJECTORY_SPEED 100.0f
+
+// Scoreboard
+#define HORIZONTAL_LINE "assets/sprites/lines/horizontal_line.png"
+#define VERTICAL_LINE "assets/sprites/lines/vertical_line.png"
+#define SCOREBOARD_X 275
+#define SCOREBOARD_Y 450
+#define SCOREBOARD_HORIZONTAL_WIDTH 24
+#define SCOREBOARD_HORIZONTAL_HEIGHT 4
+#define SCOREBOARD_VERTICAL_WIDTH 4
+#define SCOREBOARD_VERTICAL_HEIGHT 24
+#define NUM_LINES 70
+#define DIGIT_SEPARATION 35
