@@ -27,7 +27,6 @@ Scoreboard::~Scoreboard()
 	}
 
 	delete label;
-	free(lines);
 }
 
 void Scoreboard::Reset()
