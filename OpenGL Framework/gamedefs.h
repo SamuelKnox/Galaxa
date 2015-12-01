@@ -25,6 +25,7 @@
 #define MOVE_FORCE			3
 #define SHOT_FORCE			5
 #define SHOT_RATE			100
+#define PLAYER_LIVES		3
 
 // Enemies
 #define ENEMY_SPRITE_GREEN	"assets/enemy_green.png"

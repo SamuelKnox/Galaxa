@@ -143,6 +143,15 @@ void SpriteManager::renderSprites()
 	if (player != nullptr)
 	{
 		player->render();
+		player->DrawLivesLeft();
+	}
+
+	for (int i = 0; i < ENEMY_MAX_ENEMIES; i++)
+	{
+		if (enemies[i] != nullptr)
+		{
+			enemies[i]->render();
+		}
 	}
 
 	for (int i = 0; i < MAX_NUM_MISSILES; i++) 
@@ -152,14 +161,6 @@ void SpriteManager::renderSprites()
 			bullets[i]->render();
 		}
 	}
-
-    for (int i = 0; i < ENEMY_MAX_ENEMIES; i++) 
-	{
-        if (enemies[i] != nullptr) 
-		{
-            enemies[i]->render();
-        }
-    }
 
 	for (int i = 0; i < MAX_EXPLOSIONS; i++)
 	{
@@ -229,7 +230,6 @@ void SpriteManager::resetGame()
 
 void SpriteManager::startGame()
 {
-	resetGame();
 	player = new ET(0.0f, 0.0f, 0.0f, 0.0f, PLAYER);
 	mInGame = true;
 }
@@ -367,9 +367,8 @@ void SpriteManager::CheckBulletCollisions()
 				{
 					delete missile;
 					bullets[i] = nullptr;
-					// TODO: Player got hit
 					CreateExplosion(player->getPosition()->x, player->getPosition()->y, EXPLOSION_PLAYER, POINTS_NONE);
-					endGame();
+					player->playerHit();
 					break;
 				}
 			}

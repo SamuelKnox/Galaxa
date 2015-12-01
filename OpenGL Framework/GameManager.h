@@ -29,7 +29,7 @@ private:
 	static GameManager *sInstance;
 	GameManager() {};
 
-	void startNewGame();
+	void checkForInput();
 
 	GLuint mTitleScreenBackground;
 	GLuint mSpaceBackground;
