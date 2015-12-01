@@ -25,6 +25,7 @@
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Scoreboard.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ball.h" />
@@ -56,5 +57,6 @@
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Scoreboard.h" />
   </ItemGroup>
 </Project>
