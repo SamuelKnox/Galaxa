@@ -183,9 +183,29 @@ void SpriteManager::shutdown()
 	resetGame();
 
 	free(spriteTextureMaps);
-	free(bullets);
-	free(enemies);
-	free(explosions);
+    for (int32_t i = 0; i < MAX_NUM_MISSILES; i++)
+    {
+        if (bullets[i] != nullptr) {
+            delete bullets[i];
+            bullets[i] = nullptr;
+        }
+    }
+
+    for (int32_t i = 0; i < ENEMY_MAX_ENEMIES; i++)
+    {
+        if (enemies[i] != nullptr) {
+            delete enemies[i];
+            enemies[i] = nullptr;
+        }
+    }
+
+    for (int i = 0; i < MAX_EXPLOSIONS; i++)
+    {
+        if (explosions[i] != nullptr) {
+            delete explosions[i];
+            explosions[i] = nullptr;
+        }
+    }
 }
 
 void SpriteManager::resetGame()
