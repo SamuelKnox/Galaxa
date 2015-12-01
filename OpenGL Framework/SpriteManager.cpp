@@ -328,8 +328,7 @@ void SpriteManager::CheckBulletCollisions()
 			{
 
 				// Check if missile fired by player has hit an enemy, then destroy both enemy and bullet
-				// Also, increment player score and start explosion animation
-				
+				// Also, increment player score and start explosion animation			
 				for (int32_t j = 0; j < ENEMY_MAX_ENEMIES; j++)
 				{
 					if (enemies[j] != nullptr)
@@ -338,19 +337,16 @@ void SpriteManager::CheckBulletCollisions()
 						{
 							CreateExplosion(enemies[j]->getPosition()->x, enemies[j]->getPosition()->y, EXPLOSION_ENEMY, enemies[j]->getType());
 							GameManager::GetInstance()->scoreboard->score += points[enemies[j]->getType()];
+							enemies[j]->killed();
 
 							delete bullets[i];
 							bullets[i] = nullptr;
-
-                            enemies[j]->killed();
 							delete enemies[j];
 							enemies[j] = nullptr;
 							break;
 						}
 					}
 				}
-
-
 			}
 			else
 			{
@@ -359,16 +355,14 @@ void SpriteManager::CheckBulletCollisions()
 				// Also, increment player score and start explosion animation
 				if (CheckSpriteCollision(player, bullets[i]))
 				{
-					delete bullets[i];
-					bullets[i] = nullptr;
 					CreateExplosion(player->getPosition()->x, player->getPosition()->y, EXPLOSION_PLAYER, POINTS_NONE);
 					player->playerHit();
+
+					delete bullets[i];
+					bullets[i] = nullptr;
 					break;
 				}
-
-
 			}
-
 		}
 	}
 }
@@ -386,8 +380,8 @@ void SpriteManager::spawnEnemy() {
 		float_t bgWidth = (float_t)GameManager::GetInstance()->getBackgroundWidth() - enemies[indexEnemy]->getWidth();
 		float_t bgHeight = (float_t)GameManager::GetInstance()->getBackgroundHeight() - enemies[indexEnemy]->getHeight();
 
-		SideTrajectory *trajectory = new SideTrajectory(enemies[indexEnemy]);
-		//FallTrajectory *trajectory = new FallTrajectory(enemies[indexEnemy]);
+		//SideTrajectory *trajectory = new SideTrajectory(enemies[indexEnemy]);
+		FallTrajectory *trajectory = new FallTrajectory(enemies[indexEnemy]);
 		enemies[indexEnemy]->setTrajectory(trajectory);
 		enemies[indexEnemy]->setPosition(getRangedRandom(-bgWidth / 2.0f, bgWidth / 2.0f), getRangedRandom(bgHeight / 4.0f, bgHeight / 2.0f));
 		enemies[indexEnemy]->setSpriteType(getRangedRandom(ENEMY_GREEN, ENEMY_YELLOW));

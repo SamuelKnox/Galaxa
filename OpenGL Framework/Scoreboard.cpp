@@ -19,7 +19,6 @@ Scoreboard::Scoreboard()
 	}	
 }
 
-
 Scoreboard::~Scoreboard()
 {
 	for (int32_t i = 0; i < NUM_LINES; i++)
@@ -39,7 +38,6 @@ void Scoreboard::Reset()
 		lines[i]->disable();
 	}
 }
-
 
 void Scoreboard::Render() {
 	for (int32_t i = 0, scoreValue = score; scoreValue >= 0 && i < NUM_LINES / 7; ++i, scoreValue /= 16) {
