@@ -281,7 +281,6 @@ void SpriteManager::endGame()
 	GameManager::GetInstance()->setState(GameManager::GAME_OVER);
 }
 
-
 void SpriteManager::CreateBullet(float_t x, float_t y, float_t xVel, float_t yVel, int32_t ownerType) 
 {
 	for (int i = 0; i < MAX_NUM_MISSILES; i++) 
@@ -388,6 +387,7 @@ void SpriteManager::spawnEnemy() {
 		float_t bgHeight = (float_t)GameManager::GetInstance()->getBackgroundHeight() - enemies[indexEnemy]->getHeight();
 
 		SideTrajectory *trajectory = new SideTrajectory(enemies[indexEnemy]);
+		//FallTrajectory *trajectory = new FallTrajectory(enemies[indexEnemy]);
 		enemies[indexEnemy]->setTrajectory(trajectory);
 		enemies[indexEnemy]->setPosition(getRangedRandom(-bgWidth / 2.0f, bgWidth / 2.0f), getRangedRandom(bgHeight / 4.0f, bgHeight / 2.0f));
 		enemies[indexEnemy]->setSpriteType(getRangedRandom(ENEMY_GREEN, ENEMY_YELLOW));
@@ -409,6 +409,11 @@ bool8_t SpriteManager::CheckSpriteHitBoundaries(Sprite *sprite)
 	float_t spriteRight = sprite->getPosition()->x + sprite->getWidth() / 2;
 	float_t spriteUp = sprite->getPosition()->y - sprite->getHeight() / 2;
 	float_t spriteDown = sprite->getPosition()->y + sprite->getHeight() / 2;
+
+	if ((spriteUp >= bottomSide) || (spriteDown <= topSide))
+	{
+		field = FieldManagerC::GetInstance()->getFieldPtr();
+	}
 
 	return	(spriteLeft <= leftSide) || (spriteRight >= rightSide) ||
 			(spriteUp >= bottomSide) || (spriteDown <= topSide);
