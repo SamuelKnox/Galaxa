@@ -5,7 +5,7 @@
 #include "FallTrajectory.h"
 #include "SpriteManager.h"
 #include "SoundManager.h"
-#include "ET.h"
+#include "Player.h"
 
 Enemy::Enemy()
 {
@@ -49,7 +49,7 @@ void Enemy::update(DWORD milliseconds)
     lastShootDuration += milliseconds;
     if (lastShootDuration >= ENEMY_SHOOT_TIME_MILLISEC) {
         lastShootDuration = 0;
-        ET * player = SpriteManager::GetInstance()->getET();
+        Player * player = SpriteManager::GetInstance()->getET();
         float_t velX = (player->getPosition()->x - (mPosition.x));
         float_t velY = (player->getPosition()->y - (mPosition.y));
         float_t length = (float_t) sqrt(velY * velY + velX * velX);

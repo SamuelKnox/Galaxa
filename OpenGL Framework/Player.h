@@ -4,12 +4,13 @@
 #include "Sprite.h"
 #include "gamedefs.h"
 
-class ET : public Sprite
+class Player : public Sprite
 {
 public:
 
-	ET(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType);
-	~ET();
+    // Factory function
+    static Player* CreatePlayer(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType);
+	~Player();
 
 	void updateET(DWORD milliseconds);
 	void playerHit();
@@ -18,6 +19,9 @@ public:
     void setFireSfxId(uint32_t fireSFXId) { mFireSFXId = fireSFXId; };
 
 private:
+    Player(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType);
+
+
 	bool8_t mIsMoving;
 	bool8_t mCanMove;
 	bool8_t mCanShoot;

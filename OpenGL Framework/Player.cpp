@@ -14,7 +14,7 @@
 #include "collInfo.h"
 #include "object.h"
 #include "Sprite.h"
-#include "ET.h"
+#include "Player.h"
 
 #include "field.h"
 #include "fieldmanager.h"
@@ -27,7 +27,15 @@
 #include "SoundManager.h"
 
 
-ET::ET(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType)
+Player* Player::CreatePlayer(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType) {
+    Player* player = new Player(initPosX, initPosY, initVelX, initVelY, gameObjectType);
+
+    static uint32_t id = SoundManager::GetInstance()->LoadSound(PLAYER_SFX_FIRE);
+    player->setFireSfxId(id);
+    return player;
+}
+
+Player::Player(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType)
 {
 	// Object
 	mPosition.x = initPosX;
@@ -64,11 +72,10 @@ ET::ET(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, i
 	}
 }
 
-ET::~ET()
-{
-}
+Player::~Player()
+{};
 
-void ET::updateET(DWORD milliseconds)
+void Player::updateET(DWORD milliseconds)
 {
 	// Check if dead
 	if (mNumLives < 0)
@@ -96,7 +103,7 @@ void ET::updateET(DWORD milliseconds)
 	CheckBoundaries();
 }
 
-void ET::playerHit()
+void Player::playerHit()
 {
 	mNumLives--;
 
@@ -107,8 +114,7 @@ void ET::playerHit()
 	}	
 }
 
-
-void ET::CheckForUserInput()
+void Player::CheckForUserInput()
 {
 	SHORT keyLeft = GetKeyState(VK_LEFT);
 	SHORT keyRight = GetKeyState(VK_RIGHT);
@@ -157,7 +163,7 @@ void ET::CheckForUserInput()
 	}
 }
 
-void ET::CheckBoundaries()
+void Player::CheckBoundaries()
 {
 	FieldC *field = FieldManagerC::GetInstance()->getFieldPtr();
 
@@ -184,7 +190,7 @@ void ET::CheckBoundaries()
 	}
 }
 
-void ET::DrawLivesLeft()
+void Player::DrawLivesLeft()
 {
 	for (int32_t i = 0; i < mNumLives; i++)
 	{
