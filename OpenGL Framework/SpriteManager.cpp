@@ -26,7 +26,6 @@
 #include "FallTrajectory.h"
 #include "SideTrajectory.h"
 #include "SoundManager.h"
-#include "SpinTrajectory.h"
 
 SpriteManager* SpriteManager::sInstance = NULL;
 
@@ -282,7 +281,6 @@ void SpriteManager::endGame()
 	GameManager::GetInstance()->setState(GameManager::GAME_OVER);
 }
 
-
 void SpriteManager::CreateBullet(float_t x, float_t y, float_t xVel, float_t yVel, int32_t ownerType) 
 {
 	for (int i = 0; i < MAX_NUM_MISSILES; i++) 
@@ -330,8 +328,7 @@ void SpriteManager::CheckBulletCollisions()
 			{
 
 				// Check if missile fired by player has hit an enemy, then destroy both enemy and bullet
-				// Also, increment player score and start explosion animation
-				
+				// Also, increment player score and start explosion animation			
 				for (int32_t j = 0; j < ENEMY_MAX_ENEMIES; j++)
 				{
 					if (enemies[j] != nullptr)
@@ -340,19 +337,16 @@ void SpriteManager::CheckBulletCollisions()
 						{
 							CreateExplosion(enemies[j]->getPosition()->x, enemies[j]->getPosition()->y, EXPLOSION_ENEMY, enemies[j]->getType());
 							GameManager::GetInstance()->scoreboard->score += points[enemies[j]->getType()];
+							enemies[j]->killed();
 
 							delete bullets[i];
 							bullets[i] = nullptr;
-
-                            enemies[j]->killed();
 							delete enemies[j];
 							enemies[j] = nullptr;
 							break;
 						}
 					}
 				}
-
-
 			}
 			else
 			{
@@ -361,16 +355,14 @@ void SpriteManager::CheckBulletCollisions()
 				// Also, increment player score and start explosion animation
 				if (CheckSpriteCollision(player, bullets[i]))
 				{
+					CreateExplosion(player->getPosition()->x, player->getPosition()->y, EXPLOSION_PLAYER, POINTS_NONE);
+					player->playerHit();
+
 					delete bullets[i];
 					bullets[i] = nullptr;
-					CreateExplosion(player->getPosition()->x, player->getPosition()->y, EXPLOSION_PLAYER, POINTS_NONE);
-					//player->playerHit();
 					break;
 				}
-
-
 			}
-
 		}
 	}
 }
@@ -392,7 +384,7 @@ void SpriteManager::spawnEnemy() {
         if ((type == ENEMY_YELLOW) || (type == ENEMY_RED))
             trajectory = new SideTrajectory(enemies[indexEnemy]);
         else
-            trajectory = new FallTrajectory();
+            trajectory = new FallTrajectory(enemies[indexEnemy]);
 		enemies[indexEnemy]->setTrajectory(trajectory);
 		enemies[indexEnemy]->setPosition(getRangedRandom(-bgWidth / 2.0f, bgWidth / 2.0f), getRangedRandom(bgHeight / 4.0f, bgHeight / 2.0f));
 		enemies[indexEnemy]->setSpriteType(type);
@@ -414,6 +406,11 @@ bool8_t SpriteManager::CheckSpriteHitBoundaries(Sprite *sprite)
 	float_t spriteRight = sprite->getPosition()->x + sprite->getWidth() / 2;
 	float_t spriteUp = sprite->getPosition()->y - sprite->getHeight() / 2;
 	float_t spriteDown = sprite->getPosition()->y + sprite->getHeight() / 2;
+
+	if ((spriteUp >= bottomSide) || (spriteDown <= topSide))
+	{
+		field = FieldManagerC::GetInstance()->getFieldPtr();
+	}
 
 	return	(spriteLeft <= leftSide) || (spriteRight >= rightSide) ||
 			(spriteUp >= bottomSide) || (spriteDown <= topSide);

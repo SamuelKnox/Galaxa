@@ -6,11 +6,13 @@ SoundManager* SoundManager::sInstance = NULL;
 
 SoundManager::SoundManager()
 {
+	// Create the FMOD sound obj
     FMOD_RESULT res = FMOD::System_Create(&soundSystem);
     if (res != FMOD_OK) {
         std::cout << "Sound System init failed: " << res << std::endl;
     }
 
+	// Init the FMOD sound obj
     soundSystem->init(32, FMOD_INIT_NORMAL, NULL);
 
     memset(channels, 0, sizeof(Channel*) * 32);
@@ -36,8 +38,9 @@ void SoundManager::init()
 }
 
 uint32_t SoundManager::LoadSound(const char * fileName) {
-
+	// Load the sound file into the SoundManager
     SoundNode_t * newNode = (SoundNode_t*)malloc(sizeof(SoundNode_t));
+	// Put into the internal list
     newNode->id = ++id_cnt;
     newNode->nextSound = NULL;
     if (listSounds == NULL) {
@@ -53,7 +56,7 @@ uint32_t SoundManager::LoadSound(const char * fileName) {
     if (res != FMOD_OK) {
         std::cout << "Sound System load sound failed " << res << std::endl;
     }
-
+	// Init it
     newNode->sound->setMode(FMOD_LOOP_OFF);
 
     return newNode->id;
@@ -62,7 +65,7 @@ uint32_t SoundManager::LoadSound(const char * fileName) {
 void SoundManager::PlaySoundResource(uint32_t id) {
     SoundNode_t* currentSoundNode = listSounds;
     if (currentSoundNode == NULL) return;
-
+	// Loop through the list until we find the sound resource
     while (currentSoundNode->id != id) {
         currentSoundNode = currentSoundNode->nextSound;
         if (currentSoundNode == NULL)
@@ -70,6 +73,7 @@ void SoundManager::PlaySoundResource(uint32_t id) {
     }
 
     if (currentSoundNode->id == id) {
+		// Fixing FMOD bug, all channels will stop if it randomly pick a low prioirty channel
         resumeChannel();
         Channel * channel = NULL;
         soundSystem->playSound(currentSoundNode->sound, 0, false, &channel);
@@ -79,6 +83,7 @@ void SoundManager::PlaySoundResource(uint32_t id) {
 
 // This two functions are for fixing FMOD bug
 void SoundManager::resumeChannel() {
+	// Find all channel and modify their priority
     for (int i = 0; i < 32; i++) {
         if (channels[i] != NULL) {
             bool isPlaying = false;

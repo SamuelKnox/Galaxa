@@ -9,13 +9,15 @@ class FallTrajectory :
     public Trajectory
 {
 public:
-    FallTrajectory();
+    FallTrajectory(Sprite* sprite);
     ~FallTrajectory();
 
     void update(DWORD milliseconds);
 
 private:
     static const float_t FALLSPEED;
+
+	void checkBoundary();
 };
 
 #endif

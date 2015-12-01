@@ -81,7 +81,7 @@
 #define LINE_WIDTH	1
 
 // FallTrajectory
-#define FALL_TRAJECTORY_SPEED 100.0f
+#define FALL_TRAJECTORY_SPEED 200.0f
 
 // SideTrajectory
 #define SIDE_TRAJECTORY_SPEED 100.0f
