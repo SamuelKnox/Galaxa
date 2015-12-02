@@ -19,14 +19,14 @@ public:
 	Explosion(float_t initPosX, float_t initPosY, uint32_t explosionType, uint32_t pointType);
 	~Explosion();
 
-	bool8_t CycleExplosionAnimation(DWORD milliseconds);
+	bool8_t CycleExplosionAnimation(uint32_t milliseconds);
 
 private:
 
 	bool8_t mIsFinished;
 	uint32_t mPointType;
-	DWORD mAnimationRate;
-	DWORD mAnimationTimer;
+    uint32_t mAnimationRate;
+    uint32_t mAnimationTimer;
 };
 
 #endif

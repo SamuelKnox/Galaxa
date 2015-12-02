@@ -57,7 +57,7 @@ Explosion::Explosion(float_t initPosX, float_t initPosY, uint32_t explosionType,
 Explosion::~Explosion()
 {}
 
-bool8_t Explosion::CycleExplosionAnimation(DWORD milliseconds)
+bool8_t Explosion::CycleExplosionAnimation(uint32_t milliseconds)
 {
 	mAnimationTimer += milliseconds;
 	if (mAnimationTimer < EXPLOSION_RATE_MS)

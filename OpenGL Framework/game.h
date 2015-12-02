@@ -3,7 +3,6 @@
 
 #include "jsy\jsy.h"
 
-
 class CGame
 {
 public:
@@ -12,7 +11,7 @@ public:
 	static CGame	*GetInstance() {return sInstance;};
 	~CGame();
 	void DrawScene();
-	void UpdateFrame(DWORD milliseconds);
+	void UpdateFrame(uint32_t milliseconds);
 	void DestroyGame();
 	void init();
 	void shutdown();

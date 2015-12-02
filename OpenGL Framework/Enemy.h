@@ -1,8 +1,6 @@
 #ifndef _ENEMY_H_
 #define _ENEMY_H_
 
-#include <windows.h>
-
 #include "jsy/jsy.h"
 #include "Sprite.h"
 #include "Trajectory.h"
@@ -23,7 +21,7 @@ public:
 
 private:
     Trajectory* mTrajectory;
-    DWORD lastShootDuration = 0;
+    uint32_t lastShootDuration = 0;
 
     uint32_t mKillSFXId;
 };

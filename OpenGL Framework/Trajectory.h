@@ -3,7 +3,6 @@
 
 #include "jsy/jsy.h"
 #include "Sprite.h"
-#include <windows.h>
 
 class Trajectory
 {

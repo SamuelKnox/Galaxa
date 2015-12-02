@@ -67,7 +67,7 @@ void SpriteManager::init()
 	mInGame = false;
 }
 
-void SpriteManager::updateSprites(DWORD milliseconds)
+void SpriteManager::updateSprites(uint32_t milliseconds)
 {
 	if (!mInGame)
 	{

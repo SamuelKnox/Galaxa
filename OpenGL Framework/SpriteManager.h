@@ -49,7 +49,7 @@ public:
 
 	void	init();
 	void	shutdown();
-	void	updateSprites(DWORD milliseconds);
+	void	updateSprites(uint32_t milliseconds);
 	void	renderSprites();
     uint32_t getSpriteTextureMap(int32_t objectType);
 	void	resetGame();
@@ -82,7 +82,7 @@ private:
 
 	// Enemies
     void spawnEnemy();
-    DWORD lastSpawnDuration = 0;
+    uint32_t lastSpawnDuration = 0;
     unsigned indexEnemy = 0;	
 };
 

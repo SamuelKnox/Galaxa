@@ -1,5 +1,4 @@
 #include <iostream>
-#include <windows.h>											// Header File For Windows
 #include "jsy/jsy.h"
 #include "InputManager.h"
 

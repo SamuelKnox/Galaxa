@@ -4,6 +4,7 @@
 #include <stdio.h>												// Header File For Standard Input / Output
 #include <stdarg.h>												// Header File For Variable Argument Routines
 #include <math.h>												// Header File For Math Operations
+#include <Windows.h>
 
 #include "jsy/jsy.h"
 #include "collInfo.h"

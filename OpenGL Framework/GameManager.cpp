@@ -1,6 +1,5 @@
 
 #define STATE_MANAGER_CPP
-#include <windows.h>											// Header File For Windows
 #include <stdio.h>												// Header File For Standard Input / Output
 #include <stdarg.h>												// Header File For Variable Argument Routines
 #include <math.h>												// Header File For Math Operations
