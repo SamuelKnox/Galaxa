@@ -20,14 +20,14 @@ typedef void * JSYGHandle;
 // Invalid handle
 #define JSYG_INVALID_HANDLE 0
 
-JSY_ERROR_S JsyGInit();
+JSY_ERROR_S JsyGOpen(JSYGHandle * handle);
 
-JSY_ERROR_S JsyGClose();
+JSY_ERROR_S JsyGClose(JSYGHandle handle);
 
-JSY_ERROR_S JsyGDrawCircle();
+JSY_ERROR_S JsyGDrawCircle(JSYGHandle handle);
 
-JSY_ERROR_S JsyGDrawLine();
+JSY_ERROR_S JsyGDrawLine(JSYGHandle handle);
 
-JSY_ERROR_S JsyGDrawSprite();
+JSY_ERROR_S JsyGDrawSprite(JSYGHandle handle);
 
 #endif // include guard
