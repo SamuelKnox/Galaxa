@@ -7,7 +7,7 @@
 #include <gl\glu.h>												// Header File For The GLu32 Library
  
 #include <assert.h>
-#include "baseTypes.h"
+#include "jsy/types.h"
 #include "openglframework.h"	
 #include "gamedefs.h"
 #include "spriteDemoManager.h"

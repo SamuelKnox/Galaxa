@@ -3,7 +3,7 @@
 #include <stdarg.h>												// Header File For Variable Argument Routines
 #include <math.h>												// Header File For Math Operations
 
-#include "baseTypes.h"
+#include "jsy/types.h"
 #include "collInfo.h"
 #include "object.h"
 #include "Sprite.h"

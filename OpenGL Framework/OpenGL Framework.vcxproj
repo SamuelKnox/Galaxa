@@ -127,7 +127,6 @@
   <ItemGroup>
     <ClInclude Include="ball.h" />
     <ClInclude Include="BallManager.h" />
-    <ClInclude Include="baseTypes.h" />
     <ClInclude Include="collInfo.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Player.h" />
@@ -156,6 +155,9 @@
     <ClInclude Include="Trajectory.h" />
     <ClInclude Include="types.h" />
     <ClInclude Include="Bullet.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="jsy\jsy.vcxproj" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

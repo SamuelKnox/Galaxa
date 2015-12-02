@@ -1,6 +1,6 @@
 #include <iostream>
 #include <windows.h>											// Header File For Windows
-#include "baseTypes.h"
+#include "jsy/types.h"
 #include "InputManager.h"
 
 InputManagerC* InputManagerC::sInstance = NULL;

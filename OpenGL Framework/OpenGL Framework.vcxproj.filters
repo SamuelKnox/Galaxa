@@ -31,7 +31,6 @@
   <ItemGroup>
     <ClInclude Include="ball.h" />
     <ClInclude Include="BallManager.h" />
-    <ClInclude Include="baseTypes.h" />
     <ClInclude Include="collInfo.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="FieldManager.h" />
@@ -60,5 +59,8 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Scoreboard.h" />
     <ClInclude Include="SideTrajectory.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="jsy\jsy.vcxproj" />
   </ItemGroup>
 </Project>

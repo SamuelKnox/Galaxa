@@ -4,10 +4,9 @@
 #include <fcntl.h>
 #include <gl/gl.h>														// Header File For The OpenGL32 Library
 #include <gl/glu.h>														// Header File For The GLu32 Library
-#include "jsy/types.h"
-#include "gamedefs.h"
+
+#include "types.h"
 #include "openglframework.h"														// Header File For The NeHeGL Basecode
-#include "game.h"
 
 #define WM_TOGGLEFULLSCREEN (WM_USER+1)									// Application Define Message For Toggling
 	
@@ -39,9 +38,7 @@ void ReshapeGL (int width, int height)									// Reshape The Window When It's M
 	glLoadIdentity ();													// Reset The Projection Matrix
 
 	// Define the dimensions of the Orthographic Viewing Volume
-	//glOrtho(-width, height, -width, height, -800.0, 800.0);
-	glOrtho(-width / 2, width / 2, -height / 2, height / 2, -500.0f, 500.0);
-
+	glOrtho(-2000.0, 2000.0, -2000.0, 2000.0, -800.0, 800.0);
 
 	glMatrixMode (GL_MODELVIEW);										// Select The Modelview Matrix
 	glLoadIdentity ();													// Reset The Modelview Matrix
@@ -68,8 +65,7 @@ BOOL CreateWindowGL (GL_Window* window)									// This Code Creates Our OpenGL 
 	DWORD windowStyle = WS_OVERLAPPEDWINDOW;							// Define Our Window Style
 	DWORD windowExtendedStyle = WS_EX_APPWINDOW;						// Define The Window's Extended Style
 
-	ShowCursor(TRUE);
-	#pragma warning(disable : 4838)
+	ShowCursor(FALSE);
 	PIXELFORMATDESCRIPTOR pfd =											// pfd Tells Windows How We Want Things To Be
 	{
 		sizeof (PIXELFORMATDESCRIPTOR),									// Size Of This Pixel Format Descriptor
@@ -344,130 +340,127 @@ BOOL RegisterWindowClass (Application* application)						// Register A Window Cl
 }
 
 // Program Entry (WinMain)
-int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
     AllocConsole();
 
     HANDLE handle_out = GetStdHandle(STD_OUTPUT_HANDLE);
-    int hCrt = _open_osfhandle((long) handle_out, _O_TEXT);
+    int hCrt = _open_osfhandle((long)handle_out, _O_TEXT);
     FILE* hf_out = _fdopen(hCrt, "w");
     setvbuf(hf_out, NULL, _IONBF, 1);
     *stdout = *hf_out;
 
     HANDLE handle_in = GetStdHandle(STD_INPUT_HANDLE);
-    hCrt = _open_osfhandle((long) handle_in, _O_TEXT);
+    hCrt = _open_osfhandle((long)handle_in, _O_TEXT);
     FILE* hf_in = _fdopen(hCrt, "r");
     setvbuf(hf_in, NULL, _IONBF, 128);
     *stdin = *hf_in;
 
 
 
-	Application			application;									// Application Structure
-	GL_Window			window;											// Window Structure
-	Keys				keys;											// Key Structure
-	BOOL				isMessagePumpActive;							// Message Pump Active?
-	MSG					msg;											// Window Message Structure
-	DWORD				tickCount;										// Used For The Tick Counter
-	char8_t				title[20];
+    Application			application;									// Application Structure
+    GL_Window			window;											// Window Structure
+    Keys				keys;											// Key Structure
+    BOOL				isMessagePumpActive;							// Message Pump Active?
+    MSG					msg;											// Window Message Structure
+    DWORD				tickCount;										// Used For The Tick Counter
+    char8_t				title[20];
+    //strncpy(title, CGame::GetInstance()->GetGameTitle(), 19);
 
-	#pragma warning(disable : 4996)
-	strncpy(title,CGame::GetInstance()->GetGameTitle(),19);
+    // Fill Out Application Data
+    application.className = "OpenGL";									// Application Class Name
+    application.hInstance = hInstance;									// Application Instance
 
-	// Fill Out Application Data
-	application.className = "OpenGL";									// Application Class Name
-	application.hInstance = hInstance;									// Application Instance
+                                                                        // Fill Out Window
+    ZeroMemory(&window, sizeof(GL_Window));							// Make Sure Memory Is Zeroed
+    window.keys = &keys;								// Window Key Structure
+    window.init.application = &application;							// Window Application
+    window.init.title = title;	// Window Title
+    window.init.width = 1024u;						// Window Width
+    window.init.height = 768u;						// Window Height
+    window.init.bitsPerPixel = 32u;						// Bits Per Pixel
+    window.init.isFullScreen = TRUE;									// Fullscreen? (Set To TRUE)
 
-	// Fill Out Window
-	ZeroMemory (&window, sizeof (GL_Window));							// Make Sure Memory Is Zeroed
-	window.keys					= &keys;								// Window Key Structure
-	window.init.application		= &application;							// Window Application
-	window.init.title			= title;	// Window Title
-	window.init.width			= BG_WIDTH;						// Window Width
-	window.init.height			= BG_HEIGHT;						// Window Height
-	window.init.bitsPerPixel	= CGame::mBitsPerPixel;						// Bits Per Pixel
-	window.init.isFullScreen	= FALSE;									// Fullscreen? (Set To TRUE)
+    ZeroMemory(&keys, sizeof(Keys));									// Zero keys Structure
 
-	ZeroMemory (&keys, sizeof (Keys));									// Zero keys Structure
+                                                                        // Ask The User If They Want To Start In FullScreen Mode?
+    if (MessageBox(HWND_DESKTOP, "Would You Like To Run In Fullscreen Mode?", "Start FullScreen?", MB_YESNO | MB_ICONQUESTION) == IDNO)
+    {
+        window.init.isFullScreen = FALSE;								// If Not, Run In Windowed Mode
+    }
 
-	// Ask The User If They Want To Start In FullScreen Mode?
-	//if (MessageBox (HWND_DESKTOP, "Would You Like To Run In Fullscreen Mode?", "Start FullScreen?", MB_YESNO | MB_ICONQUESTION) == IDNO)
-	//{
-	//	window.init.isFullScreen = FALSE;								// If Not, Run In Windowed Mode
-	//}
+    // Register A Class For Our Window To Use
+    if (RegisterWindowClass(&application) == FALSE)					// Did Registering A Class Fail?
+    {
+        // Failure
+        MessageBox(HWND_DESKTOP, "Error Registering Window Class!", "Error", MB_OK | MB_ICONEXCLAMATION);
+        return -1;														// Terminate Application
+    }
 
-	// Register A Class For Our Window To Use
-	if (RegisterWindowClass (&application) == FALSE)					// Did Registering A Class Fail?
-	{
-		// Failure
-		MessageBox (HWND_DESKTOP, "Error Registering Window Class!", "Error", MB_OK | MB_ICONEXCLAMATION);
-		return -1;														// Terminate Application
-	}
+    g_isProgramLooping = TRUE;											// Program Looping Is Set To TRUE
+    g_createFullScreen = window.init.isFullScreen;						// g_createFullScreen Is Set To User Default
+    while (g_isProgramLooping)											// Loop Until WM_QUIT Is Received
+    {
+        // Create A Window
+        window.init.isFullScreen = g_createFullScreen;					// Set Init Param Of Window Creation To Fullscreen?
+        if (CreateWindowGL(&window) == TRUE)							// Was Window Creation Successful?
+        {
+            // At This Point We Should Have A Window That Is Setup To Render OpenGL
+            if (Initialize(&window, &keys) == FALSE)					// Call User Intialization
+            {
+                // Failure
+                TerminateApplication(&window);							// Close Window, This Will Handle The Shutdown
+            }
+            else														// Otherwise (Start The Message Pump)
+            {	// Initialize was a success
+                isMessagePumpActive = TRUE;								// Set isMessagePumpActive To TRUE
+                while (isMessagePumpActive == TRUE)						// While The Message Pump Is Active
+                {
+                    // Success Creating Window.  Check For Window Messages
+                    if (PeekMessage(&msg, window.hWnd, 0, 0, PM_REMOVE) != 0)
+                    {
+                        // Check For WM_QUIT Message
+                        if (msg.message != WM_QUIT)						// Is The Message A WM_QUIT Message?
+                        {
+                            DispatchMessage(&msg);						// If Not, Dispatch The Message
+                        }
+                        else											// Otherwise (If Message Is WM_QUIT)
+                        {
+                            isMessagePumpActive = FALSE;				// Terminate The Message Pump
+                        }
+                    }
+                    else												// If There Are No Messages
+                    {
+                        if (window.isVisible == FALSE)					// If Window Is Not Visible
+                        {
+                            WaitMessage();								// Application Is Minimized Wait For A Message
+                        }
+                        else											// If Window Is Visible
+                        {
+                            // Process Application Loop
+                            tickCount = GetTickCount();				// Get The Tick Count
+                            //CGame::GetInstance()->UpdateFrame(tickCount - window.lastTickCount);	// Update The Counter
+                            window.lastTickCount = tickCount;			// Set Last Count To Current Count
+                            //CGame::GetInstance()->DrawScene();			// Draw Our Scene
+                            SwapBuffers(window.hDC);					// Swap Buffers (Double Buffering)
+                        }
+                    }
+                }														// Loop While isMessagePumpActive == TRUE
+            }															// If (Initialize (...
 
-	g_isProgramLooping = TRUE;											// Program Looping Is Set To TRUE
-	g_createFullScreen = window.init.isFullScreen;						// g_createFullScreen Is Set To User Default
-	while (g_isProgramLooping)											// Loop Until WM_QUIT Is Received
-	{
-		// Create A Window
-		window.init.isFullScreen = g_createFullScreen;					// Set Init Param Of Window Creation To Fullscreen?
-		if (CreateWindowGL (&window) == TRUE)							// Was Window Creation Successful?
-		{
-			// At This Point We Should Have A Window That Is Setup To Render OpenGL
-			if (Initialize (&window, &keys) == FALSE)					// Call User Intialization
-			{
-				// Failure
-				TerminateApplication(&window);							// Close Window, This Will Handle The Shutdown
-			}
-			else														// Otherwise (Start The Message Pump)
-			{	// Initialize was a success
-				isMessagePumpActive = TRUE;								// Set isMessagePumpActive To TRUE
-				while (isMessagePumpActive == TRUE)						// While The Message Pump Is Active
-				{
-					// Success Creating Window.  Check For Window Messages
-					if (PeekMessage (&msg, window.hWnd, 0, 0, PM_REMOVE) != 0)
-					{
-						// Check For WM_QUIT Message
-						if (msg.message != WM_QUIT)						// Is The Message A WM_QUIT Message?
-						{
-							DispatchMessage (&msg);						// If Not, Dispatch The Message
-						}
-						else											// Otherwise (If Message Is WM_QUIT)
-						{
-							isMessagePumpActive = FALSE;				// Terminate The Message Pump
-						}
-					}
-					else												// If There Are No Messages
-					{
-						if (window.isVisible == FALSE)					// If Window Is Not Visible
-						{
-							WaitMessage ();								// Application Is Minimized Wait For A Message
-						}
-						else											// If Window Is Visible
-						{
-							// Process Application Loop
-							tickCount = GetTickCount ();				// Get The Tick Count
-							//tickCount /= (DWORD) GAME_SPEED;
-							CGame::GetInstance()->UpdateFrame(tickCount - window.lastTickCount);	// Update The Counter
-							window.lastTickCount = tickCount;			// Set Last Count To Current Count
-							CGame::GetInstance()->DrawScene();			// Draw Our Scene
-							SwapBuffers (window.hDC);					// Swap Buffers (Double Buffering)
-						}
-					}
-				}														// Loop While isMessagePumpActive == TRUE
-			}															// If (Initialize (...
+                                                                        // Application Is Finished
+            //CGame::GetInstance()->shutdown();										// User Defined DeInitialization
+            //CGame::GetInstance()->DestroyGame();
+            DestroyWindowGL(&window);									// Destroy The Active Window
+        }
+        else															// If Window Creation Failed
+        {
+            // Error Creating Window
+            MessageBox(HWND_DESKTOP, "Error Creating OpenGL Window", "Error", MB_OK | MB_ICONEXCLAMATION);
+            g_isProgramLooping = FALSE;									// Terminate The Loop
+        }
+    }																	// While (isProgramLooping)
 
-			// Application Is Finished
-			CGame::GetInstance()->shutdown();										// User Defined DeInitialization
-			CGame::GetInstance()->DestroyGame();
-			DestroyWindowGL (&window);									// Destroy The Active Window
-		}
-		else															// If Window Creation Failed
-		{
-			// Error Creating Window
-			MessageBox (HWND_DESKTOP, "Error Creating OpenGL Window", "Error", MB_OK | MB_ICONEXCLAMATION);
-			g_isProgramLooping = FALSE;									// Terminate The Loop
-		}
-	}																	// While (isProgramLooping)
-
-	UnregisterClass (application.className, application.hInstance);		// UnRegister Window Class
-	return 0;
+    UnregisterClass(application.className, application.hInstance);		// UnRegister Window Class
+    return 0;
 }																		// End Of WinMain()

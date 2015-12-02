@@ -9,7 +9,7 @@
 #include <assert.h>
 #include <iostream>
 
-#include "baseTypes.h"
+#include "jsy/types.h"
 #include "gamedefs.h"
 #include "ShapeDraw.h"
 #include "stateManager.h"

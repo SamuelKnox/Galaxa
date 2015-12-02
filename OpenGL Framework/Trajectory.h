@@ -1,7 +1,7 @@
 #ifndef _TRAJECTORY_H_
 #define _TRAJECTORY_H_
 
-#include "baseTypes.h"
+#include "jsy/types.h"
 #include "Sprite.h"
 #include <windows.h>
 
@@ -9,18 +9,18 @@ class Trajectory
 {
 public:
     Trajectory();
-    Trajectory(const Coord2D & position);
+    Trajectory(const Vector2D & position);
     virtual ~Trajectory();
 
     virtual void update(DWORD milliseconds) = 0;
     void reset();
-    void GetPosition(Coord2D & position) const;
-    void SetPosition(const Coord2D & position);
+    void GetPosition(Vector2D & position) const;
+    void SetPosition(const Vector2D & position);
 
 protected:
 	Sprite* mSprite;
-    Coord2D mPosition;
-    Coord2D mOriginalPosition;
+    Vector2D mPosition;
+    Vector2D mOriginalPosition;
     DWORD tickCount = 0;
 };
 

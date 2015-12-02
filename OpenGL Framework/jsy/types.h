@@ -1,6 +1,5 @@
-#ifndef _BASE_TYPES_H
-#define _BASE_TYPES_H
-
+#ifndef _TYPES_H_
+#define _TYPES_H_
 
 typedef float float_t;
 typedef unsigned int uint32_t;
@@ -14,6 +13,6 @@ typedef struct
 {
 	float_t x;
 	float_t y;
-}Vector2D;
+} Vector2D;
 
-#endif
+#endif // include guard

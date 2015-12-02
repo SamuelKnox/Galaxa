@@ -8,7 +8,7 @@ public:
 	void					init(){};
 	void					update();
 //checkout gameframework.cpp
-	Coord2D*					getCurrentMousePosition(){};
+	Vector2D*					getCurrentMousePosition(){};
 	//keyboard interface?
 
 private:

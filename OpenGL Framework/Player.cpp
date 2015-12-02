@@ -9,7 +9,7 @@
 #include <gl\glu.h>												// Header File For The GLu32 Library
 #include "soil.h"
 
-#include "baseTypes.h"
+#include "jsy/types.h"
 #include "ShapeDraw.h"
 #include "collInfo.h"
 #include "object.h"

@@ -1,7 +1,7 @@
 #ifndef _SCOREBOARD_H
 #define _SCOREBOARD_H
 
-#include "baseTypes.h"
+#include "jsy/types.h"
 #include "gamedefs.h"
 #include "Sprite.h"
 
