@@ -31,38 +31,42 @@ GameManager *GameManager::CreateInstance()
 		sInstance = new GameManager();
 	return sInstance;
 }
+
 void GameManager::init(int32_t width, int32_t height)
 {
-	mGameState = TITLE_SCREEN;
-
 	// Load background texture maps
 	mTitleScreenBackground = SOIL_load_OGL_texture(BG_TITLE_SCREEN, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 	mSpaceBackground = SOIL_load_OGL_texture(BG_SPACE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 
+	// Initialize background variables
 	mCurrentBackground = mTitleScreenBackground;
 	mBackgroundWidth = width;
 	mBackgroundHeight = height;
 	mBackgroundOffset = 0.0f;
 	mBackgroundNumSprites = TITLE_NUM_SPRITES;
 
+	// Setup scoreboard and set gameState to title_screen
+	mGameState = TITLE_SCREEN;
 	scoreboard = new Scoreboard();
 }
+
 void GameManager::shutdown()
 {
 	delete scoreboard;
 }
+
 void GameManager::render()
 {
-
+	// Draw background and scoreboard (if in game)
 	DrawBackground(mCurrentBackground, (float_t) mBackgroundWidth, (float_t) mBackgroundHeight, mBackgroundOffset, mBackgroundNumSprites);
 
 	if (mGameState == IN_GAME) {
 		scoreboard->Render();
 	}
-
 }
+
 void GameManager::update(DWORD milliseconds)
 {
 	// Check for user input if at title or gameover screens
@@ -105,6 +109,7 @@ void GameManager::setState(int32_t state)
 
 void GameManager::checkForInput()
 {
+	// Check if space is pressed at title_screen to start game
 	if (mGameState == TITLE_SCREEN)
 	{
 		SHORT startKey = GetKeyState(VK_SPACE);
@@ -115,6 +120,8 @@ void GameManager::checkForInput()
 			scoreboard->Reset();
 		}
 	}
+
+	// Check if enter is pressed during gameover to return to title_screen
 	else if (mGameState == GAME_OVER)
 	{
 		SHORT startKey = GetKeyState(VK_RETURN);
