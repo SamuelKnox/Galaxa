@@ -4,7 +4,7 @@
 #include "Player.h"
 #include "Bullet.h"
 #include "gamedefs.h"
-#include "jsy/types.h"
+#include "jsy/jsy.h"
 #include "Enemy.h"
 #include "Explosion.h"
 

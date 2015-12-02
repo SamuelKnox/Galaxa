@@ -7,10 +7,9 @@
 #include <math.h>												// Header File For Math Operations
 #include <gl\gl.h>												// Header File For The OpenGL32 Library
 #include <gl\glu.h>												// Header File For The GLu32 Library
-#include "soil.h"
+#include "jsy/jsy.h"
 
-#include "jsy/types.h"
-#include "ShapeDraw.h"
+#include "jsy/jsy.h"
 #include "collInfo.h"
 #include "object.h"
 #include "Sprite.h"

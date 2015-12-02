@@ -9,15 +9,14 @@
 #include <assert.h>
 #include <iostream>
 
-#include "jsy/types.h"
+#include "jsy/jsy.h"
 #include "gamedefs.h"
-#include "ShapeDraw.h"
 #include "stateManager.h"
 #include "SpriteManager.h"
 #include "openglframework.h"
 #include "Scoreboard.h"
-#include "soil.h"
-
+#include "jsy/jsy.h"
+#include "game.h"
 #include "GameManager.h"
 
 
@@ -36,10 +35,8 @@ void GameManager::init(int32_t width, int32_t height)
 	mGameState = TITLE_SCREEN;
 
 	// Load background texture maps
-	mTitleScreenBackground = SOIL_load_OGL_texture(BG_TITLE_SCREEN, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
-		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
-	mSpaceBackground = SOIL_load_OGL_texture(BG_SPACE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
-		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+	JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), BG_TITLE_SCREEN, &mTitleScreenBackground);
+	JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), BG_SPACE, &mSpaceBackground);
 
 	mCurrentBackground = mTitleScreenBackground;
 	mBackgroundWidth = width;
@@ -56,7 +53,7 @@ void GameManager::shutdown()
 void GameManager::render()
 {
 
-	DrawBackground(mCurrentBackground, (float_t) mBackgroundWidth, (float_t) mBackgroundHeight, mBackgroundOffset, mBackgroundNumSprites);
+    JsyGDrawBackGround(CGame::GetInstance()->GetJsyHandle(), mCurrentBackground, (float_t) mBackgroundWidth, (float_t) mBackgroundHeight, mBackgroundOffset, mBackgroundNumSprites);
 
 	if (mGameState == IN_GAME) {
 		scoreboard->Render();

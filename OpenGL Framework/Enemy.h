@@ -3,7 +3,7 @@
 
 #include <windows.h>
 
-#include "jsy/types.h"
+#include "jsy/jsy.h"
 #include "Sprite.h"
 #include "Trajectory.h"
 

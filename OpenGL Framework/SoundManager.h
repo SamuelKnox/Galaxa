@@ -1,7 +1,7 @@
 #ifndef _SOUND_MGR_H_
 #define _SOUND_MGR_H_
 
-#include "jsy/types.h"
+#include "jsy/jsy.h"
 
 #include "fmod/fmod.hpp"
 

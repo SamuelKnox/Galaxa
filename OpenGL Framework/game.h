@@ -1,3 +1,9 @@
+#ifndef _GAME_H_
+#define _GAME_H_
+
+#include "jsy\jsy.h"
+
+
 class CGame
 {
 public:
@@ -11,9 +17,18 @@ public:
 	void init();
 	void shutdown();
 
+    JSYGHandle GetJsyHandle() {
+        return jsyHandle;
+    };
+
 	static const uint32_t mBitsPerPixel = 32;
 private:
 	static const char8_t mGameTitle[20];
 	static CGame *sInstance;
+
+    JSYGHandle jsyHandle = NULL;
+
 	CGame(){};
 };
+
+#endif

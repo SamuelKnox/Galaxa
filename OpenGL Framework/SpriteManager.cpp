@@ -6,9 +6,9 @@
 #include <math.h>												// Header File For Math Operations
 #include <gl\gl.h>												// Header File For The OpenGL32 Library
 #include <gl\glu.h>												// Header File For The GLu32 Library
-#include "SOIL.h"
+#include "jsy/jsy.h"
 
-#include "jsy/types.h"
+#include "jsy/jsy.h"
 #include "openglframework.h"	
 #include "gamedefs.h"
 #include "collinfo.h"
@@ -26,6 +26,7 @@
 #include "FallTrajectory.h"
 #include "SideTrajectory.h"
 #include "SoundManager.h"
+#include "game.h"
 
 SpriteManager* SpriteManager::sInstance = NULL;
 
@@ -51,43 +52,20 @@ void SpriteManager::init()
 	printf("Initing the SpriteManager.\n");
 
 	spriteTextureMaps = (GLuint*)malloc(NUM_OBJECTS * sizeof(GLuint));
-	spriteTextureMaps[PLAYER] = SOIL_load_OGL_texture(PLAYER_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
-		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 
-	spriteTextureMaps[ENEMY_GREEN] = SOIL_load_OGL_texture(ENEMY_SPRITE_GREEN, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
-		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
-
-	spriteTextureMaps[ENEMY_PURPLE] = SOIL_load_OGL_texture(ENEMY_SPRITE_PURPLE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
-		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
-
-	spriteTextureMaps[ENEMY_RED] = SOIL_load_OGL_texture(ENEMY_SPRITE_RED, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
-		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
-
-	spriteTextureMaps[ENEMY_YELLOW] = SOIL_load_OGL_texture(ENEMY_SPRITE_YELLOW, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
-		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
-
-	spriteTextureMaps[BULLET] = SOIL_load_OGL_texture(MISSILE_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
-		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
-
-	spriteTextureMaps[EXPLOSION_PLAYER] = SOIL_load_OGL_texture(EXPLOSION_PLAYER_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
-		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
-
-	spriteTextureMaps[EXPLOSION_ENEMY] = SOIL_load_OGL_texture(EXPLOSION_ENEMY_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
-		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
-
-	spriteTextureMaps[POINTS] = SOIL_load_OGL_texture(POINTS_SPRITES, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
-		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
-
-	spriteTextureMaps[GAMEOVER] = SOIL_load_OGL_texture(GAMEOVER_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
-		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
-
-	spriteTextureMaps[HLINE] = SOIL_load_OGL_texture(HORIZONTAL_LINE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
-		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
-	spriteTextureMaps[VLINE] = SOIL_load_OGL_texture(VERTICAL_LINE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
-		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
-
-	spriteTextureMaps[LABEL] = SOIL_load_OGL_texture(HIGH_SCORE_SPRITE, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
-		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), PLAYER_SPRITE, &spriteTextureMaps[PLAYER]);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), ENEMY_SPRITE_GREEN, &spriteTextureMaps[ENEMY_GREEN]);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), ENEMY_SPRITE_PURPLE, &spriteTextureMaps[ENEMY_PURPLE]);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), ENEMY_SPRITE_RED, &spriteTextureMaps[ENEMY_RED]);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), ENEMY_SPRITE_YELLOW, &spriteTextureMaps[ENEMY_YELLOW]);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), MISSILE_SPRITE, &spriteTextureMaps[BULLET]);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), EXPLOSION_PLAYER_SPRITE, &spriteTextureMaps[EXPLOSION_PLAYER]);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), EXPLOSION_ENEMY_SPRITE, &spriteTextureMaps[EXPLOSION_ENEMY]);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), POINTS_SPRITES, &spriteTextureMaps[POINTS]);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), GAMEOVER_SPRITE, &spriteTextureMaps[GAMEOVER]);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), HORIZONTAL_LINE, &spriteTextureMaps[HLINE]);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), VERTICAL_LINE, &spriteTextureMaps[VLINE]);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), HIGH_SCORE_SPRITE, &spriteTextureMaps[LABEL]);
 
 	mInGame = false;
 }

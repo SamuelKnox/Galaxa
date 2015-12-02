@@ -1,7 +1,7 @@
 #ifndef _FALL_TRAJECTORY_H_
 #define _FALL_TRAJECTORY_H_
 
-#include "jsy/types.h"
+#include "jsy/jsy.h"
 #include "gamedefs.h"
 #include "Trajectory.h"
 

@@ -7,13 +7,13 @@
 #include <gl\glu.h>												// Header File For The GLu32 Library
  
 #include <assert.h>
-#include "jsy/types.h"
+#include "jsy/jsy.h"
 #include "openglframework.h"	
 #include "gamedefs.h"
 #include "spriteDemoManager.h"
 #include "random.h"
 
-#include "soil.h"
+#include "jsy/jsy.h"
 
 SpriteDemoManagerC* SpriteDemoManagerC::sInstance=NULL;
 

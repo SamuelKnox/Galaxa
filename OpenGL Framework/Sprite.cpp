@@ -6,8 +6,7 @@
 #include <gl\gl.h>												// Header File For The OpenGL32 Library
 #include <gl\glu.h>												// Header File For The GLu32 Library
 
-#include "jsy/types.h"
-#include "ShapeDraw.h"
+#include "jsy/jsy.h"
 #include "collInfo.h"
 #include "object.h"
 //#include "inputmapper.h"
@@ -20,8 +19,9 @@
 #include "random.h"
 #include "stateManager.h"
 #include "inputmanager.h"
+#include "game.h"
 
-#include "soil.h"
+#include "jsy/jsy.h"
 
 Sprite::Sprite()
 {
@@ -72,7 +72,7 @@ void Sprite::render()
 
 	float_t xTextureCoord = (float_t)currentSprite * (1.0f / numSprites);
 	GLuint spriteID = SpriteManager::GetInstance()->getSpriteTextureMap(mType);
-	DrawSprite(spriteID, mIsFacingLeft, xPosLeft, xPosRight, yPosTop, yPosBot, xTextureCoord, numSprites);
+    JsyGDrawSprite(CGame::GetInstance()->GetJsyHandle(), spriteID, mIsFacingLeft, xPosLeft, xPosRight, yPosTop, yPosBot, xTextureCoord, numSprites);
 }
 
 void Sprite::setSpriteType(int32_t type) {

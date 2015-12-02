@@ -1,4 +1,4 @@
-#include "jsy/types.h"
+#include "jsy/jsy.h"
 #include "collInfo.h"
 #include "Object.h"
 

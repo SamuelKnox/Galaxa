@@ -1,6 +1,6 @@
 #include <math.h>
 #include "gamedefs.h"
-#include "SOIL.h"
+#include "jsy/jsy.h"
 #include "Enemy.h"
 #include "FallTrajectory.h"
 #include "SpriteManager.h"

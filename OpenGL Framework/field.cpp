@@ -5,11 +5,12 @@
 #include <gl\gl.h>												// Header File For The OpenGL32 Library
 #include <gl\glu.h>												// Header File For The GLu32 Library
  
-#include "jsy/types.h"
+#include "jsy/jsy.h"
 #include "collInfo.h"
 #include "object.h"
 #include "field.h"
-#include "ShapeDraw.h"
+#include "game.h"
+#include "gamedefs.h"
 
 
 void FieldC::moveUp()
@@ -47,8 +48,8 @@ void FieldC::render()
 	char8_t g = (char8_t)(mFieldColor>>8 & 0xFF);
 	char8_t b = (char8_t)(mFieldColor>>0 & 0xFF);
 
-	DrawLine(left,top,right,top,r,g,b);
-	DrawLine(right,top,right,bottom,r,g,b);
-	DrawLine(right,bottom,left,bottom,r,g,b);
-	DrawLine(left,bottom,left,top,r,g,b);
+    JsyGDrawLine(CGame::GetInstance()->GetJsyHandle(), left,top,right,top,r,g,b, LINE_WIDTH);
+    JsyGDrawLine(CGame::GetInstance()->GetJsyHandle(), right,top,right,bottom,r,g,b, LINE_WIDTH);
+    JsyGDrawLine(CGame::GetInstance()->GetJsyHandle(), right,bottom,left,bottom,r,g,b, LINE_WIDTH);
+    JsyGDrawLine(CGame::GetInstance()->GetJsyHandle(), left,bottom,left,top,r,g,b, LINE_WIDTH);
 };

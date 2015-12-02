@@ -1,7 +1,7 @@
 #ifndef _OBJECT_H
 #define _OBJECT_H
 
-#include "jsy/types.h"
+#include "jsy/jsy.h"
 #include "collInfo.h"
 
 class ObjectC

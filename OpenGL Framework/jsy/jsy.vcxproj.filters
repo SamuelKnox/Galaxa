@@ -24,21 +24,15 @@
     <ClInclude Include="types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="openGLFramework.h">
+    <ClInclude Include="jsy_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="openGLStuff.h">
+    <ClInclude Include="SOIL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="openGLFramework.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="openGLStuff.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

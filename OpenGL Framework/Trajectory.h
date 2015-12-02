@@ -1,7 +1,7 @@
 #ifndef _TRAJECTORY_H_
 #define _TRAJECTORY_H_
 
-#include "jsy/types.h"
+#include "jsy/jsy.h"
 #include "Sprite.h"
 #include <windows.h>
 
