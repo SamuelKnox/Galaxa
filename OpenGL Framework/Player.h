@@ -12,7 +12,7 @@ public:
     static Player* CreatePlayer(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType);
 	~Player();
 
-	void updateET(DWORD milliseconds);
+	void updateET(uint32_t milliseconds);
 	void playerHit();
 	void DrawLivesLeft();
 
@@ -29,7 +29,7 @@ private:
 	int32_t mNumLives;
 
 	float_t mMoveForce;
-	DWORD mShotTimer;
+    uint32_t mShotTimer;
 
     uint32_t mFireSFXId;
     uint32_t mHitSFXId;

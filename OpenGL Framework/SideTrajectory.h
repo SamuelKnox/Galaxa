@@ -11,7 +11,7 @@ public:
 	SideTrajectory(Sprite* sprite);
 	~SideTrajectory();
 
-	void update(DWORD milliseconds);
+	void update(uint32_t milliseconds);
 
 private:
 	static const float_t SIDESPEED;

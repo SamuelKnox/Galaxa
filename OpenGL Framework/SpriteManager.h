@@ -51,7 +51,7 @@ public:
 	void	shutdown();
 	void	updateSprites(DWORD milliseconds);
 	void	renderSprites();
-	GLuint getSpriteTextureMap(int32_t objectType);
+    uint32_t getSpriteTextureMap(int32_t objectType);
 	void	resetGame();
 	void	startGame();
 	void	endGame();
@@ -64,7 +64,7 @@ private:
 	SpriteManager() {};
 	static SpriteManager *sInstance;
 
-	GLuint *spriteTextureMaps;
+    uint32_t *spriteTextureMaps;
 	bool8_t mInGame;
 
 	// GameObjects

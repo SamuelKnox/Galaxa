@@ -18,7 +18,7 @@ SideTrajectory::SideTrajectory(Sprite* sprite)
 SideTrajectory::~SideTrajectory()
 {}
 
-void SideTrajectory::update(DWORD milliseconds)
+void SideTrajectory::update(uint32_t milliseconds)
 {
 	mPosition.x += mSpeed * milliseconds / 1000;
 

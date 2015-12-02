@@ -18,7 +18,7 @@ public:
 	~GameManager() {};
 
 	void		init(int32_t backgroundWidth, int32_t backgroundHeight);
-	void		update(DWORD milliseconds);
+	void		update(uint32_t milliseconds);
 	void		render();
 	void		shutdown();
 
@@ -35,9 +35,9 @@ private:
 
 	void checkForInput();
 
-	GLuint mTitleScreenBackground;
-	GLuint mSpaceBackground;
-	GLuint mCurrentBackground;
+    uint32_t mTitleScreenBackground;
+    uint32_t mSpaceBackground;
+    uint32_t mCurrentBackground;
 
 	int32_t mGameState;
 

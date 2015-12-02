@@ -115,7 +115,6 @@
     <ClCompile Include="SideTrajectory.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="SpriteDemoManager.cpp" />
     <ClCompile Include="SpriteManager.cpp" />
     <ClCompile Include="stateManager.cpp" />
     <ClCompile Include="Bullet.cpp" />
@@ -142,7 +141,6 @@
     <ClInclude Include="SideTrajectory.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Sprite.h" />
-    <ClInclude Include="SpriteDemoManager.h" />
     <ClInclude Include="SpriteManager.h" />
     <ClInclude Include="stateManager.h" />
     <ClInclude Include="Trajectory.h" />

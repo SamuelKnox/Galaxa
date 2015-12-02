@@ -1,7 +1,5 @@
 #ifndef _SPRITE_H
 #define _SPRITE_H
-#include <windows.h>
-#include <gl\gl.h>	
 #include "Object.h"
 
 class Sprite : public ObjectC
@@ -11,7 +9,7 @@ public:
 	Sprite(float_t initPosX, float_t initPosY, float_t width, float_t height, int32_t gameObjectType);
 	~Sprite();
 
-	void update(DWORD milliseconds);
+	void update(uint32_t milliseconds);
 	virtual void render();
 	void disable() { mEnabled = false; };
 	void enable() { mEnabled = true; };

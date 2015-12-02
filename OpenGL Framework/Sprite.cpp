@@ -1,10 +1,7 @@
 #include <iostream>
-#include <windows.h>											// Header File For Windows
 #include <stdio.h>												// Header File For Standard Input / Output
 #include <stdarg.h>												// Header File For Variable Argument Routines
 #include <math.h>												// Header File For Math Operations
-#include <gl\gl.h>												// Header File For The OpenGL32 Library
-#include <gl\glu.h>												// Header File For The GLu32 Library
 
 #include "jsy/jsy.h"
 #include "collInfo.h"
@@ -52,7 +49,7 @@ Sprite::Sprite(float_t initPosX, float_t initPosY, float_t width, float_t height
 Sprite::~Sprite()
 {}
 
-void Sprite::update(DWORD milliseconds) {
+void Sprite::update(uint32_t milliseconds) {
 	if (mEnabled)
 	{
 		mPosition.x += mVelocity.x * milliseconds / 10;
@@ -71,7 +68,7 @@ void Sprite::render()
 	float_t yPosBot = mPosition.y + mHeight / 2;
 
 	float_t xTextureCoord = (float_t)currentSprite * (1.0f / numSprites);
-	GLuint spriteID = SpriteManager::GetInstance()->getSpriteTextureMap(mType);
+	uint32_t spriteID = SpriteManager::GetInstance()->getSpriteTextureMap(mType);
     JsyGDrawSprite(CGame::GetInstance()->GetJsyHandle(), spriteID, mIsFacingLeft, xPosLeft, xPosRight, yPosTop, yPosBot, xTextureCoord, numSprites);
 }
 

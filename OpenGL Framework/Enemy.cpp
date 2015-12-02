@@ -40,7 +40,7 @@ Enemy::~Enemy()
     }
 }
 
-void Enemy::update(DWORD milliseconds)
+void Enemy::update(uint32_t milliseconds)
 {
     // Update the enemy position according the Trajectory
     if (mTrajectory != nullptr) {

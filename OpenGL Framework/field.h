@@ -8,7 +8,7 @@ public:
     ~FieldC();
     void setColor(uint32_t color) {mFieldColor = color;};
     long getColor() {return mFieldColor;};
-    void update(DWORD milliseconds);
+    void update(uint32_t milliseconds);
     virtual void render();
     void setWidth(uint32_t width) {mWidth = width;};
     uint32_t getWidth() {return mWidth;};

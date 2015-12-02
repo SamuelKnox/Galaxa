@@ -1,13 +1,9 @@
 #define ET_CPP
 
 #include <iostream>
-#include <windows.h>											// Header File For Windows
 #include <stdio.h>												// Header File For Standard Input / Output
 #include <stdarg.h>												// Header File For Variable Argument Routines
 #include <math.h>												// Header File For Math Operations
-#include <gl\gl.h>												// Header File For The OpenGL32 Library
-#include <gl\glu.h>												// Header File For The GLu32 Library
-#include "jsy/jsy.h"
 
 #include "jsy/jsy.h"
 #include "collInfo.h"
@@ -76,7 +72,7 @@ Player::Player(float_t initPosX, float_t initPosY, float_t initVelX, float_t ini
 Player::~Player()
 {};
 
-void Player::updateET(DWORD milliseconds)
+void Player::updateET(uint32_t milliseconds)
 {
 	// Check if dead
 	if (mNumLives < 0)

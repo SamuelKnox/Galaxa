@@ -13,7 +13,7 @@ public:
     Enemy();
     ~Enemy();
 
-    void update(DWORD milliseconds);
+    void update(uint32_t milliseconds);
     void setSpriteType(int32_t type);
     void setPosition(float x, float y);
 	void setTrajectory(Trajectory* newTrajectory);

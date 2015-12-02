@@ -12,7 +12,7 @@ public:
     FallTrajectory(Sprite* sprite);
     ~FallTrajectory();
 
-    void update(DWORD milliseconds);
+    void update(uint32_t milliseconds);
 
 private:
     static const float_t FALLSPEED;

@@ -1,11 +1,8 @@
 #define SPRITE_MANAGER_CPP
 #include <assert.h>
-#include <windows.h>											// Header File For Windows
 #include <stdio.h>												// Header File For Standard Input / Output
 #include <stdarg.h>												// Header File For Variable Argument Routines
 #include <math.h>												// Header File For Math Operations
-#include <gl\gl.h>												// Header File For The OpenGL32 Library
-#include <gl\glu.h>												// Header File For The GLu32 Library
 #include "jsy/jsy.h"
 
 #include "jsy/jsy.h"
@@ -51,7 +48,7 @@ void SpriteManager::init()
 {
 	printf("Initing the SpriteManager.\n");
 
-	spriteTextureMaps = (GLuint*)malloc(NUM_OBJECTS * sizeof(GLuint));
+	spriteTextureMaps = (uint32_t*)malloc(NUM_OBJECTS * sizeof(uint32_t));
 
     JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), PLAYER_SPRITE, &spriteTextureMaps[PLAYER]);
     JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), ENEMY_SPRITE_GREEN, &spriteTextureMaps[ENEMY_GREEN]);
@@ -166,7 +163,7 @@ void SpriteManager::renderSprites()
 	}
 }
 
-GLuint SpriteManager::getSpriteTextureMap(int32_t objectType)
+uint32_t SpriteManager::getSpriteTextureMap(int32_t objectType)
 {
 	return spriteTextureMaps[objectType];
 }
