@@ -154,10 +154,36 @@ void Player::CheckForUserInput()
 	if (mCanShoot && (keyShoot & 0x8000)) {
 		mCanShoot = false;
 		mShotTimer = 0;
-		SpriteManager::GetInstance()->CreateBullet(getPosition()->x, getPosition()->y, 0.0f, SHOT_FORCE, SpriteManager::PLAYER);
+		Shoot();
         if (mFireSFXId != 0) {
             SoundManager::GetInstance()->PlaySoundResource(mFireSFXId);
         }
+	}
+}
+
+void Player::Shoot() {
+	float_t spreadAngle;
+	Bullet* homingBullet;
+	switch (currentWeapon) {
+	case NormalWeapon:
+		SpriteManager::GetInstance()->CreateBullet(getPosition()->x, getPosition()->y, 0.0f, SHOT_FORCE, SpriteManager::PLAYER);
+		break;
+	case QuickWeapon:
+		SpriteManager::GetInstance()->CreateBullet(getPosition()->x, getPosition()->y, 0.0f, QUICK_SHOT_FORCE, SpriteManager::PLAYER);
+		break;
+	case SpreadWeapon:
+		spreadAngle = atanf(SPREAD_SHOT_ANGLE / SPREAD_SHOT_FORCE);
+		SpriteManager::GetInstance()->CreateBullet(getPosition()->x, getPosition()->y, -spreadAngle, SPREAD_SHOT_FORCE, SpriteManager::PLAYER);
+		SpriteManager::GetInstance()->CreateBullet(getPosition()->x, getPosition()->y, 0.0f, SPREAD_SHOT_FORCE, SpriteManager::PLAYER);
+		SpriteManager::GetInstance()->CreateBullet(getPosition()->x, getPosition()->y, spreadAngle, SPREAD_SHOT_FORCE, SpriteManager::PLAYER);
+		break;
+	case HomingWeapon:
+		homingBullet = SpriteManager::GetInstance()->CreateBullet(getPosition()->x, getPosition()->y, 0.0f, HOMING_FORCE, SpriteManager::PLAYER);
+		homingBullet->homingMissile = true;
+		break;
+	default:
+		break;
+
 	}
 }
 

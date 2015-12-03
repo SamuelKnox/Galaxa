@@ -57,8 +57,9 @@ public:
 	void	endGame();
 
 	Player* getET();
-	void CreateBullet(float_t x, float_t y, float_t xVel, float_t yVel, int32_t ownerType);
+	Bullet* CreateBullet(float_t x, float_t y, float_t xVel, float_t yVel, int32_t ownerType);
 	void CreateExplosion(float_t x, float_t y, uint32_t explosionType, uint32_t pointType);
+	Enemy* GetNearestEnemy(Sprite* origin);
 
 private:
 	SpriteManager() {};
@@ -83,7 +84,8 @@ private:
 	// Enemies
     void spawnEnemy();
     uint32_t lastSpawnDuration = 0;
-    unsigned indexEnemy = 0;	
+    unsigned indexEnemy = 0;
+	float_t GetHeuristicDistance(Sprite* origin, Sprite* destination);
 };
 
 #endif
