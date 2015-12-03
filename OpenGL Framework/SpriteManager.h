@@ -17,6 +17,7 @@ public:
 		ENEMY_PURPLE,	// 500pts
 		ENEMY_RED,		// 800pts
 		ENEMY_YELLOW,	// 1000pts
+		ENEMY_SHIP,		// 1500pts
 		PLAYER,
 		BULLET,
 		EXPLOSION_PLAYER,

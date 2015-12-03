@@ -55,6 +55,7 @@ void SpriteManager::init()
     JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), ENEMY_SPRITE_PURPLE, &spriteTextureMaps[ENEMY_PURPLE]);
     JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), ENEMY_SPRITE_RED, &spriteTextureMaps[ENEMY_RED]);
     JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), ENEMY_SPRITE_YELLOW, &spriteTextureMaps[ENEMY_YELLOW]);
+	JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), ENEMY_SPRITE_SHIP, &spriteTextureMaps[ENEMY_SHIP]);
     JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), MISSILE_SPRITE, &spriteTextureMaps[BULLET]);
     JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), EXPLOSION_PLAYER_SPRITE, &spriteTextureMaps[EXPLOSION_PLAYER]);
     JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), EXPLOSION_ENEMY_SPRITE, &spriteTextureMaps[EXPLOSION_ENEMY]);
@@ -305,13 +306,15 @@ void SpriteManager::CheckBulletCollisions()
 						if (CheckSpriteCollision(bullets[i], enemies[j]))
 						{
 							CreateExplosion(enemies[j]->getPosition()->x, enemies[j]->getPosition()->y, EXPLOSION_ENEMY, enemies[j]->getType());
-							GameManager::GetInstance()->enemyKilled(points[enemies[j]->getType()]);
-							enemies[j]->killed();
+							if (enemies[j]->hit())
+							{
+								GameManager::GetInstance()->enemyKilled(points[enemies[j]->getType()]);
+								delete enemies[j];
+								enemies[j] = nullptr;
+							}
 
 							delete bullets[i];
-							bullets[i] = nullptr;
-							delete enemies[j];
-							enemies[j] = nullptr;
+							bullets[i] = nullptr;							
 							break;
 						}
 					}
@@ -338,22 +341,26 @@ void SpriteManager::CheckBulletCollisions()
 
 void SpriteManager::spawnEnemy(uint32_t indexEnemy) {
     if (enemies[indexEnemy] == nullptr) {
-        enemies[indexEnemy] = new Enemy();
         static uint32_t id = SoundManager::GetInstance()->LoadSound(ENEMY_SFX_KILL);
-        enemies[indexEnemy]->setKillSfxId(id);
+		
+		// Choose random enemy type
+        int type = getRangedRandom(ENEMY_GREEN, ENEMY_SHIP);
+		enemies[indexEnemy] = new Enemy(type);
 
-		float_t bgWidth = (float_t)GameManager::GetInstance()->getBackgroundWidth() - enemies[indexEnemy]->getWidth();
-		float_t bgHeight = (float_t)GameManager::GetInstance()->getBackgroundHeight() - enemies[indexEnemy]->getHeight();
-        int type = getRangedRandom(ENEMY_GREEN, ENEMY_YELLOW);
+		// Set trajectory & sfx
         Trajectory * trajectory = NULL;
         if ((type == ENEMY_YELLOW) || (type == ENEMY_RED))
 			trajectory = new FallTrajectory(enemies[indexEnemy]);
         else
 			trajectory = new SideTrajectory(enemies[indexEnemy]);
 
+		enemies[indexEnemy]->setKillSfxId(id);
 		enemies[indexEnemy]->setTrajectory(trajectory);
+
+		// Set random spawn position
+		float_t bgWidth = (float_t)GameManager::GetInstance()->getBackgroundWidth() - enemies[indexEnemy]->getWidth();
+		float_t bgHeight = (float_t)GameManager::GetInstance()->getBackgroundHeight() - enemies[indexEnemy]->getHeight();
 		enemies[indexEnemy]->setPosition(getRangedRandom(-bgWidth / 2.0f, bgWidth / 2.0f), getRangedRandom(bgHeight / 4.0f, bgHeight / 2.0f));
-		enemies[indexEnemy]->setSpriteType(type);
 		enemies[indexEnemy]->reset();
     } 
 }

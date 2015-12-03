@@ -36,10 +36,14 @@
 #define ENEMY_SPRITE_PURPLE "assets/enemy_purple.png"
 #define ENEMY_SPRITE_RED	"assets/enemy_red.png"
 #define ENEMY_SPRITE_YELLOW "assets/enemy_yellow.png"
+#define ENEMY_SPRITE_SHIP	"assets/enemy_ship.png"
 #define ENEMY_SFX_KILL		".\\assets\\sfx\\kill.mp3"
 #define ENEMY_WIDTH					42
 #define ENEMY_HEIGHT				38
 #define ENEMY_NUM_SPRITES			1
+#define ENEMY_BASE_HP				1
+#define ENEMY_SHIP_HP				5
+
 #define ENEMY_MAX_ENEMIES			5
 #define ENEMY_RESPAWN_TIME_MILLISEC 1000
 #define ENEMY_SHOOT_TIME_MILLISEC	600

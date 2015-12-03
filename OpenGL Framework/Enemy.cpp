@@ -7,7 +7,7 @@
 #include "SoundManager.h"
 #include "Player.h"
 
-Enemy::Enemy()
+Enemy::Enemy(uint32_t type)
 {
 	// Object
 	mPosition.x = 0.0f;
@@ -21,16 +21,35 @@ Enemy::Enemy()
     mHeight = ENEMY_HEIGHT;
 	mNumSprites = ENEMY_NUM_SPRITES;
 	mCurrentSprite = 0;	// No animations
+	mType = type;
 
     mEnabled = true;
 	mIsFacingLeft = false;
 
 	// Enemy
 	mTrajectory = nullptr;
+	mIsDead = false;
+	if (mType == SpriteManager::ENEMY_SHIP)
+	{
+		mHealth = ENEMY_SHIP_HP;
+	}
+	else
+	{
+		mHealth = ENEMY_BASE_HP;
+	}
+
 }
 
-void Enemy::killed() {
-    SoundManager::GetInstance()->PlaySoundResource(mKillSFXId);
+bool8_t Enemy::hit() {
+
+	mHealth--;
+	if (mHealth <= 0)
+	{
+		SoundManager::GetInstance()->PlaySoundResource(mKillSFXId);
+		mIsDead = true;
+	}
+
+	return mIsDead;
 }
 
 Enemy::~Enemy()
