@@ -1,6 +1,10 @@
 #ifndef _JSY_H_
 #define _JSY_H_
 
+#ifdef _XBOX_
+#else
+#include <Windows.h>
+#endif
 #include "types.h"
 
 // This is JSY virtual platform library for PC and XBOX
@@ -10,7 +14,28 @@ typedef enum JSY_ERROR_S {
     JSY_SUCCEED = 0,
     JSY_ERROR_OOM = -100,
     JSY_ERROR_INITED = -101,
+    JSY_ERROR_INTERNAL = -102,
 } JSY_ERROR_T;
+
+///////////////////////
+// Init library
+
+
+
+
+#ifdef _XBOX_
+JSY_ERROR_T JsyAppInit_XBOX();
+#else
+typedef bool(*AppLoop)();
+
+JSY_ERROR_T JsyAppInit_Win(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow, int width, int height, AppLoop func);
+#endif
+
+JSY_ERROR_T JsyAppClose();
+
+///////////////////////
+// Platform APIs
+uint32_t JsyGetTickCount();
 
 ///////////////////////
 // Input APIs
@@ -43,13 +68,15 @@ typedef void * JSYGHandle;
 // Invalid handle
 #define JSYG_INVALID_HANDLE 0
 
-JSY_ERROR_T JsyGOpen(JSYGHandle * pHandle);
+JSY_ERROR_T JsyGOpen(JSYGHandle * pHandle, int32_t colorDepth);
 
 JSY_ERROR_T JsyGClose(JSYGHandle handle);
 
 JSY_ERROR_T JStGLoadTexture(JSYGHandle handle, const char * fileName, uint32_t * pTextureId);
 
 JSY_ERROR_T JsyGClear(JSYGHandle handle);
+
+JSY_ERROR_T JsyGSwapBuffer(JSYGHandle handle);
 
 JSY_ERROR_T JsyGDrawBackGround(JSYGHandle handle, uint32_t textureId, float_t width, float_t height,
     float_t yTexCoord, uint32_t numSprites);
