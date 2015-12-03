@@ -98,6 +98,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="FollowTrajectory.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="FallTrajectory.cpp" />
@@ -120,6 +121,7 @@
   <ItemGroup>
     <ClInclude Include="collInfo.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="FollowTrajectory.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="FallTrajectory.h" />

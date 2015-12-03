@@ -21,6 +21,7 @@
 #include "random.h"
 #include "GameManager.h"
 #include "FallTrajectory.h"
+#include "FollowTrajectory.h"
 #include "SideTrajectory.h"
 #include "game.h"
 
@@ -143,7 +144,7 @@ Enemy* SpriteManager::GetNearestEnemy(Sprite* origin) {
 }
 
 float_t SpriteManager::GetHeuristicDistance(Sprite* origin, Sprite* destination) {
-	return (float_t) pow(origin->getPosition()->x - destination->getPosition()->x, 2) + pow(origin->getPosition()->y - destination->getPosition()->y, 2);
+	return powf(origin->getPosition()->x - destination->getPosition()->x, 2) + powf(origin->getPosition()->y - destination->getPosition()->y, 2);
 }
 
 void SpriteManager::renderSprites()
@@ -455,12 +456,22 @@ void SpriteManager::spawnEnemy(uint32_t indexEnemy) {
         static uint32_t id = JsyAudioLoad(CGame::GetInstance()->GetJsyAudioHandle(), ENEMY_SFX_KILL);
 		
 		// Choose random enemy type
-        int32_t type = getRangedRandom(ENEMY_GREEN, ENEMY_SHIP);
+		int32_t type = 0;
+		if (indexEnemy == SHIP_SPAWN)
+		{
+			type = ENEMY_SHIP;
+		}
+		else
+		{
+			type = getRangedRandom(ENEMY_GREEN, ENEMY_YELLOW);
+		}
 		enemies[indexEnemy] = new Enemy(type);
 
 		// Set trajectory & sfx
         Trajectory * trajectory = NULL;
-        if ((type == ENEMY_YELLOW) || (type == ENEMY_RED))
+		if (type == ENEMY_SHIP)
+			trajectory = new FollowTrajectory(enemies[indexEnemy]);
+        else if ((type == ENEMY_YELLOW) || (type == ENEMY_RED))
 			trajectory = new FallTrajectory(enemies[indexEnemy]);
 		else
 			trajectory = new SideTrajectory(enemies[indexEnemy]);
