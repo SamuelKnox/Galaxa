@@ -16,13 +16,21 @@ typedef struct JsyTextureS
     unsigned int soilTextureId; //Win32
 } JsyTextureT;
 
+///////////////
+// Input APIs
+typedef struct JsyInputInternalS {
 
-typedef struct JsyInternalS {
+} JsyInputInternalT;
+
+
+///////////////
+// Graphic APIs
+typedef struct JsyGInternalS {
 
 
     JsyTextureT texture[256]; // FIXME: Now only support 256 texture, means 256 texture id
     uint32_t textureCnt = 0;
-} JsyInternalT;
+} JsyGInternalT;
 
 
 

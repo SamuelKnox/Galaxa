@@ -31,8 +31,8 @@ GameManager *GameManager::CreateInstance()
 void GameManager::init(int32_t width, int32_t height)
 {
 	// Load background texture maps
-	JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), BG_TITLE_SCREEN, &mTitleScreenBackground);
-	JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), BG_SPACE, &mSpaceBackground);
+	JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), BG_TITLE_SCREEN, &mTitleScreenBackground);
+	JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), BG_SPACE, &mSpaceBackground);
 
 	// Initialize background variables
 	mCurrentBackground = mTitleScreenBackground;
@@ -54,7 +54,7 @@ void GameManager::shutdown()
 void GameManager::render()
 {
     // Draw background and scoreboard (if in game)
-    JsyGDrawBackGround(CGame::GetInstance()->GetJsyHandle(), mCurrentBackground, (float_t) mBackgroundWidth, (float_t) mBackgroundHeight, mBackgroundOffset, mBackgroundNumSprites);
+    JsyGDrawBackGround(CGame::GetInstance()->GetJsyGHandle(), mCurrentBackground, (float_t) mBackgroundWidth, (float_t) mBackgroundHeight, mBackgroundOffset, mBackgroundNumSprites);
 
 	if (mGameState == IN_GAME) {
 		scoreboard->Render();

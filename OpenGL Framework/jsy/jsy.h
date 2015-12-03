@@ -13,17 +13,35 @@ typedef enum JSY_ERROR_S {
 } JSY_ERROR_T;
 
 ///////////////////////
+// Input APIs
+
+typedef enum JSY_INPUT_S {
+    JSY_INPUT_UP = 100,
+    JSY_INPUT_DOWN = 101,
+    JSY_INPUT_LEFT = 102,
+    JSY_INPUT_RIGHT = 103,
+    JSY_INPUT_A = 104,
+    JSY_INPUT_B = 105,
+} JSY_INPUT_T;
+
+typedef void * JSYInputHandle;
+
+JSY_ERROR_T JsyInputOpen(JSYInputHandle * pHandle);
+
+JSY_ERROR_T JsyInputClose(JSYInputHandle handle);
+
+JSY_ERROR_T JsyInputGetInput(JSYInputHandle handle, JSY_INPUT_T input, float_t * value);
+
+///////////////////////
 // Simple Graphic APIs
 
 // The Graphic handle
 typedef void * JSYGHandle;
 
-typedef void * JSYGHandle;
-
 // Invalid handle
 #define JSYG_INVALID_HANDLE 0
 
-JSY_ERROR_T JsyGInit(JSYGHandle * pHandle);
+JSY_ERROR_T JsyGOpen(JSYGHandle * pHandle);
 
 JSY_ERROR_T JsyGClose(JSYGHandle handle);
 
