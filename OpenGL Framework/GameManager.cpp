@@ -106,8 +106,9 @@ void GameManager::checkForInput()
 	// Check if space is pressed at title_screen to start game
 	if (mGameState == TITLE_SCREEN)
 	{
-		SHORT startKey = GetKeyState(VK_SPACE);
-		if ((startKey & 0x8000))
+        float_t startKey;
+        JsyInputGetInput(CGame::GetInstance()->GetJsyInputHandle(), JSY_INPUT_A, &startKey);
+		if ((startKey > 0.0f))
 		{
 			mGameState = IN_GAME;
 			SpriteManager::GetInstance()->startGame();
@@ -118,8 +119,9 @@ void GameManager::checkForInput()
 	// Check if enter is pressed during gameover to return to title_screen
 	else if (mGameState == GAME_OVER)
 	{
-		SHORT startKey = GetKeyState(VK_RETURN);
-		if ((startKey & 0x8000))
+        float_t startKey;
+        JsyInputGetInput(CGame::GetInstance()->GetJsyInputHandle(), JSY_INPUT_START, &startKey);
+		if ((startKey > 0.0f))
 		{
 			mGameState = TITLE_SCREEN;
 			SpriteManager::GetInstance()->resetGame();

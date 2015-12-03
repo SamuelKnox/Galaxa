@@ -17,7 +17,6 @@
 #include "gameobjects.h"
 #include "random.h"
 #include "stateManager.h"
-#include "inputmanager.h"
 #include "SpriteManager.h"
 #include "SoundManager.h"
 #include "game.h"

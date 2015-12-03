@@ -27,7 +27,7 @@ JSY_ERROR_T JsyInputGetInput(JSYInputHandle handle, JSY_INPUT_T input, float_t *
         case JSY_INPUT_RIGHT:winType = VK_RIGHT; break;
         case JSY_INPUT_A: winType = VK_SPACE; break;
         case JSY_INPUT_B: winType = VK_SHIFT; break;
-        case JSY_INPUT_START: winType = VK_F1; break;
+        case JSY_INPUT_START: winType = VK_RETURN; break;
         case JSY_INPUT_BACK: winType = VK_ESCAPE; break;
         default:
             break;
