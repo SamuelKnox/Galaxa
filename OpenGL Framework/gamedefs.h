@@ -26,9 +26,16 @@
 #define PLAYER_HEIGHT		48
 #define PLAYER_NUM_SPRITES	1
 #define MOVE_FORCE			3
-#define SHOT_FORCE			5
-#define SHOT_RATE			100
 #define PLAYER_LIVES		3
+
+// Weapons
+#define SHOT_FORCE			6
+#define QUICK_SHOT_FORCE	12
+#define SPREAD_SHOT_FORCE	4
+#define SPREAD_SHOT_ANGLE	20
+#define HOMING_ABILITY		0.1f
+#define HOMING_FORCE		2
+#define SHOT_RATE			100
 
 // Enemies
 #define ENEMY_SPRITE_GREEN	"assets/enemy_green.png"
@@ -48,7 +55,7 @@
 #define MISSILE_WIDTH		12
 #define MISSILE_HEIGHT		20
 #define MISSILE_NUM_SPRITES 1
-#define MAX_NUM_MISSILES	100
+#define MAX_NUM_MISSILES	1000
 
 // Explosions
 #define EXPLOSION_PLAYER_SPRITE "assets/explosion_player.png"

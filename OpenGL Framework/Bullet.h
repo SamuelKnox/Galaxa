@@ -11,6 +11,8 @@ public:
 	~Bullet();
 	
 	int32_t GetOwnerType() { return mOwnerType; }
+	void UpdateBullet(uint32_t milliseconds);
+	bool homingMissile = false;
 
 private:
 	int32_t mOwnerType;

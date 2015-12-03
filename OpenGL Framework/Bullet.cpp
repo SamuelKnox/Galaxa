@@ -43,6 +43,20 @@ Bullet::Bullet(float_t x, float_t y, float_t xVel, float_t yVel, int32_t objectT
 Bullet::~Bullet()
 {
 }
-
+void Bullet::UpdateBullet(uint32_t milliseconds) {
+	if (homingMissile) {
+		Enemy* nearestEnemy = SpriteManager::GetInstance()->GetNearestEnemy(this);
+		if (nearestEnemy != nullptr) {
+			float_t xDifference = nearestEnemy->getPosition()->x - getPosition()->x;
+			float_t yDifference = nearestEnemy->getPosition()->y - getPosition()->y;
+			float_t xyMagnitude = sqrtf(pow(xDifference, 2) + pow(yDifference, 2));
+			float_t xNormalized = xDifference / xyMagnitude;
+			float_t yNormalized = yDifference / xyMagnitude;
+			float_t xVelocity = getVelocity()->x + xNormalized * HOMING_ABILITY;
+			float_t yVelocity = getVelocity()->y;
+			setVelocity(xVelocity, yVelocity);
+		}
+	}
+}
 
 #endif

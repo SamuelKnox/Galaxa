@@ -17,9 +17,17 @@ public:
 	void DrawLivesLeft();
 
     void setFireSfxId(uint32_t fireSFXId) { mFireSFXId = fireSFXId; };
+	typedef enum {
+		NormalWeapon,
+		QuickWeapon,
+		SpreadWeapon,
+		HomingWeapon
+	} weaponType;
+	weaponType currentWeapon = HomingWeapon;
 
 private:
     Player(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType);
+
 
 
 	bool8_t mIsMoving;
@@ -37,6 +45,7 @@ private:
 
 	void CheckForUserInput();
 	void CheckBoundaries();
+	void Shoot();
 };
 
 #endif

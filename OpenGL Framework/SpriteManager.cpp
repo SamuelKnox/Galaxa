@@ -3,6 +3,7 @@
 #include <stdio.h>												// Header File For Standard Input / Output
 #include <stdarg.h>												// Header File For Variable Argument Routines
 #include <math.h>												// Header File For Math Operations
+#include <float.h>
 #include "jsy/jsy.h"
 
 #include "jsy/jsy.h"
@@ -37,11 +38,11 @@ SpriteManager *SpriteManager::CreateInstance()
 }
 
 SpriteManager::~SpriteManager() {
-    for (int i = 0; i < ENEMY_MAX_ENEMIES; i++) {
-        if (enemies[i] != nullptr) {
-            delete enemies[i];
-        }
-    }
+	for (int i = 0; i < ENEMY_MAX_ENEMIES; i++) {
+		if (enemies[i] != nullptr) {
+			delete enemies[i];
+		}
+	}
 }
 
 void SpriteManager::init()
@@ -76,21 +77,22 @@ void SpriteManager::updateSprites(uint32_t milliseconds)
 
 	player->update(milliseconds);
 	player->updateET(milliseconds);
-	for (int i = 0; i < MAX_NUM_MISSILES; i++) 
+	for (int i = 0; i < MAX_NUM_MISSILES; i++)
 	{
-		if (bullets[i] != nullptr) 
+		if (bullets[i] != nullptr)
 		{
 			bullets[i]->update(milliseconds);
+			bullets[i]->UpdateBullet(milliseconds);
 		}
 	}
 
-    for (int i = 0; i < ENEMY_MAX_ENEMIES; i++) 
+	for (int i = 0; i < ENEMY_MAX_ENEMIES; i++)
 	{
-        if (enemies[i] != nullptr) 
+		if (enemies[i] != nullptr)
 		{
-            enemies[i]->update(milliseconds);
-        }
-    }
+			enemies[i]->update(milliseconds);
+		}
+	}
 
 	for (int i = 0; i < MAX_EXPLOSIONS; i++)
 	{
@@ -104,12 +106,12 @@ void SpriteManager::updateSprites(uint32_t milliseconds)
 		}
 	}
 
-    lastSpawnDuration += milliseconds;
-    if (lastSpawnDuration >= ENEMY_RESPAWN_TIME_MILLISEC) 
+	lastSpawnDuration += milliseconds;
+	if (lastSpawnDuration >= ENEMY_RESPAWN_TIME_MILLISEC)
 	{
-        lastSpawnDuration = 0;
-        spawnEnemy();
-    }
+		lastSpawnDuration = 0;
+		spawnEnemy();
+	}
 
 	CheckBoundaryCollisions();
 	CheckBulletCollisions();
@@ -118,6 +120,26 @@ void SpriteManager::updateSprites(uint32_t milliseconds)
 Player* SpriteManager::getET()
 {
 	return player;
+}
+
+Enemy* SpriteManager::GetNearestEnemy(Sprite* origin) {
+	Enemy* nearestEnemy = nullptr;
+	float_t nearestDistance = FLT_MAX;
+	for (int i = 0; i < ENEMY_MAX_ENEMIES; i++) {
+		if (enemies[i] == nullptr) {
+			continue;
+		}
+		float_t distance = GetHeuristicDistance(player, enemies[i]) < nearestDistance;
+		if (distance < nearestDistance) {
+			nearestEnemy = enemies[i];
+			nearestDistance = distance;
+		}
+	}
+	return nearestEnemy;
+}
+
+float_t SpriteManager::GetHeuristicDistance(Sprite* origin, Sprite* destination) {
+	return pow(origin->getPosition()->x - destination->getPosition()->x, 2) + pow(origin->getPosition()->y - destination->getPosition()->y, 2);
 }
 
 void SpriteManager::renderSprites()
@@ -146,9 +168,9 @@ void SpriteManager::renderSprites()
 		}
 	}
 
-	for (int i = 0; i < MAX_NUM_MISSILES; i++) 
+	for (int i = 0; i < MAX_NUM_MISSILES; i++)
 	{
-		if (bullets[i] != nullptr) 
+		if (bullets[i] != nullptr)
 		{
 			bullets[i]->render();
 		}
@@ -173,29 +195,29 @@ void SpriteManager::shutdown()
 	resetGame();
 
 	free(spriteTextureMaps);
-    for (int32_t i = 0; i < MAX_NUM_MISSILES; i++)
-    {
-        if (bullets[i] != nullptr) {
-            delete bullets[i];
-            bullets[i] = nullptr;
-        }
-    }
+	for (int32_t i = 0; i < MAX_NUM_MISSILES; i++)
+	{
+		if (bullets[i] != nullptr) {
+			delete bullets[i];
+			bullets[i] = nullptr;
+		}
+	}
 
-    for (int32_t i = 0; i < ENEMY_MAX_ENEMIES; i++)
-    {
-        if (enemies[i] != nullptr) {
-            delete enemies[i];
-            enemies[i] = nullptr;
-        }
-    }
+	for (int32_t i = 0; i < ENEMY_MAX_ENEMIES; i++)
+	{
+		if (enemies[i] != nullptr) {
+			delete enemies[i];
+			enemies[i] = nullptr;
+		}
+	}
 
-    for (int i = 0; i < MAX_EXPLOSIONS; i++)
-    {
-        if (explosions[i] != nullptr) {
-            delete explosions[i];
-            explosions[i] = nullptr;
-        }
-    }
+	for (int i = 0; i < MAX_EXPLOSIONS; i++)
+	{
+		if (explosions[i] != nullptr) {
+			delete explosions[i];
+			explosions[i] = nullptr;
+		}
+	}
 }
 
 void SpriteManager::resetGame()
@@ -242,8 +264,8 @@ void SpriteManager::resetGame()
 
 void SpriteManager::startGame()
 {
-    static uint32_t id = SoundManager::GetInstance()->LoadSound(START_SFX);
-    SoundManager::GetInstance()->PlaySoundResource(id);
+	static uint32_t id = SoundManager::GetInstance()->LoadSound(START_SFX);
+	SoundManager::GetInstance()->PlaySoundResource(id);
 	resetGame();
 	player = Player::CreatePlayer(0.0f, 0.0f, 0.0f, 0.0f, PLAYER);
 	mInGame = true;
@@ -256,15 +278,16 @@ void SpriteManager::endGame()
 	GameManager::GetInstance()->setState(GameManager::GAME_OVER);
 }
 
-void SpriteManager::CreateBullet(float_t x, float_t y, float_t xVel, float_t yVel, int32_t ownerType) 
+Bullet* SpriteManager::CreateBullet(float_t x, float_t y, float_t xVel, float_t yVel, int32_t ownerType)
 {
-	for (int i = 0; i < MAX_NUM_MISSILES; i++) 
+	for (int i = 0; i < MAX_NUM_MISSILES; i++)
 	{
 		if (bullets[i] == nullptr) {
 			bullets[i] = new Bullet(x, y, xVel, yVel, BULLET, ownerType);
-			break;
+			return bullets[i];
 		}
 	}
+	return nullptr;
 }
 
 void SpriteManager::CreateExplosion(float_t x, float_t y, uint32_t explosionType, uint32_t pointType)
@@ -343,29 +366,29 @@ void SpriteManager::CheckBulletCollisions()
 }
 
 void SpriteManager::spawnEnemy() {
-    if (++indexEnemy == ENEMY_MAX_ENEMIES) {
-        indexEnemy = 0;
-    }
+	if (++indexEnemy == ENEMY_MAX_ENEMIES) {
+		indexEnemy = 0;
+	}
 
-    if (enemies[indexEnemy] == nullptr) {
-        enemies[indexEnemy] = new Enemy();
-        static uint32_t id = SoundManager::GetInstance()->LoadSound(ENEMY_SFX_KILL);
-        enemies[indexEnemy]->setKillSfxId(id);
+	if (enemies[indexEnemy] == nullptr) {
+		enemies[indexEnemy] = new Enemy();
+		static uint32_t id = SoundManager::GetInstance()->LoadSound(ENEMY_SFX_KILL);
+		enemies[indexEnemy]->setKillSfxId(id);
 
 		float_t bgWidth = (float_t)GameManager::GetInstance()->getBackgroundWidth() - enemies[indexEnemy]->getWidth();
 		float_t bgHeight = (float_t)GameManager::GetInstance()->getBackgroundHeight() - enemies[indexEnemy]->getHeight();
-        int type = getRangedRandom(ENEMY_GREEN, ENEMY_YELLOW);
-        Trajectory * trajectory = NULL;
-        if ((type == ENEMY_YELLOW) || (type == ENEMY_RED))
+		int type = getRangedRandom(ENEMY_GREEN, ENEMY_YELLOW);
+		Trajectory * trajectory = NULL;
+		if ((type == ENEMY_YELLOW) || (type == ENEMY_RED))
 			trajectory = new FallTrajectory(enemies[indexEnemy]);
-        else
+		else
 			trajectory = new SideTrajectory(enemies[indexEnemy]);
 
 		enemies[indexEnemy]->setTrajectory(trajectory);
 		enemies[indexEnemy]->setPosition(getRangedRandom(-bgWidth / 2.0f, bgWidth / 2.0f), getRangedRandom(bgHeight / 4.0f, bgHeight / 2.0f));
 		enemies[indexEnemy]->setSpriteType(type);
 		enemies[indexEnemy]->reset();
-    } 
+	}
 }
 
 bool8_t SpriteManager::CheckSpriteHitBoundaries(Sprite *sprite)
@@ -389,7 +412,7 @@ bool8_t SpriteManager::CheckSpriteHitBoundaries(Sprite *sprite)
 	}
 
 	return	(spriteLeft <= leftSide) || (spriteRight >= rightSide) ||
-			(spriteUp >= bottomSide) || (spriteDown <= topSide);
+		(spriteUp >= bottomSide) || (spriteDown <= topSide);
 }
 
 bool8_t SpriteManager::CheckSpriteCollision(Sprite *sprite1, Sprite *sprite2)
@@ -407,5 +430,5 @@ bool8_t SpriteManager::CheckSpriteCollision(Sprite *sprite1, Sprite *sprite2)
 	float_t sprite2Down = sprite2->getPosition()->y + sprite2->getHeight() / 2;
 
 	return	(sprite1Left <= sprite2Right) && (sprite1Right >= sprite2Left) &&
-			(sprite1Up <= sprite2Down) && (sprite1Down >= sprite2Up);
+		(sprite1Up <= sprite2Down) && (sprite1Down >= sprite2Up);
 }
