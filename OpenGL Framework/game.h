@@ -24,6 +24,8 @@ public:
         return jsyInputHandle;
     };
 
+    bool GetQuit() { return mQuit; };
+
 	static const uint32_t mBitsPerPixel = 32;
 private:
 	static const char8_t mGameTitle[20];
@@ -31,6 +33,8 @@ private:
 
     JSYGHandle jsyGHandle = NULL;
     JSYInputHandle jsyInputHandle = NULL;
+
+    bool mQuit = false;
 
 	CGame(){};
 };

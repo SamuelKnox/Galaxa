@@ -4,8 +4,6 @@
     <ClCompile Include="field.cpp" />
     <ClCompile Include="FieldManager.cpp" />
     <ClCompile Include="game.cpp" />
-    <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="keyProcess.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="openGLFramework.cpp" />
     <ClCompile Include="openGLStuff.cpp" />
@@ -38,7 +36,6 @@
     <ClInclude Include="random.h" />
     <ClInclude Include="stateManager.h" />
     <ClInclude Include="types.h" />
-    <ClInclude Include="InputManager.h" />
     <ClInclude Include="SpriteManager.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="GameManager.h" />
@@ -52,8 +49,5 @@
     <ClInclude Include="Scoreboard.h" />
     <ClInclude Include="SideTrajectory.h" />
     <ClInclude Include="WeaponDrop.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="jsy\jsy.vcxproj" />
   </ItemGroup>
 </Project>

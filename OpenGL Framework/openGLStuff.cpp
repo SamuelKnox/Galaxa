@@ -9,7 +9,7 @@
 #include "openglframework.h"
 #include "openglstuff.h"
 
-void initOpenGLDrawing( GL_Window *window, Keys *keys, float backRed, float backGreen, float backBlue)
+void initOpenGLDrawing( GL_Window *window, float backRed, float backGreen, float backBlue)
 {
 	glClearColor(backRed, backGreen, backGreen, 0.0f);			// Background Color
 	glClearDepth(1.0f);											// Depth Buffer Setup
@@ -20,7 +20,6 @@ void initOpenGLDrawing( GL_Window *window, Keys *keys, float backRed, float back
 	glEnable(GL_CULL_FACE);										// Remove Back Face
 	
 	g_window	= window;
-	g_keys		= keys;
 }
 void endOpenGLDrawing()
 {

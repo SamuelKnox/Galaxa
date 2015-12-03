@@ -15,7 +15,6 @@
 #include "gameobjects.h"
 #include "random.h"
 #include "stateManager.h"
-#include "inputmanager.h"
 #include "game.h"
 
 #include "jsy/jsy.h"

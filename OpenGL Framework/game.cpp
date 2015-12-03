@@ -22,17 +22,10 @@
 // Declarations
 const char8_t CGame::mGameTitle[]="Framework1";
 CGame* CGame::sInstance=NULL;
-BOOL Initialize (GL_Window* window, Keys* keys)					// Any OpenGL Initialization Goes Here
-{
-	initOpenGLDrawing(window,keys,0.0f, 0.0f, 0.0f);
-	CGame::CreateInstance();
-	CGame::GetInstance()->init();
-	return TRUE;						
-}
 
 void CGame::init()
 {
-    JsyGOpen(&jsyGHandle);
+    JsyGOpen(&jsyGHandle, mBitsPerPixel);
     JsyInputOpen(&jsyInputHandle);
 
 	SpriteManager::CreateInstance();
@@ -48,17 +41,24 @@ void CGame::init()
 
 void CGame::UpdateFrame(uint32_t milliseconds)
 {
-	keyProcess();
+    float_t quit;
+    JsyInputGetInput(jsyInputHandle, JSY_INPUT_BACK, &quit);
+    if (quit > 0.0f)
+    {
+        mQuit = true;
+    }
+
 	GameManager::GetInstance()->update(milliseconds);
 	SpriteManager::GetInstance()->updateSprites(milliseconds);
 }
 
 void CGame::DrawScene(void)											
 {
-	startOpenGLDrawing();
+    JsyGClear(jsyGHandle);
 	GameManager::GetInstance()->render();
 	FieldManagerC::GetInstance()->renderField();
 	SpriteManager::GetInstance()->renderSprites();
+    JsyGSwapBuffer(jsyGHandle);
 }
 
 CGame *CGame::CreateInstance()
