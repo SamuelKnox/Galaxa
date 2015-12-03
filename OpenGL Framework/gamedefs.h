@@ -13,7 +13,7 @@
 
 // Space (in-game)
 #define BG_SPACE			"assets/background2.png"
-#define START_SFX			".\\assets\\sfx\\start.mp3"
+#define START_SFX			".\\assets\\sfx\\start.wma"
 #define SPACE_NUM_SPRITES	2
 #define SCROLL_RATE			0.10f
 
@@ -21,8 +21,8 @@
 
 // Player
 #define PLAYER_SPRITE	"assets/player.png"
-#define PLAYER_SFX_FIRE	".\\assets\\sfx\\fire.mp3"
-#define PLAYER_SFX_HIT	".\\assets\\sfx\\hit.wav"
+#define PLAYER_SFX_FIRE	".\\assets\\sfx\\fire.wma"
+#define PLAYER_SFX_HIT	".\\assets\\sfx\\hit.wma"
 #define PLAYER_WIDTH		48
 #define PLAYER_HEIGHT		48
 #define PLAYER_NUM_SPRITES	1
@@ -55,7 +55,7 @@
 #define ENEMY_SPRITE_RED	"assets/enemy_red.png"
 #define ENEMY_SPRITE_YELLOW "assets/enemy_yellow.png"
 #define ENEMY_SPRITE_SHIP	"assets/enemy_ship.png"
-#define ENEMY_SFX_KILL		".\\assets\\sfx\\kill.mp3"
+#define ENEMY_SFX_KILL		".\\assets\\sfx\\kill.wma"
 #define ENEMY_WIDTH					42
 #define ENEMY_HEIGHT				38
 #define ENEMY_NUM_SPRITES			1
