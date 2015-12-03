@@ -23,6 +23,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scoreboard.cpp" />
     <ClCompile Include="SideTrajectory.cpp" />
+    <ClCompile Include="WeaponDrop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="collInfo.h" />
@@ -50,6 +51,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Scoreboard.h" />
     <ClInclude Include="SideTrajectory.h" />
+    <ClInclude Include="WeaponDrop.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="jsy\jsy.vcxproj" />

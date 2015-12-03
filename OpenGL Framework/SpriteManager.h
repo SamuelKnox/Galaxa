@@ -7,6 +7,7 @@
 #include "jsy/jsy.h"
 #include "Enemy.h"
 #include "Explosion.h"
+#include "WeaponDrop.h"
 
 class SpriteManager
 {
@@ -26,6 +27,9 @@ public:
 		HLINE,
 		VLINE,
 		LABEL,
+		QUICK_WEAPON,
+		SPREAD_WEAPON,
+		HOMING_WEAPON,
 		NUM_OBJECTS
 	};
 
@@ -58,6 +62,7 @@ public:
 
 	Player* getET();
 	Bullet* CreateBullet(float_t x, float_t y, float_t xVel, float_t yVel, int32_t ownerType);
+	void CreateWeaponDrop(float_t x, float_t y, float_t xVel, float_t yVel, int32_t weaponType);
 	void CreateExplosion(float_t x, float_t y, uint32_t explosionType, uint32_t pointType);
 	Enemy* GetNearestEnemy(Sprite* origin);
 
@@ -73,10 +78,12 @@ private:
 	Bullet* bullets[MAX_NUM_MISSILES] = { nullptr };
     Enemy* enemies[ENEMY_MAX_ENEMIES] = { nullptr };
 	Explosion* explosions[MAX_EXPLOSIONS] = { nullptr };
+	WeaponDrop* weaponDrops[MAX_WEAPON_DROPS] = { nullptr };
 	Sprite* gameOver = nullptr;
 
 	// Collsions
 	void CheckBoundaryCollisions();
+	void CheckWeaponDropCollisions();
 	void CheckBulletCollisions();
 	bool8_t CheckSpriteHitBoundaries(Sprite *sprite);
 	bool8_t CheckSpriteCollision(Sprite *sprite1, Sprite *sprite2);

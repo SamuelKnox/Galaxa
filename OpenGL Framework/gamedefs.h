@@ -36,6 +36,14 @@
 #define HOMING_ABILITY		0.1f
 #define HOMING_FORCE		2
 #define SHOT_RATE			100
+#define FAST_SHOT_WEAPON	"assets/sprites/weapons/fast_weapon.png"
+#define SPREAD_SHOT_WEAPON	"assets/sprites/weapons/spread_weapon.png"
+#define HOMING_SHOT_WEAPON	"assets/sprites/weapons/homing_weapon.png"
+#define WEAPON_DROP_WIDTH		16
+#define WEAPON_DROP_HEIGHT		64
+#define WEAPON_DROP_NUM_SPRITES 1
+#define MAX_WEAPON_DROPS		5
+#define WEAPON_DROP_SPEED		0.5f
 
 // Enemies
 #define ENEMY_SPRITE_GREEN	"assets/enemy_green.png"

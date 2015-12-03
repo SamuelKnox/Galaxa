@@ -110,6 +110,7 @@ void Player::playerHit()
 		delete mLives[mNumLives];
 		mLives[mNumLives] = nullptr;
 	}	
+
 }
 
 void Player::CheckForUserInput()

@@ -119,6 +119,7 @@
     <ClCompile Include="stateManager.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Trajectory.cpp" />
+    <ClCompile Include="WeaponDrop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="collInfo.h" />
@@ -146,6 +147,7 @@
     <ClInclude Include="Trajectory.h" />
     <ClInclude Include="types.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="WeaponDrop.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="jsy\jsy.vcxproj" />

@@ -51,19 +51,22 @@ void SpriteManager::init()
 
 	spriteTextureMaps = (uint32_t*)malloc(NUM_OBJECTS * sizeof(uint32_t));
 
-    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), PLAYER_SPRITE, &spriteTextureMaps[PLAYER]);
-    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), ENEMY_SPRITE_GREEN, &spriteTextureMaps[ENEMY_GREEN]);
-    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), ENEMY_SPRITE_PURPLE, &spriteTextureMaps[ENEMY_PURPLE]);
-    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), ENEMY_SPRITE_RED, &spriteTextureMaps[ENEMY_RED]);
-    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), ENEMY_SPRITE_YELLOW, &spriteTextureMaps[ENEMY_YELLOW]);
-    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), MISSILE_SPRITE, &spriteTextureMaps[BULLET]);
-    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), EXPLOSION_PLAYER_SPRITE, &spriteTextureMaps[EXPLOSION_PLAYER]);
-    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), EXPLOSION_ENEMY_SPRITE, &spriteTextureMaps[EXPLOSION_ENEMY]);
-    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), POINTS_SPRITES, &spriteTextureMaps[POINTS]);
-    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), GAMEOVER_SPRITE, &spriteTextureMaps[GAMEOVER]);
-    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), HORIZONTAL_LINE, &spriteTextureMaps[HLINE]);
-    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), VERTICAL_LINE, &spriteTextureMaps[VLINE]);
-    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), HIGH_SCORE_SPRITE, &spriteTextureMaps[LABEL]);
+	JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), PLAYER_SPRITE, &spriteTextureMaps[PLAYER]);
+	JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), ENEMY_SPRITE_GREEN, &spriteTextureMaps[ENEMY_GREEN]);
+	JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), ENEMY_SPRITE_PURPLE, &spriteTextureMaps[ENEMY_PURPLE]);
+	JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), ENEMY_SPRITE_RED, &spriteTextureMaps[ENEMY_RED]);
+	JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), ENEMY_SPRITE_YELLOW, &spriteTextureMaps[ENEMY_YELLOW]);
+	JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), MISSILE_SPRITE, &spriteTextureMaps[BULLET]);
+	JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), EXPLOSION_PLAYER_SPRITE, &spriteTextureMaps[EXPLOSION_PLAYER]);
+	JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), EXPLOSION_ENEMY_SPRITE, &spriteTextureMaps[EXPLOSION_ENEMY]);
+	JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), POINTS_SPRITES, &spriteTextureMaps[POINTS]);
+	JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), GAMEOVER_SPRITE, &spriteTextureMaps[GAMEOVER]);
+	JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), HORIZONTAL_LINE, &spriteTextureMaps[HLINE]);
+	JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), VERTICAL_LINE, &spriteTextureMaps[VLINE]);
+	JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), HIGH_SCORE_SPRITE, &spriteTextureMaps[LABEL]);
+	JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), FAST_SHOT_WEAPON, &spriteTextureMaps[QUICK_WEAPON]);
+	JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), SPREAD_SHOT_WEAPON, &spriteTextureMaps[SPREAD_WEAPON]);
+	JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), HOMING_SHOT_WEAPON, &spriteTextureMaps[HOMING_WEAPON]);
 
 	mInGame = false;
 }
@@ -94,6 +97,14 @@ void SpriteManager::updateSprites(uint32_t milliseconds)
 		}
 	}
 
+	for (int i = 0; i < MAX_WEAPON_DROPS; i++)
+	{
+		if (weaponDrops[i] != nullptr)
+		{
+			weaponDrops[i]->update(milliseconds);
+		}
+	}
+
 	for (int i = 0; i < MAX_EXPLOSIONS; i++)
 	{
 		if (explosions[i] != nullptr)
@@ -115,6 +126,7 @@ void SpriteManager::updateSprites(uint32_t milliseconds)
 
 	CheckBoundaryCollisions();
 	CheckBulletCollisions();
+	CheckWeaponDropCollisions();
 }
 
 Player* SpriteManager::getET()
@@ -176,6 +188,14 @@ void SpriteManager::renderSprites()
 		}
 	}
 
+	for (int i = 0; i < MAX_WEAPON_DROPS; i++)
+	{
+		if (weaponDrops[i] != nullptr)
+		{
+			weaponDrops[i]->render();
+		}
+	}
+
 	for (int i = 0; i < MAX_EXPLOSIONS; i++)
 	{
 		if (explosions[i] != nullptr)
@@ -211,6 +231,14 @@ void SpriteManager::shutdown()
 		}
 	}
 
+	for (int32_t i = 0; i < MAX_WEAPON_DROPS; i++)
+	{
+		if (weaponDrops[i] != nullptr) {
+			delete weaponDrops[i];
+			weaponDrops[i] = nullptr;
+		}
+	}
+
 	for (int i = 0; i < MAX_EXPLOSIONS; i++)
 	{
 		if (explosions[i] != nullptr) {
@@ -240,6 +268,15 @@ void SpriteManager::resetGame()
 		{
 			delete bullets[i];
 			bullets[i] = nullptr;
+		}
+	}
+
+	for (int i = 0; i < MAX_WEAPON_DROPS; i++)
+	{
+		if (weaponDrops[i] != nullptr)
+		{
+			delete weaponDrops[i];
+			weaponDrops[i] = nullptr;
 		}
 	}
 
@@ -290,6 +327,31 @@ Bullet* SpriteManager::CreateBullet(float_t x, float_t y, float_t xVel, float_t 
 	return nullptr;
 }
 
+void SpriteManager::CreateWeaponDrop(float_t x, float_t y, float_t xVel, float_t yVel, int32_t weaponType) {
+	for (int i = 0; i < MAX_WEAPON_DROPS; i++)
+	{
+		if (weaponDrops[i] == nullptr)
+		{
+			bool quickOne = SpriteManager::GetInstance()->player->QuickWeapon == weaponType;
+			bool spreadOne = SpriteManager::GetInstance()->player->SpreadWeapon == weaponType;
+			bool homingOne = SpriteManager::GetInstance()->player->HomingWeapon == weaponType;
+			int32_t weaponOne = -1;
+			if (quickOne) {
+				weaponOne = QUICK_WEAPON;
+			}
+			else if (spreadOne) {
+				weaponOne = SPREAD_WEAPON;
+			}
+			else if (homingOne) {
+				weaponOne = HOMING_WEAPON;
+			}
+			if (weaponOne >= 0) {
+				weaponDrops[i] = new WeaponDrop(x, y, xVel, yVel, weaponOne, weaponType);
+			}
+		}
+	}
+}
+
 void SpriteManager::CreateExplosion(float_t x, float_t y, uint32_t explosionType, uint32_t pointType)
 {
 	for (int i = 0; i < MAX_EXPLOSIONS; i++)
@@ -311,6 +373,18 @@ void SpriteManager::CheckBoundaryCollisions()
 		{
 			delete bullets[i];
 			bullets[i] = nullptr;
+		}
+	}
+}
+
+void SpriteManager::CheckWeaponDropCollisions() {
+	for (int32_t i = 0; i < MAX_WEAPON_DROPS; i++)
+	{
+		if (weaponDrops[i] != nullptr && CheckSpriteCollision(weaponDrops[i], player))
+		{
+			player->currentWeapon = weaponDrops[i]->GetWeaponType();
+			delete weaponDrops[i];
+			weaponDrops[i] = nullptr;
 		}
 	}
 }

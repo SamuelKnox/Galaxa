@@ -30,6 +30,10 @@ Enemy::Enemy()
 }
 
 void Enemy::killed() {
+	int32_t weaponType = SpriteManager::GetInstance()->getET()->SpreadWeapon;
+	//int32_t weaponType = SpriteManager::GetInstance()->getET()->QuickWeapon;
+	//int32_t weaponType = SpriteManager::GetInstance()->getET()->HomingWeapon;
+	SpriteManager::GetInstance()->CreateWeaponDrop(getPosition()->x, getPosition()->y, 0, -WEAPON_DROP_SPEED, weaponType);
     SoundManager::GetInstance()->PlaySoundResource(mKillSFXId);
 }
 

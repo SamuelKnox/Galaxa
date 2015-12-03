@@ -22,8 +22,8 @@ public:
 		QuickWeapon,
 		SpreadWeapon,
 		HomingWeapon
-	} weaponType;
-	weaponType currentWeapon = HomingWeapon;
+	};
+	int32_t currentWeapon = NormalWeapon;
 
 private:
     Player(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType);
