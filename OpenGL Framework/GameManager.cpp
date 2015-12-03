@@ -10,7 +10,6 @@
 #include "gamedefs.h"
 #include "stateManager.h"
 #include "SpriteManager.h"
-#include "openglframework.h"
 #include "Scoreboard.h"
 #include "jsy/jsy.h"
 #include "game.h"

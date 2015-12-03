@@ -5,7 +5,6 @@
 #include <math.h>												// Header File For Math Operations
  
 #include "jsy/jsy.h"
-#include "openglframework.h"	
 #include "gamedefs.h"
 #include "collinfo.h"
 #include "object.h"
