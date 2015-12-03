@@ -45,8 +45,8 @@ Player::Player(float_t initPosX, float_t initPosY, float_t initVelX, float_t ini
 	// Sprite
 	mWidth = PLAYER_WIDTH;
 	mHeight = PLAYER_HEIGHT;
-	numSprites = PLAYER_NUM_SPRITES;
-	currentSprite = 0; // No animations
+	mNumSprites = PLAYER_NUM_SPRITES;
+	mCurrentSprite = 0; // No animations
 
 	mType = gameObjectType;
 
@@ -65,7 +65,7 @@ Player::Player(float_t initPosX, float_t initPosY, float_t initVelX, float_t ini
 		// Get position for lives based on screen size and half player's actual size to
 		//	place them in the bottom-left corner;
 		float_t xPos = (-BG_WIDTH / 2.0f) + i * (mWidth / 2.0f);
-		float_t yPos = (BG_HEIGHT / 2.0f) - (mHeight / 2.0f);
+		float_t yPos = (-BG_HEIGHT / 2.0f) + (mHeight / 2.0f);
 		mLives[i - 1] = new Sprite(xPos, yPos, mWidth / 2.0f, mHeight / 2.0f, SpriteManager::PLAYER);
 	}
 }

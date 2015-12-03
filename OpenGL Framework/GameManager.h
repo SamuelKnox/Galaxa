@@ -29,26 +29,42 @@ public:
 
 	Scoreboard* scoreboard;
 
+	void enemyKilled(int32_t pointValue);
+
 private:
 	static GameManager *sInstance;
 	GameManager() {};
 
+	void startNewGame();
 	void checkForInput();
+	void updateBackground(uint32_t milliseconds);
+	void updateLevelWaves();
 
+	// Backgrounds
     uint32_t mTitleScreenBackground;
     uint32_t mSpaceBackground;
     uint32_t mCurrentBackground;
-
-	int32_t mGameState;
 
 	int32_t mBackgroundWidth;
 	int32_t mBackgroundHeight;
 	int32_t mBackgroundNumSprites;
 	float_t mBackgroundOffset;
 
-	DWORD mLastUpdateTime;
-	DWORD mCurrentTime;
+	// Game logic
+	int32_t mGameState;
+	int32_t mLevelNum;
+	int32_t mWaveNum;
+	int32_t mEnemiesAlive;
+	int32_t mEnemiesLeftInWave;
+	int32_t mWavesInLevel;
+	Sprite* levelDisplay[MAX_LEVEL_DIGITS] = { nullptr };
 
+	// Enemies
+	uint32_t lastSpawnDuration = 0;
+	uint32_t indexEnemy = 0;
+
+	DWORD mLastUpdateTime;
+	DWORD mCurrentTime;	
 };
 
 #endif

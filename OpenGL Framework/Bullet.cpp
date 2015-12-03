@@ -27,8 +27,8 @@ Bullet::Bullet(float_t x, float_t y, float_t xVel, float_t yVel, int32_t objectT
 	// Sprite
 	mWidth = MISSILE_WIDTH;
 	mHeight = MISSILE_HEIGHT;
-	numSprites = MISSILE_NUM_SPRITES;
-	currentSprite = 0;
+	mNumSprites = MISSILE_NUM_SPRITES;
+	mCurrentSprite = 0;
 
 	mType = objectType;
 

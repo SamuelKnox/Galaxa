@@ -26,6 +26,7 @@ public:
 		HLINE,
 		VLINE,
 		LABEL,
+		NUMBERS,
 		NUM_OBJECTS
 	};
 
@@ -55,8 +56,9 @@ public:
 	void	resetGame();
 	void	startGame();
 	void	endGame();
+	void	spawnEnemy(uint32_t indexEnemy);
 
-	Player* getET();
+	Player* getET() { return player; }
 	void CreateBullet(float_t x, float_t y, float_t xVel, float_t yVel, int32_t ownerType);
 	void CreateExplosion(float_t x, float_t y, uint32_t explosionType, uint32_t pointType);
 
@@ -80,10 +82,6 @@ private:
 	bool8_t CheckSpriteHitBoundaries(Sprite *sprite);
 	bool8_t CheckSpriteCollision(Sprite *sprite1, Sprite *sprite2);
 
-	// Enemies
-    void spawnEnemy();
-    uint32_t lastSpawnDuration = 0;
-    unsigned indexEnemy = 0;	
 };
 
 #endif

@@ -5,6 +5,7 @@
 #define BG_WIDTH		640
 #define BG_HEIGHT		960
 #define NUM_BACKGROUNDS	2
+#define LINE_WIDTH	1
 
 // Title Screen
 #define BG_TITLE_SCREEN		"assets/title_screen.png"
@@ -41,7 +42,14 @@
 #define ENEMY_NUM_SPRITES			1
 #define ENEMY_MAX_ENEMIES			5
 #define ENEMY_RESPAWN_TIME_MILLISEC 1000
-#define ENEMY_SHOOT_TIME_MILLISEC 600
+#define ENEMY_SHOOT_TIME_MILLISEC	600
+#define BASE_ENEMIES_PER_WAVE		5
+
+// FallTrajectory
+#define FALL_TRAJECTORY_SPEED 100.0f
+
+// SideTrajectory
+#define SIDE_TRAJECTORY_SPEED 100.0f
 
 // Projectiles
 #define MISSILE_SPRITE		"assets/missile.png"
@@ -75,16 +83,12 @@
 #define HIGH_SCORE_SPRITE	"assets/label.png"
 #define HIGH_SCORE_WIDTH	236
 #define HIGH_SCORE_HEIGHT	16
-
-// Fields
-#define NUM_HOLES	16
-#define LINE_WIDTH	1
-
-// FallTrajectory
-#define FALL_TRAJECTORY_SPEED 100.0f
-
-// SideTrajectory
-#define SIDE_TRAJECTORY_SPEED 100.0f
+#define HIGH_SCORE_X		-HIGH_SCORE_WIDTH / 2.0f
+#define HIGH_SCORE_Y		(BG_HEIGHT / 2.0f) - HIGH_SCORE_HEIGHT
+#define NUMBER_SPRITES		"assets/numbers.png"
+#define NUMBER_WIDTH		16
+#define NUMBER_HEIGHT		16
+#define NUMBER_NUM_SPRITES	10
 
 // Scoreboard
 #define HORIZONTAL_LINE "assets/sprites/lines/horizontal_line.png"
@@ -94,6 +98,10 @@
 #define SCOREBOARD_HORIZONTAL_HEIGHT 4
 #define SCOREBOARD_VERTICAL_WIDTH 4
 #define SCOREBOARD_VERTICAL_HEIGHT 16
-#define NUM_LINES 70
-#define SCOREBOARD_X	(BG_WIDTH/2)-DIGIT_SEPARATION
-#define SCOREBOARD_Y	(BG_HEIGHT/2)-SCOREBOARD_VERTICAL_HEIGHT
+#define NUM_LINES 63
+#define SCOREBOARD_X	(BG_WIDTH / 3.0f)
+#define SCOREBOARD_Y	(BG_HEIGHT / 2.0f) - SCOREBOARD_VERTICAL_HEIGHT / 2.0f
+
+#define LEVEL_X				(BG_WIDTH / 2.0f) - NUMBER_WIDTH
+#define LEVEL_Y				-(BG_HEIGHT / 2.0f) + NUMBER_HEIGHT
+#define MAX_LEVEL_DIGITS	3

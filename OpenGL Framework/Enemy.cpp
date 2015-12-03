@@ -19,8 +19,8 @@ Enemy::Enemy()
 	// Sprite
     mWidth = ENEMY_WIDTH;
     mHeight = ENEMY_HEIGHT;
-	numSprites = ENEMY_NUM_SPRITES;
-	currentSprite = 0;	// No animations
+	mNumSprites = ENEMY_NUM_SPRITES;
+	mCurrentSprite = 0;	// No animations
 
     mEnabled = true;
 	mIsFacingLeft = false;
@@ -64,7 +64,7 @@ void Enemy::update(uint32_t milliseconds)
 
 void Enemy::setSpriteType(int32_t type) {
     mType = type;
-    currentSprite = 0;
+	mCurrentSprite = 0;
 }
 
 void Enemy::reset() {

@@ -38,8 +38,14 @@ void SideTrajectory::checkBoundary()
 	float_t spriteUp = mPosition.y - mSprite->getHeight() / 2;
 	float_t spriteDown = mPosition.y + mSprite->getHeight() / 2;
 
-	if ((spriteLeft <= leftSide) || (spriteRight >= rightSide))
+	if (spriteLeft <= leftSide)
 	{
 		mSpeed *= -1.0f;
+		mPosition.x = leftSide + mSprite->getWidth() / 2;
+	}
+	else if (spriteRight >= rightSide)
+	{
+		mSpeed *= -1.0f;
+		mPosition.x = rightSide - mSprite->getWidth() / 2;
 	}
 }

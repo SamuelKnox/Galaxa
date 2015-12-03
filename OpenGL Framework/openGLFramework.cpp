@@ -360,8 +360,6 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
     setvbuf(hf_in, NULL, _IONBF, 128);
     *stdin = *hf_in;
 
-
-
 	Application			application;									// Application Structure
 	GL_Window			window;											// Window Structure
 	Keys				keys;											// Key Structure

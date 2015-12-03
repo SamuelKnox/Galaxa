@@ -30,16 +30,16 @@ Explosion::Explosion(float_t initPosX, float_t initPosY, uint32_t explosionType,
 	{
 		mWidth = EXPLOSION_PLAYER_WIDTH;
 		mHeight = EXPLOSION_PLAYER_HEIGHT;
-		numSprites = EXPLOSION_NUM_SPRITES;
+		mNumSprites = EXPLOSION_NUM_SPRITES;
 	}
 	else if (explosionType == SpriteManager::EXPLOSION_ENEMY)
 	{
 		mWidth = EXPLOSION_ENEMY_WIDTH;
 		mHeight = EXPLOSION_ENEMY_HEIGHT;
-		numSprites = EXPLOSION_NUM_SPRITES;
+		mNumSprites = EXPLOSION_NUM_SPRITES;
 	}
 	
-	currentSprite = START; // No animations
+	mCurrentSprite = START; // No animations
 
 	mType = explosionType;
 
@@ -70,26 +70,26 @@ bool8_t Explosion::CycleExplosionAnimation(uint32_t milliseconds)
 
 		if (mType == SpriteManager::EXPLOSION_PLAYER)
 		{
-			mIsFinished = (currentSprite == END);
+			mIsFinished = (mCurrentSprite == END);
 			if (!mIsFinished)
 			{
-				currentSprite++;
+				mCurrentSprite++;
 			}
 		}
 		else if (mType == SpriteManager::EXPLOSION_ENEMY)
 		{
-			if (currentSprite == END)
+			if (mCurrentSprite == END)
 			{
 				mType = SpriteManager::POINTS;
-				currentSprite = mPointType;
+				mCurrentSprite = mPointType;
 				mWidth = POINTS_WIDTH;
 				mHeight = POINTS_HEIGHT;
-				numSprites = POINTS_NUM_SPRITES;
+				mNumSprites = POINTS_NUM_SPRITES;
 				mAnimationRate = POINTS_RATE_MS;
 			}
 			else if (!mIsFinished)
 			{
-				currentSprite++;
+				mCurrentSprite++;
 			}
 		}
 		else if (mType == SpriteManager::POINTS)

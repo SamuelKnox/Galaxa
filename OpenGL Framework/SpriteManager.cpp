@@ -63,6 +63,7 @@ void SpriteManager::init()
     JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), HORIZONTAL_LINE, &spriteTextureMaps[HLINE]);
     JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), VERTICAL_LINE, &spriteTextureMaps[VLINE]);
     JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), HIGH_SCORE_SPRITE, &spriteTextureMaps[LABEL]);
+	JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), NUMBER_SPRITES, &spriteTextureMaps[NUMBERS]);
 
 	mInGame = false;
 }
@@ -74,8 +75,11 @@ void SpriteManager::updateSprites(uint32_t milliseconds)
 		return;
 	}
 
+	// Update player
 	player->update(milliseconds);
 	player->updateET(milliseconds);
+
+	// Update other sprites
 	for (int i = 0; i < MAX_NUM_MISSILES; i++) 
 	{
 		if (bullets[i] != nullptr) 
@@ -104,20 +108,9 @@ void SpriteManager::updateSprites(uint32_t milliseconds)
 		}
 	}
 
-    lastSpawnDuration += milliseconds;
-    if (lastSpawnDuration >= ENEMY_RESPAWN_TIME_MILLISEC) 
-	{
-        lastSpawnDuration = 0;
-        spawnEnemy();
-    }
-
+	// Collision checks
 	CheckBoundaryCollisions();
 	CheckBulletCollisions();
-}
-
-Player* SpriteManager::getET()
-{
-	return player;
 }
 
 void SpriteManager::renderSprites()
@@ -173,6 +166,7 @@ void SpriteManager::shutdown()
 	resetGame();
 
 	free(spriteTextureMaps);
+
     for (int32_t i = 0; i < MAX_NUM_MISSILES; i++)
     {
         if (bullets[i] != nullptr) {
@@ -311,7 +305,7 @@ void SpriteManager::CheckBulletCollisions()
 						if (CheckSpriteCollision(bullets[i], enemies[j]))
 						{
 							CreateExplosion(enemies[j]->getPosition()->x, enemies[j]->getPosition()->y, EXPLOSION_ENEMY, enemies[j]->getType());
-							GameManager::GetInstance()->scoreboard->score += points[enemies[j]->getType()];
+							GameManager::GetInstance()->enemyKilled(points[enemies[j]->getType()]);
 							enemies[j]->killed();
 
 							delete bullets[i];
@@ -342,11 +336,7 @@ void SpriteManager::CheckBulletCollisions()
 	}
 }
 
-void SpriteManager::spawnEnemy() {
-    if (++indexEnemy == ENEMY_MAX_ENEMIES) {
-        indexEnemy = 0;
-    }
-
+void SpriteManager::spawnEnemy(uint32_t indexEnemy) {
     if (enemies[indexEnemy] == nullptr) {
         enemies[indexEnemy] = new Enemy();
         static uint32_t id = SoundManager::GetInstance()->LoadSound(ENEMY_SFX_KILL);

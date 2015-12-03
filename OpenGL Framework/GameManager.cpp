@@ -40,15 +40,27 @@ void GameManager::init(int32_t width, int32_t height)
 	mBackgroundHeight = height;
 	mBackgroundOffset = 0.0f;
 	mBackgroundNumSprites = TITLE_NUM_SPRITES;
+	lastSpawnDuration = 0;
+	indexEnemy = 0;
 
-	// Setup scoreboard and set gameState to title_screen
-	mGameState = TITLE_SCREEN;
+	// Setup scoreboard & set gameState to title screen
 	scoreboard = new Scoreboard();
-}
+	mGameState = TITLE_SCREEN;
 
+	for (int32_t i = 0; i < MAX_LEVEL_DIGITS; i++)
+	{
+		levelDisplay[i] = new Sprite(LEVEL_X + NUMBER_WIDTH * -i, LEVEL_Y, NUMBER_WIDTH, NUMBER_HEIGHT, SpriteManager::NUMBERS, 0, NUMBER_NUM_SPRITES);
+	}
+}
+ 
 void GameManager::shutdown()
 {
 	delete scoreboard;
+
+	for (int32_t i = 0; i < MAX_LEVEL_DIGITS; i++)
+	{
+		delete levelDisplay[i];
+	}
 }
 
 void GameManager::render()
@@ -58,6 +70,14 @@ void GameManager::render()
 
 	if (mGameState == IN_GAME) {
 		scoreboard->Render();
+
+		for (int32_t i = 0; i < MAX_LEVEL_DIGITS; i++)
+		{
+			double_t placeVal = pow(10, -i);
+			int32_t digit = (int32_t)(mLevelNum * placeVal) % 10;
+			levelDisplay[i]->setCurrentSprite(digit);
+			levelDisplay[i]->render();
+		}
 	}
 }
 
@@ -66,6 +86,84 @@ void GameManager::update(uint32_t milliseconds)
 	// Check for user input if at title or gameover screens
 	checkForInput();
 
+	// Update background offset for scrolling
+	updateBackground(milliseconds);
+
+	// Spawn enemies for current wave 
+	lastSpawnDuration += milliseconds;
+	if ((mEnemiesLeftInWave > 0) && (lastSpawnDuration >= ENEMY_RESPAWN_TIME_MILLISEC))
+	{
+		lastSpawnDuration = 0;
+		if (++indexEnemy == ENEMY_MAX_ENEMIES)
+		{
+			indexEnemy = 0;
+		}
+		SpriteManager::GetInstance()->spawnEnemy(indexEnemy);
+		mEnemiesLeftInWave--;
+		mEnemiesAlive++;
+	}
+
+	// Update waves and level progression
+	updateLevelWaves();
+}
+
+int32_t GameManager::getState()
+{
+	return mGameState;
+}
+
+void GameManager::enemyKilled(int32_t pointValue)
+{
+	mEnemiesAlive--;	
+	scoreboard->score += pointValue;
+}
+
+void GameManager::setState(int32_t state)
+{
+	mGameState = state;
+}
+
+void GameManager::startNewGame()
+{
+	// Initialize game logic variables
+	mLevelNum = 1;
+	mWaveNum = 1;
+	mWavesInLevel = 1;
+	mEnemiesLeftInWave = BASE_ENEMIES_PER_WAVE;
+	mEnemiesAlive = 0;
+	lastSpawnDuration = 0;
+
+	mGameState = IN_GAME;
+	SpriteManager::GetInstance()->startGame();
+	scoreboard->Reset();
+}
+
+void GameManager::checkForInput()
+{
+	// Check if space is pressed at title_screen to start game
+	if (mGameState == TITLE_SCREEN)
+	{
+		SHORT startKey = GetKeyState(VK_SPACE);
+		if ((startKey & 0x8000))
+		{
+			startNewGame();
+		}
+	}
+
+	// Check if enter is pressed during gameover to return to title_screen
+	else if (mGameState == GAME_OVER)
+	{
+		SHORT startKey = GetKeyState(VK_RETURN);
+		if ((startKey & 0x8000))
+		{
+			mGameState = TITLE_SCREEN;
+			SpriteManager::GetInstance()->resetGame();
+		}
+	}
+}
+
+void GameManager::updateBackground(uint32_t milliseconds)
+{
 	// Update background if state has changed
 	if (mGameState == TITLE_SCREEN && mCurrentBackground != mTitleScreenBackground)
 	{
@@ -92,37 +190,26 @@ void GameManager::update(uint32_t milliseconds)
 	}
 }
 
-int32_t GameManager::getState()
+void GameManager::updateLevelWaves()
 {
-	return mGameState;
-}
-void GameManager::setState(int32_t state)
-{
-	mGameState = state;
-}
-
-void GameManager::checkForInput()
-{
-	// Check if space is pressed at title_screen to start game
-	if (mGameState == TITLE_SCREEN)
+	// Check if there are any enemies left in current wave
+	if (mEnemiesLeftInWave == 0 && mEnemiesAlive == 0)
 	{
-		SHORT startKey = GetKeyState(VK_SPACE);
-		if ((startKey & 0x8000))
+		mWaveNum++;
+
+		// If last wave for level, then transition to next level
+		if (mWaveNum > mWavesInLevel)
 		{
-			mGameState = IN_GAME;
-			SpriteManager::GetInstance()->startGame();
-			scoreboard->Reset();
+			mLevelNum++;
+			mWaveNum = 1;
+			mWavesInLevel = 1 + (mLevelNum / 5);
 		}
+
+		// Reset enemy count
+		mEnemiesLeftInWave = BASE_ENEMIES_PER_WAVE + (mLevelNum / 5);
 	}
 
-	// Check if enter is pressed during gameover to return to title_screen
-	else if (mGameState == GAME_OVER)
-	{
-		SHORT startKey = GetKeyState(VK_RETURN);
-		if ((startKey & 0x8000))
-		{
-			mGameState = TITLE_SCREEN;
-			SpriteManager::GetInstance()->resetGame();
-		}
-	}
+	char str[256];
+	sprintf_s(str, "Level: %d, Wave: %d , Enemies Alive: %d, Enemies Left in Wave: %d \n", mLevelNum, mWaveNum, mEnemiesAlive, mEnemiesLeftInWave);
+	OutputDebugString(str);
 }
