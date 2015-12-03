@@ -19,7 +19,11 @@
     <ClCompile Include="Scoreboard.cpp" />
     <ClCompile Include="SideTrajectory.cpp" />
     <ClCompile Include="WeaponDrop.cpp" />
+<<<<<<< Updated upstream
     <ClCompile Include="main.cpp" />
+=======
+    <ClCompile Include="FollowTrajectory.cpp" />
+>>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="collInfo.h" />
@@ -44,5 +48,6 @@
     <ClInclude Include="Scoreboard.h" />
     <ClInclude Include="SideTrajectory.h" />
     <ClInclude Include="WeaponDrop.h" />
+    <ClInclude Include="FollowTrajectory.h" />
   </ItemGroup>
 </Project>
