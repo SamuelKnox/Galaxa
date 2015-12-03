@@ -3,7 +3,6 @@
 #include <stdarg.h>												// Header File For Variable Argument Routines
 #include <math.h>												// Header File For Math Operations
 #include "jsy/jsy.h"
-#include "openglframework.h"	
 #include "gamedefs.h"
 #include "stateManager.h"
 

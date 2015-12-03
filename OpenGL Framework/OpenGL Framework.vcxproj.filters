@@ -5,8 +5,6 @@
     <ClCompile Include="FieldManager.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="object.cpp" />
-    <ClCompile Include="openGLFramework.cpp" />
-    <ClCompile Include="openGLStuff.cpp" />
     <ClCompile Include="random.cpp" />
     <ClCompile Include="stateManager.cpp" />
     <ClCompile Include="SpriteManager.cpp" />
@@ -22,6 +20,7 @@
     <ClCompile Include="Scoreboard.cpp" />
     <ClCompile Include="SideTrajectory.cpp" />
     <ClCompile Include="WeaponDrop.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="collInfo.h" />
@@ -31,8 +30,6 @@
     <ClInclude Include="gamedefs.h" />
     <ClInclude Include="gameObjects.h" />
     <ClInclude Include="Object.h" />
-    <ClInclude Include="openGLFramework.h" />
-    <ClInclude Include="openGLStuff.h" />
     <ClInclude Include="random.h" />
     <ClInclude Include="stateManager.h" />
     <ClInclude Include="types.h" />

@@ -6,8 +6,7 @@
 #include <float.h>
 #include "jsy/jsy.h"
 
-#include "jsy/jsy.h"
-#include "openglframework.h"	
+#include "jsy/jsy.h"	
 #include "gamedefs.h"
 #include "collinfo.h"
 #include "object.h"

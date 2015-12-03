@@ -4,14 +4,12 @@
 #include <math.h>												// Header File For Math Operations
 
 #include "jsy/jsy.h"
-#include "openglframework.h"	
 #include "gamedefs.h"
 #include "collInfo.h"
 #include "object.h"
 #include "Sprite.h"
 #include "field.h"
 #include "random.h"
-#include "openGLStuff.h"
 #include "SpriteManager.h"
 #include "FieldManager.h"
 #include "GameManager.h"
