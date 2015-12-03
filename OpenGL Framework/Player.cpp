@@ -18,17 +18,17 @@
 #include "random.h"
 #include "stateManager.h"
 #include "SpriteManager.h"
-#include "SoundManager.h"
 #include "game.h"
 
 
 Player* Player::CreatePlayer(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType) {
 	Player* player = new Player(initPosX, initPosY, initVelX, initVelY, gameObjectType);
 
-	static uint32_t firSfxId = SoundManager::GetInstance()->LoadSound(PLAYER_SFX_FIRE);
-	static uint32_t hitSfxId = SoundManager::GetInstance()->LoadSound(PLAYER_SFX_HIT);
-	player->mFireSFXId = firSfxId;
-	player->mHitSFXId = hitSfxId;
+    static uint32_t fireId = JsyAudioLoad(CGame::GetInstance()->GetJsyAudioHandle(), PLAYER_SFX_FIRE);
+    static uint32_t hitId = JsyAudioLoad(CGame::GetInstance()->GetJsyAudioHandle(), PLAYER_SFX_HIT);
+
+    player->mFireSFXId = fireId;
+    player->mHitSFXId = hitId;
 	return player;
 }
 
@@ -128,7 +128,7 @@ void Player::updateET(uint32_t milliseconds)
 void Player::playerHit()
 {
 	mNumLives--;
-	SoundManager::GetInstance()->PlaySoundResource(mHitSFXId);
+    JsyAudioPlaySound(CGame::GetInstance()->GetJsyAudioHandle(), mHitSFXId);
 	if (mNumLives >= 0)
 	{
 		delete mLives[mNumLives];
@@ -184,7 +184,7 @@ void Player::CheckForUserInput()
 		mShotTimer = 0;
 		Shoot();
 		if (mFireSFXId != 0) {
-			SoundManager::GetInstance()->PlaySoundResource(mFireSFXId);
+            JsyAudioPlaySound(CGame::GetInstance()->GetJsyAudioHandle(), mFireSFXId);
 		}
 	}
 }

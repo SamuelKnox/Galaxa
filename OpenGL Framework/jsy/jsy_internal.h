@@ -6,7 +6,7 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 #include "soil.h"
-
+#include "fmod/fmod.hpp"
 #include "jsy.h"
 
 #define NULL 0
@@ -59,6 +59,25 @@ typedef struct JsyGInternalS {
     uint32_t textureCnt = 0;
 } JsyGInternalT;
 
+///////////////
+// Audio APIs
 
+// node of the sound resources list
+typedef struct SoundNode_s {
+    uint32_t id;
+    FMOD::Sound * sound;
+    struct SoundNode_s * nextSound;
+} SoundNode_t;
+
+
+typedef struct JsyAudioInternalS {
+    // FMOD stuff
+    FMOD::System *soundSystem;
+    FMOD::Channel * channels[32];
+    // the sound resources list
+    SoundNode_t * listSounds = NULL;
+    SoundNode_t * tailSounds = NULL;
+    uint32_t id_cnt = 0;
+} JsyAudioInternalT;
 
 #endif

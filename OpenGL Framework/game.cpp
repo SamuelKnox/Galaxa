@@ -13,8 +13,6 @@
 #include "SpriteManager.h"
 #include "FieldManager.h"
 #include "GameManager.h"
-#include "SoundManager.h"
-
 #include "game.h"
 
 // Declarations
@@ -25,16 +23,15 @@ void CGame::init()
 {
     JsyGOpen(&jsyGHandle, mBitsPerPixel);
     JsyInputOpen(&jsyInputHandle);
+    JsyAudioOpen(&jsyAudioHandle);
 
 	SpriteManager::CreateInstance();
 	FieldManagerC::CreateInstance();
 	GameManager::CreateInstance();
-    SoundManager::CreateInstance();
 
 	GameManager::GetInstance()->init(BG_WIDTH, BG_HEIGHT);
 	FieldManagerC::GetInstance()->init();
 	SpriteManager::GetInstance()->init();
-    SoundManager::GetInstance()->init();
 }
 
 void CGame::UpdateFrame(uint32_t milliseconds)

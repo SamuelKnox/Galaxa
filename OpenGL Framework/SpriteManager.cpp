@@ -22,7 +22,6 @@
 #include "GameManager.h"
 #include "FallTrajectory.h"
 #include "SideTrajectory.h"
-#include "SoundManager.h"
 #include "game.h"
 
 SpriteManager* SpriteManager::sInstance = NULL;
@@ -295,8 +294,8 @@ void SpriteManager::resetGame()
 
 void SpriteManager::startGame()
 {
-	static uint32_t id = SoundManager::GetInstance()->LoadSound(START_SFX);
-	SoundManager::GetInstance()->PlaySoundResource(id);
+	static uint32_t id = JsyAudioLoad(CGame::GetInstance()->GetJsyAudioHandle(), START_SFX);
+    JsyAudioPlaySound(CGame::GetInstance()->GetJsyAudioHandle(), id);
 	resetGame();
 	player = Player::CreatePlayer(0.0f, 0.0f, 0.0f, 0.0f, PLAYER);
 	mInGame = true;
@@ -453,7 +452,7 @@ void SpriteManager::CheckBulletCollisions()
 
 void SpriteManager::spawnEnemy(uint32_t indexEnemy) {
     if (enemies[indexEnemy] == nullptr) {
-        static uint32_t id = SoundManager::GetInstance()->LoadSound(ENEMY_SFX_KILL);
+        static uint32_t id = JsyAudioLoad(CGame::GetInstance()->GetJsyAudioHandle(), ENEMY_SFX_KILL);
 		
 		// Choose random enemy type
         int32_t type = getRangedRandom(ENEMY_GREEN, ENEMY_SHIP);

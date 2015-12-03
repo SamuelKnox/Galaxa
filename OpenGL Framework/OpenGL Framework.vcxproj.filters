@@ -15,7 +15,6 @@
     <ClCompile Include="Trajectory.cpp" />
     <ClCompile Include="FallTrajectory.cpp" />
     <ClCompile Include="Explosion.cpp" />
-    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scoreboard.cpp" />
     <ClCompile Include="SideTrajectory.cpp" />
@@ -41,7 +40,6 @@
     <ClInclude Include="Trajectory.h" />
     <ClInclude Include="FallTrajectory.h" />
     <ClInclude Include="Explosion.h" />
-    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Scoreboard.h" />
     <ClInclude Include="SideTrajectory.h" />

@@ -550,3 +550,138 @@ JSY_ERROR_T JsyGDrawSprite(JSYGHandle handle, uint32_t resourceId, bool8_t isFli
     glEnd();
     return JSY_SUCCEED;
 }
+
+JSY_ERROR_T JsyAudioOpen(JSYAudioHandle * pHandle) {
+
+    JsyAudioInternalT * handle = (JsyAudioInternalT *)malloc(sizeof(JsyAudioInternalT));
+    ZeroMemory(handle, sizeof(JsyAudioInternalT));
+    if (!handle)
+        return JSY_ERROR_OOM;
+
+    // Create the FMOD sound obj
+    FMOD_RESULT res = FMOD::System_Create(&handle->soundSystem);
+    if (res != FMOD_OK) {
+        printf("Sound System init failed: %d", res);
+    }
+
+    // Init the FMOD sound obj
+    handle->soundSystem->init(32, FMOD_INIT_NORMAL, NULL);
+
+    memset(&handle->channels, 0, sizeof(FMOD::Channel*) * 32);
+
+    *pHandle = (JSYAudioHandle *)handle;
+
+    return JSY_SUCCEED;
+}
+
+JSY_ERROR_T JsyAudioClose(JSYAudioHandle handle) {
+    JsyAudioInternalT * localhandle = (JsyAudioInternalT *)handle;
+
+    SoundNode_t* currentSoundNode = localhandle->listSounds;
+    while (currentSoundNode != NULL) {
+        SoundNode_t* tmp = currentSoundNode->nextSound;
+        free(currentSoundNode);
+        currentSoundNode = tmp;
+    }
+    localhandle->listSounds = NULL;
+
+    if (!localhandle) {
+        free(localhandle);
+    }
+    return JSY_SUCCEED;
+}
+
+uint32_t JsyAudioLoad(JSYAudioHandle handle, const char8_t * fileName) {
+    JsyAudioInternalT * localhandle = (JsyAudioInternalT *)handle;
+    // Load the sound file into the SoundManager
+    SoundNode_t * newNode = (SoundNode_t*)malloc(sizeof(SoundNode_t));
+    // Put into the internal list
+    newNode->id = ++(localhandle->id_cnt);
+    newNode->nextSound = NULL;
+    if (localhandle->listSounds == NULL) {
+        localhandle->listSounds = newNode;
+    }
+    if (localhandle->tailSounds != NULL) {
+        localhandle->tailSounds->nextSound = newNode;
+    }
+    localhandle->tailSounds = newNode;
+
+    // Load sound file
+    FMOD_RESULT res = localhandle->soundSystem->createSound(fileName, FMOD_DEFAULT, 0, &(newNode->sound));
+    if (res != FMOD_OK) {
+        printf("Sound System load failed: %d", res);
+    }
+    // Init it
+    newNode->sound->setMode(FMOD_LOOP_OFF);
+
+    return newNode->id;
+}
+
+// This function is for fixing FMOD bug
+static void resumeChannel(JsyAudioInternalT * localhandle) {
+    // Find all channel and modify their priority, the one that is curreny playing has high priority
+    for (int i = 0; i < 32; i++) {
+        if (localhandle->channels[i] != NULL) {
+            bool isPlaying = false;
+            localhandle->channels[i]->isPlaying(&isPlaying);
+            if (isPlaying) {
+                localhandle->channels[i]->setPriority(0);
+            }
+            else {
+                localhandle->channels[i]->setPriority(256);
+                localhandle->channels[i]->stop();
+            }
+        }
+    }
+}
+
+// This function is for fixing FMOD bug
+static void putChannel(JsyAudioInternalT * localhandle, FMOD::Channel * channel) {
+    int index = 0;
+    int low_priority = 0;
+    channel->setPriority(0);
+    // Find empty or low priority, modify the priority, and put the new channel handle into our array
+    for (int i = 0; i < 32; i++) {
+        if (localhandle->channels[i] == NULL) {
+            index = i;
+            break;
+        }
+        else {
+            bool isPlaying = false;
+            localhandle->channels[i]->isPlaying(&isPlaying);
+            if (isPlaying) {
+                localhandle->channels[i]->setPriority(0);
+            }
+            else {
+                index = i;
+                break;
+            }
+        }
+    }
+    localhandle->channels[index] = channel;
+}
+
+JSY_ERROR_T JsyAudioPlaySound(JSYAudioHandle handle, uint32_t resourceId) {
+    JsyAudioInternalT * localhandle = (JsyAudioInternalT *)handle;
+
+    SoundNode_t* currentSoundNode = localhandle->listSounds;
+    if (currentSoundNode == NULL) return JSY_SUCCEED;
+    // Loop through the list until we find the sound resource
+    while (currentSoundNode->id != resourceId) {
+        currentSoundNode = currentSoundNode->nextSound;
+        if (currentSoundNode == NULL)
+            return JSY_SUCCEED;
+    }
+
+    if (currentSoundNode->id == resourceId) {
+        // Fixing FMOD bug, all channels will stop if it randomly pick a low prioirty channel
+        // Use resumeChannel to set higher priority for the channel that is playing
+        resumeChannel(localhandle);
+        FMOD::Channel * channel = NULL;
+        localhandle->soundSystem->playSound(currentSoundNode->sound, 0, false, &channel);
+        // An old channel handle will become invalid if the sound system pick a channel, it makes the old channel handle invalid.
+        // So we need to store the new channel handle even the channel is included in our list
+        putChannel(localhandle, channel);
+    }
+    return JSY_SUCCEED;
+}

@@ -4,9 +4,9 @@
 #include "Enemy.h"
 #include "FallTrajectory.h"
 #include "SpriteManager.h"
-#include "SoundManager.h"
 #include "Player.h"
 #include "random.h"
+#include "game.h"
 
 Enemy::Enemy(uint32_t type)
 {
@@ -46,7 +46,8 @@ bool8_t Enemy::hit() {
 	mHealth--;
 	if (mHealth <= 0)
 	{
-		SoundManager::GetInstance()->PlaySoundResource(mKillSFXId);
+        JsyAudioPlaySound(CGame::GetInstance()->GetJsyAudioHandle(), mKillSFXId);
+
 		mIsDead = true;
 
 		if (mType == SpriteManager::ENEMY_SHIP)

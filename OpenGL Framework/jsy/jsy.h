@@ -20,9 +20,6 @@ typedef enum JSY_ERROR_S {
 ///////////////////////
 // Init library
 
-
-
-
 #ifdef _XBOX_
 JSY_ERROR_T JsyAppInit_XBOX();
 #else
@@ -34,7 +31,21 @@ JSY_ERROR_T JsyAppInit_Win(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR l
 JSY_ERROR_T JsyAppClose();
 
 ///////////////////////
+// Audio APIs
+
+typedef void * JSYAudioHandle;
+
+JSY_ERROR_T JsyAudioOpen(JSYAudioHandle * pHandle);
+
+JSY_ERROR_T JsyAudioClose(JSYAudioHandle handle);
+
+uint32_t JsyAudioLoad(JSYAudioHandle handle, const char8_t * fileName);
+
+JSY_ERROR_T JsyAudioPlaySound(JSYAudioHandle handle, uint32_t resourceId);
+
+///////////////////////
 // Platform APIs
+
 uint32_t JsyGetTickCount();
 
 ///////////////////////

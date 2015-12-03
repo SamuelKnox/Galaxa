@@ -24,6 +24,10 @@ public:
         return jsyInputHandle;
     };
 
+    JSYInputHandle GetJsyAudioHandle() {
+        return jsyAudioHandle;
+    };
+
     bool GetQuit() { return mQuit; };
 
 	static const uint32_t mBitsPerPixel = 32;
@@ -33,6 +37,7 @@ private:
 
     JSYGHandle jsyGHandle = NULL;
     JSYInputHandle jsyInputHandle = NULL;
+    JSYAudioHandle jsyAudioHandle = NULL;
 
     bool mQuit = false;
 
