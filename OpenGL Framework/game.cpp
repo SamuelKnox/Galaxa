@@ -48,14 +48,20 @@ void CGame::init()
 
 void CGame::UpdateFrame(uint32_t milliseconds)
 {
-	keyProcess();
+    float_t quit;
+    JsyInputGetInput(jsyInputHandle, JSY_INPUT_BACK, &quit);
+    if (quit > 0.0f)
+    {
+        TerminateApplication(g_window);						// Terminate The Program
+    }
+
 	GameManager::GetInstance()->update(milliseconds);
 	SpriteManager::GetInstance()->updateSprites(milliseconds);
 }
 
 void CGame::DrawScene(void)											
 {
-	startOpenGLDrawing();
+    JsyGClear(jsyGHandle);
 	GameManager::GetInstance()->render();
 	FieldManagerC::GetInstance()->renderField();
 	SpriteManager::GetInstance()->renderSprites();

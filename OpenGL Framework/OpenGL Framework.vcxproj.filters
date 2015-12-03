@@ -5,7 +5,6 @@
     <ClCompile Include="FieldManager.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="keyProcess.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="openGLFramework.cpp" />
     <ClCompile Include="openGLStuff.cpp" />

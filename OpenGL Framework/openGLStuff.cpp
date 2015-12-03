@@ -20,7 +20,6 @@ void initOpenGLDrawing( GL_Window *window, Keys *keys, float backRed, float back
 	glEnable(GL_CULL_FACE);										// Remove Back Face
 	
 	g_window	= window;
-	g_keys		= keys;
 }
 void endOpenGLDrawing()
 {

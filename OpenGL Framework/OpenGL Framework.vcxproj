@@ -106,7 +106,6 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="keyProcess.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="openGLFramework.cpp" />
     <ClCompile Include="openGLStuff.cpp" />

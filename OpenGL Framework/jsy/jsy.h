@@ -22,6 +22,8 @@ typedef enum JSY_INPUT_S {
     JSY_INPUT_RIGHT = 103,
     JSY_INPUT_A = 104,
     JSY_INPUT_B = 105,
+    JSY_INPUT_START = 106,
+    JSY_INPUT_BACK = 107,
 } JSY_INPUT_T;
 
 typedef void * JSYInputHandle;
@@ -46,6 +48,8 @@ JSY_ERROR_T JsyGOpen(JSYGHandle * pHandle);
 JSY_ERROR_T JsyGClose(JSYGHandle handle);
 
 JSY_ERROR_T JStGLoadTexture(JSYGHandle handle, const char * fileName, uint32_t * pTextureId);
+
+JSY_ERROR_T JsyGClear(JSYGHandle handle);
 
 JSY_ERROR_T JsyGDrawBackGround(JSYGHandle handle, uint32_t textureId, float_t width, float_t height,
     float_t yTexCoord, uint32_t numSprites);

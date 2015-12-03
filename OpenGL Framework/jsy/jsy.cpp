@@ -27,6 +27,8 @@ JSY_ERROR_T JsyInputGetInput(JSYInputHandle handle, JSY_INPUT_T input, float_t *
         case JSY_INPUT_RIGHT:winType = VK_RIGHT; break;
         case JSY_INPUT_A: winType = VK_SPACE; break;
         case JSY_INPUT_B: winType = VK_SHIFT; break;
+        case JSY_INPUT_START: winType = VK_F1; break;
+        case JSY_INPUT_BACK: winType = VK_ESCAPE; break;
         default:
             break;
     }
@@ -57,7 +59,6 @@ JSY_ERROR_T JsyGOpen(JSYGHandle * pHandle) {
     //glEnable(GL_CULL_FACE);										// Remove Back Face
 
     //g_window = window;
-    //g_keys = keys;
 
     *pHandle = (JSYGHandle *)handle;
 
@@ -111,6 +112,14 @@ JSY_ERROR_T JsyGDrawBackGround(JSYGHandle handle, uint32_t resourceId, float_t w
         glVertex3f(-width / 2.0f, height / 2.0f, 0.0f);
     }
     glEnd();
+    return JSY_SUCCEED;
+}
+
+JSY_ERROR_T JsyGClear(JSYGHandle handle) {
+    // Clear the window
+    glClear(GL_COLOR_BUFFER_BIT);
+    // Set the modelview matrix to be the identity matrix
+    glLoadIdentity();
     return JSY_SUCCEED;
 }
 

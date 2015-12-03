@@ -83,6 +83,5 @@ extern char appTitle[];								// Stores Program Title
 extern int screenInfo[3];							// Stores Screen Info (w,h,bpp)
 
 extern GL_Window*	g_window;
-extern Keys*		g_keys;
 
 #endif												// GL_FRAMEWORK__INCLUDED

@@ -8,8 +8,6 @@
 #include "gamedefs.h"
 #include "openglframework.h"														// Header File For The NeHeGL Basecode
 #include "game.h"
-
-#define WM_TOGGLEFULLSCREEN (WM_USER+1)									// Application Define Message For Toggling
 	
 #ifndef		CDS_FULLSCREEN										// CDS_FULLSCREEN Is Not Defined By Some
 #define		CDS_FULLSCREEN 4									// Compilers. By Defining It This Way,
@@ -17,19 +15,11 @@
 
 // Between Fullscreen / Windowed Mode
 static BOOL g_isProgramLooping;											// Window Creation Loop, For FullScreen/Windowed Toggle																		// Between Fullscreen / Windowed Mode
-static BOOL g_createFullScreen;											// If TRUE, Then Create Fullscreen
 
-int	mouse_x, mouse_y;							                        // The Current Position Of The Mouse
-bool8_t mouse_r_button_down,mouse_l_button_down;
 void TerminateApplication (GL_Window* window)							// Terminate The Application
 {
 	PostMessage (window->hWnd, WM_QUIT, 0, 0);							// Send A WM_QUIT Message
 	g_isProgramLooping = FALSE;											// Stop Looping Of The Program
-}
-
-void ToggleFullscreen (GL_Window* window)								// Toggle Fullscreen/Windowed
-{
-	PostMessage (window->hWnd, WM_TOGGLEFULLSCREEN, 0, 0);				// Send A WM_TOGGLEFULLSCREEN Message
 }
 
 void ReshapeGL (int width, int height)									// Reshape The Window When It's Moved Or Resized
@@ -96,25 +86,8 @@ BOOL CreateWindowGL (GL_Window* window)									// This Code Creates Our OpenGL 
 
 	GLuint PixelFormat;													// Will Hold The Selected Pixel Format
 
-	if (window->init.isFullScreen == TRUE)								// Fullscreen Requested, Try Changing Video Modes
-	{
-		if (ChangeScreenResolution (window->init.width, window->init.height, window->init.bitsPerPixel) == FALSE)
-		{
-			// Fullscreen Mode Failed.  Run In Windowed Mode Instead
-			MessageBox (HWND_DESKTOP, "Mode Switch Failed.\nRunning In Windowed Mode.", "Error", MB_OK | MB_ICONEXCLAMATION);
-			window->init.isFullScreen = FALSE;							// Set isFullscreen To False (Windowed Mode)
-		}
-		else															// Otherwise (If Fullscreen Mode Was Successful)
-		{
-			windowStyle = WS_POPUP;										// Set The WindowStyle To WS_POPUP (Popup Window)
-			windowExtendedStyle |= WS_EX_TOPMOST;						// Set The Extended Window Style To WS_EX_TOPMOST
-		}																// (Top Window Covering Everything Else)
-	}
-	else																// If Fullscreen Was Not Selected
-	{
-		// Adjust Window, Account For Window Borders
-		AdjustWindowRectEx (&windowRect, windowStyle, 0, windowExtendedStyle);
-	}
+    // Adjust Window, Account For Window Borders
+	AdjustWindowRectEx (&windowRect, windowStyle, 0, windowExtendedStyle);
 
 	// Create The OpenGL Window
 	window->hWnd = CreateWindowEx (windowExtendedStyle,					// Extended Style
@@ -236,18 +209,6 @@ LRESULT CALLBACK WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	GL_Window* window = (GL_Window*)(GetWindowLong (hWnd, GWL_USERDATA));
 	switch (uMsg)														// Evaluate Window Message
 	{
-		case WM_SYSCOMMAND:												// Intercept System Commands
-		{
-			switch (wParam)												// Check System Calls
-			{
-				case SC_SCREENSAVE:										// Screensaver Trying To Start?
-				case SC_MONITORPOWER:									// Monitor Trying To Enter Powersave?
-				return 0;												// Prevent From Happening
-			}
-			break;														// Exit
-		}
-		return 0;														// Return
-
 		case WM_CREATE:													// Window Creation
 		{
 			CREATESTRUCT* creation = (CREATESTRUCT*)(lParam);			// Store Window Structure Pointer
@@ -278,45 +239,6 @@ LRESULT CALLBACK WindowProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				return 0;												// Return
 			}
 		break;															// Break
-
-		case WM_KEYDOWN:												// Update Keyboard Buffers For Keys Pressed
-			if ((wParam >= 0) && (wParam <= 255))						// Is Key (wParam) In A Valid Range?
-			{
-				window->keys->keyDown [wParam] = TRUE;					// Set The Selected Key (wParam) To True
-				return 0;												// Return
-			}
-		break;															// Break
-
-		case WM_KEYUP:													// Update Keyboard Buffers For Keys Released
-			if ((wParam >= 0) && (wParam <= 255))						// Is Key (wParam) In A Valid Range?
-			{
-				window->keys->keyDown [wParam] = FALSE;					// Set The Selected Key (wParam) To False
-				return 0;												// Return
-			}
-		break;															// Break
-
-		case WM_TOGGLEFULLSCREEN:										// Toggle FullScreen Mode On/Off
-			g_createFullScreen = (g_createFullScreen == TRUE) ? FALSE : TRUE;
-			PostMessage (hWnd, WM_QUIT, 0, 0);
-		break;															// Break
-		
-		case WM_RBUTTONDOWN:
-		{
-			mouse_r_button_down = true;		
-		}
-		break;
-		case WM_LBUTTONDOWN:
-		{
-			mouse_l_button_down = true;
-		}
-		break;
-
-		case WM_MOUSEMOVE:
-		{
-	        mouse_x = LOWORD(lParam);          
-			mouse_y = HIWORD(lParam);
-		}
-		break;
 	}
 
 	return DefWindowProc (hWnd, uMsg, wParam, lParam);					// Pass Unhandled Messages To DefWindowProc
@@ -346,6 +268,7 @@ BOOL RegisterWindowClass (Application* application)						// Register A Window Cl
 // Program Entry (WinMain)
 int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+#ifdef _MY_DEBUG_
     AllocConsole();
 
     HANDLE handle_out = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -359,8 +282,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
     FILE* hf_in = _fdopen(hCrt, "r");
     setvbuf(hf_in, NULL, _IONBF, 128);
     *stdin = *hf_in;
-
-
+#endif
 
 	Application			application;									// Application Structure
 	GL_Window			window;											// Window Structure
@@ -404,11 +326,11 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	}
 
 	g_isProgramLooping = TRUE;											// Program Looping Is Set To TRUE
-	g_createFullScreen = window.init.isFullScreen;						// g_createFullScreen Is Set To User Default
+
 	while (g_isProgramLooping)											// Loop Until WM_QUIT Is Received
 	{
 		// Create A Window
-		window.init.isFullScreen = g_createFullScreen;					// Set Init Param Of Window Creation To Fullscreen?
+
 		if (CreateWindowGL (&window) == TRUE)							// Was Window Creation Successful?
 		{
 			// At This Point We Should Have A Window That Is Setup To Render OpenGL
