@@ -69,7 +69,7 @@ void Sprite::render()
 
 	float_t xTextureCoord = (float_t)currentSprite * (1.0f / numSprites);
 	uint32_t spriteID = SpriteManager::GetInstance()->getSpriteTextureMap(mType);
-    JsyGDrawSprite(CGame::GetInstance()->GetJsyHandle(), spriteID, mIsFacingLeft, xPosLeft, xPosRight, yPosTop, yPosBot, xTextureCoord, numSprites);
+    JsyGDrawSprite(CGame::GetInstance()->GetJsyGHandle(), spriteID, mIsFacingLeft, xPosLeft, xPosRight, yPosTop, yPosBot, xTextureCoord, numSprites);
 }
 
 void Sprite::setSpriteType(int32_t type) {

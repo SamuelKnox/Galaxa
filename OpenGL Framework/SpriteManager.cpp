@@ -50,19 +50,19 @@ void SpriteManager::init()
 
 	spriteTextureMaps = (uint32_t*)malloc(NUM_OBJECTS * sizeof(uint32_t));
 
-    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), PLAYER_SPRITE, &spriteTextureMaps[PLAYER]);
-    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), ENEMY_SPRITE_GREEN, &spriteTextureMaps[ENEMY_GREEN]);
-    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), ENEMY_SPRITE_PURPLE, &spriteTextureMaps[ENEMY_PURPLE]);
-    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), ENEMY_SPRITE_RED, &spriteTextureMaps[ENEMY_RED]);
-    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), ENEMY_SPRITE_YELLOW, &spriteTextureMaps[ENEMY_YELLOW]);
-    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), MISSILE_SPRITE, &spriteTextureMaps[BULLET]);
-    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), EXPLOSION_PLAYER_SPRITE, &spriteTextureMaps[EXPLOSION_PLAYER]);
-    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), EXPLOSION_ENEMY_SPRITE, &spriteTextureMaps[EXPLOSION_ENEMY]);
-    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), POINTS_SPRITES, &spriteTextureMaps[POINTS]);
-    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), GAMEOVER_SPRITE, &spriteTextureMaps[GAMEOVER]);
-    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), HORIZONTAL_LINE, &spriteTextureMaps[HLINE]);
-    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), VERTICAL_LINE, &spriteTextureMaps[VLINE]);
-    JStGLoadTexture(CGame::GetInstance()->GetJsyHandle(), HIGH_SCORE_SPRITE, &spriteTextureMaps[LABEL]);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), PLAYER_SPRITE, &spriteTextureMaps[PLAYER]);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), ENEMY_SPRITE_GREEN, &spriteTextureMaps[ENEMY_GREEN]);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), ENEMY_SPRITE_PURPLE, &spriteTextureMaps[ENEMY_PURPLE]);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), ENEMY_SPRITE_RED, &spriteTextureMaps[ENEMY_RED]);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), ENEMY_SPRITE_YELLOW, &spriteTextureMaps[ENEMY_YELLOW]);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), MISSILE_SPRITE, &spriteTextureMaps[BULLET]);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), EXPLOSION_PLAYER_SPRITE, &spriteTextureMaps[EXPLOSION_PLAYER]);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), EXPLOSION_ENEMY_SPRITE, &spriteTextureMaps[EXPLOSION_ENEMY]);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), POINTS_SPRITES, &spriteTextureMaps[POINTS]);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), GAMEOVER_SPRITE, &spriteTextureMaps[GAMEOVER]);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), HORIZONTAL_LINE, &spriteTextureMaps[HLINE]);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), VERTICAL_LINE, &spriteTextureMaps[VLINE]);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), HIGH_SCORE_SPRITE, &spriteTextureMaps[LABEL]);
 
 	mInGame = false;
 }

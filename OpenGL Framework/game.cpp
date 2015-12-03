@@ -32,7 +32,8 @@ BOOL Initialize (GL_Window* window, Keys* keys)					// Any OpenGL Initialization
 
 void CGame::init()
 {
-    JsyGInit(&jsyHandle);
+    JsyGOpen(&jsyGHandle);
+    JsyInputOpen(&jsyInputHandle);
 
 	SpriteManager::CreateInstance();
 	FieldManagerC::CreateInstance();

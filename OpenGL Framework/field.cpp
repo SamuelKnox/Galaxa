@@ -45,8 +45,8 @@ void FieldC::render()
 	char8_t g = (char8_t)(mFieldColor>>8 & 0xFF);
 	char8_t b = (char8_t)(mFieldColor>>0 & 0xFF);
 
-    JsyGDrawLine(CGame::GetInstance()->GetJsyHandle(), left,top,right,top,r,g,b, LINE_WIDTH);
-    JsyGDrawLine(CGame::GetInstance()->GetJsyHandle(), right,top,right,bottom,r,g,b, LINE_WIDTH);
-    JsyGDrawLine(CGame::GetInstance()->GetJsyHandle(), right,bottom,left,bottom,r,g,b, LINE_WIDTH);
-    JsyGDrawLine(CGame::GetInstance()->GetJsyHandle(), left,bottom,left,top,r,g,b, LINE_WIDTH);
+    JsyGDrawLine(CGame::GetInstance()->GetJsyGHandle(), left,top,right,top,r,g,b, LINE_WIDTH);
+    JsyGDrawLine(CGame::GetInstance()->GetJsyGHandle(), right,top,right,bottom,r,g,b, LINE_WIDTH);
+    JsyGDrawLine(CGame::GetInstance()->GetJsyGHandle(), right,bottom,left,bottom,r,g,b, LINE_WIDTH);
+    JsyGDrawLine(CGame::GetInstance()->GetJsyGHandle(), left,bottom,left,top,r,g,b, LINE_WIDTH);
 };

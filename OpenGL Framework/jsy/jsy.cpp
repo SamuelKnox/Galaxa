@@ -1,8 +1,50 @@
 #include "jsy_internal.h"
 
-JSY_ERROR_T JsyGInit(JSYGHandle * pHandle) {
-    JsyInternalT * handle = (JsyInternalT *)malloc(sizeof(JsyInternalT));
-    memset(handle,0, sizeof(JsyInternalT));
+JSY_ERROR_T JsyInputOpen(JSYInputHandle * pHandle) {
+    JsyInputInternalT * handle = (JsyInputInternalT *)malloc(sizeof(JsyInputInternalT));
+    memset(handle, 0, sizeof(JsyInputInternalT));
+    if (!handle)
+        return JSY_ERROR_OOM;
+
+    *pHandle = (JsyInputInternalT *)handle;
+
+    return JSY_SUCCEED;
+}
+
+JSY_ERROR_T JsyInputClose(JSYInputHandle handle) {
+    if (!handle) {
+        free(handle);
+    }
+    return JSY_SUCCEED;
+}
+
+JSY_ERROR_T JsyInputGetInput(JSYInputHandle handle, JSY_INPUT_T input, float_t * value) {
+    int winType;
+    switch (input) {
+        case JSY_INPUT_UP: winType = VK_UP;break;
+        case JSY_INPUT_DOWN: winType = VK_DOWN; break;
+        case JSY_INPUT_LEFT: winType = VK_LEFT; break;
+        case JSY_INPUT_RIGHT:winType = VK_RIGHT; break;
+        case JSY_INPUT_A: winType = VK_SPACE; break;
+        case JSY_INPUT_B: winType = VK_SHIFT; break;
+        default:
+            break;
+    }
+
+    SHORT winvalue = GetKeyState(winType);
+    if ((winvalue & 0x8000)) {
+        *value = 1.0f;
+    }
+    else {
+        *value = 0.0f;
+    }
+
+    return JSY_SUCCEED;
+}
+
+JSY_ERROR_T JsyGOpen(JSYGHandle * pHandle) {
+    JsyGInternalT * handle = (JsyGInternalT *)malloc(sizeof(JsyGInternalT));
+    memset(handle,0, sizeof(JsyGInternalT));
     if (!handle)
         return JSY_ERROR_OOM;
 
@@ -30,7 +72,7 @@ JSY_ERROR_T JsyGClose(JSYGHandle handle) {
 }
 
 JSY_ERROR_T JStGLoadTexture(JSYGHandle handle, const char * fileName, uint32_t * resourceId) {
-    JsyInternalT * Internal_handle = (JsyInternalT *)handle;
+    JsyGInternalT * Internal_handle = (JsyGInternalT *)handle;
     Internal_handle->texture[Internal_handle->textureCnt++].soilTextureId = SOIL_load_OGL_texture(fileName, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
         SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 
@@ -41,7 +83,7 @@ JSY_ERROR_T JStGLoadTexture(JSYGHandle handle, const char * fileName, uint32_t *
 JSY_ERROR_T JsyGDrawBackGround(JSYGHandle handle, uint32_t resourceId, float_t width, float_t height,
     float_t yTexCoord, uint32_t numSprites) {
 
-    JsyInternalT * Internal_handle = (JsyInternalT *)handle;
+    JsyGInternalT * Internal_handle = (JsyGInternalT *)handle;
 
     GLfloat yTexCoordUp = yTexCoord;
     GLfloat yTexCoordDown = yTexCoord + (1.0f / numSprites);
@@ -75,7 +117,7 @@ JSY_ERROR_T JsyGDrawBackGround(JSYGHandle handle, uint32_t resourceId, float_t w
 JSY_ERROR_T JsyGDrawLine(JSYGHandle handle, float_t startX, float_t startY, float_t endX, float_t endY,
     char8_t r, char8_t g, char8_t b, float_t lineWidth) {
 
-    JsyInternalT * Internal_handle = (JsyInternalT *)handle;
+    JsyGInternalT * Internal_handle = (JsyGInternalT *)handle;
 
     glColor3ub(r, g, b);
     // Draw filtered lines
@@ -93,7 +135,7 @@ JSY_ERROR_T JsyGDrawLine(JSYGHandle handle, float_t startX, float_t startY, floa
 JSY_ERROR_T JsyGDrawSprite(JSYGHandle handle, uint32_t resourceId, bool8_t isFlipped, float_t xPosLeft, float_t xPosRight,
     float_t yPosTop, float_t yPosBot, float_t xTexCoord, uint32_t numSprites) {
 
-    JsyInternalT * Internal_handle = (JsyInternalT *)handle;
+    JsyGInternalT * Internal_handle = (JsyGInternalT *)handle;
 
     GLfloat xTexCoordLeft = xTexCoord;
     GLfloat xTexCoordRight = xTexCoord;

@@ -16,8 +16,12 @@ public:
 	void init();
 	void shutdown();
 
-    JSYGHandle GetJsyHandle() {
-        return jsyHandle;
+    JSYGHandle GetJsyGHandle() {
+        return jsyGHandle;
+    };
+
+    JSYInputHandle GetJsyInputHandle() {
+        return jsyInputHandle;
     };
 
 	static const uint32_t mBitsPerPixel = 32;
@@ -25,7 +29,8 @@ private:
 	static const char8_t mGameTitle[20];
 	static CGame *sInstance;
 
-    JSYGHandle jsyHandle = NULL;
+    JSYGHandle jsyGHandle = NULL;
+    JSYInputHandle jsyInputHandle = NULL;
 
 	CGame(){};
 };

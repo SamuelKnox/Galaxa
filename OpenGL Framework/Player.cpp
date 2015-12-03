@@ -4,7 +4,6 @@
 #include <stdio.h>												// Header File For Standard Input / Output
 #include <stdarg.h>												// Header File For Variable Argument Routines
 #include <math.h>												// Header File For Math Operations
-#include <Windows.h>
 
 #include "jsy/jsy.h"
 #include "collInfo.h"
@@ -21,6 +20,7 @@
 #include "inputmanager.h"
 #include "SpriteManager.h"
 #include "SoundManager.h"
+#include "game.h"
 
 
 Player* Player::CreatePlayer(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType) {
@@ -114,18 +114,21 @@ void Player::playerHit()
 
 void Player::CheckForUserInput()
 {
-	SHORT keyLeft = GetKeyState(VK_LEFT);
-	SHORT keyRight = GetKeyState(VK_RIGHT);
-	SHORT keyUp = GetKeyState(VK_UP);
-	SHORT keyDown = GetKeyState(VK_DOWN);
-	SHORT keyShoot = GetKeyState(VK_SPACE);
+
+    float_t keyLeft, keyRight, keyUp, keyDown, keyShoot;
+
+    JsyInputGetInput(CGame::GetInstance()->GetJsyInputHandle(), JSY_INPUT_LEFT, &keyLeft);
+    JsyInputGetInput(CGame::GetInstance()->GetJsyInputHandle(), JSY_INPUT_RIGHT, &keyRight);
+    JsyInputGetInput(CGame::GetInstance()->GetJsyInputHandle(), JSY_INPUT_UP, &keyUp);
+    JsyInputGetInput(CGame::GetInstance()->GetJsyInputHandle(), JSY_INPUT_DOWN, &keyDown);
+    JsyInputGetInput(CGame::GetInstance()->GetJsyInputHandle(), JSY_INPUT_A, &keyShoot);
 
 	// Check vertical movement
-	if ((keyUp & 0x8000))
+	if ((keyUp > 0.0f))
 	{
 		mVelocity.y = MOVE_FORCE;
 	}
-	else if ((keyDown & 0x8000))
+	else if ((keyDown > 0.0f))
 	{
 		mVelocity.y = -MOVE_FORCE;
 	}
@@ -135,12 +138,12 @@ void Player::CheckForUserInput()
 	}
 
 	// Check horizontal movement
-	if ((keyLeft & 0x8000))
+	if ((keyLeft > 0.0f))
 	{
 		mVelocity.x = -MOVE_FORCE;
 		mIsFacingLeft = true;
 	}
-	else if ((keyRight & 0x8000))
+	else if ((keyRight > 0.0f))
 	{
 		mVelocity.x = MOVE_FORCE;
 		mIsFacingLeft = false;
@@ -151,7 +154,7 @@ void Player::CheckForUserInput()
 	}
 
 	// Check for firing missles
-	if (mCanShoot && (keyShoot & 0x8000)) {
+	if (mCanShoot && (keyShoot > 0.0f)) {
 		mCanShoot = false;
 		mShotTimer = 0;
 		SpriteManager::GetInstance()->CreateBullet(getPosition()->x, getPosition()->y, 0.0f, SHOT_FORCE, SpriteManager::PLAYER);
