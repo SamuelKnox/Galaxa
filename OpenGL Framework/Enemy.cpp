@@ -37,6 +37,7 @@ void Enemy::killed() {
     SoundManager::GetInstance()->PlaySoundResource(mKillSFXId);
 }
 
+
 Enemy::~Enemy()
 {
     if (mTrajectory != nullptr) {

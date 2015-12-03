@@ -30,12 +30,15 @@
 
 // Weapons
 #define SHOT_FORCE			6
-#define QUICK_SHOT_FORCE	12
+#define QUICK_SHOT_FORCE	9
 #define SPREAD_SHOT_FORCE	4
 #define SPREAD_SHOT_ANGLE	20
 #define HOMING_ABILITY		0.1f
 #define HOMING_FORCE		2
-#define SHOT_RATE			100
+#define NORMAL_SHOT_RATE	100
+#define QUICK_SHOT_RATE		50
+#define SPREAD_SHOT_RATE	200
+#define HOMING_SHOT_RATE	150
 #define FAST_SHOT_WEAPON	"assets/sprites/weapons/fast_weapon.png"
 #define SPREAD_SHOT_WEAPON	"assets/sprites/weapons/spread_weapon.png"
 #define HOMING_SHOT_WEAPON	"assets/sprites/weapons/homing_weapon.png"

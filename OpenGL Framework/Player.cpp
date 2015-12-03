@@ -24,13 +24,13 @@
 
 
 Player* Player::CreatePlayer(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType) {
-    Player* player = new Player(initPosX, initPosY, initVelX, initVelY, gameObjectType);
+	Player* player = new Player(initPosX, initPosY, initVelX, initVelY, gameObjectType);
 
-    static uint32_t firSfxId = SoundManager::GetInstance()->LoadSound(PLAYER_SFX_FIRE);
-    static uint32_t hitSfxId = SoundManager::GetInstance()->LoadSound(PLAYER_SFX_HIT);
-    player->mFireSFXId = firSfxId;
-    player->mHitSFXId = hitSfxId;
-    return player;
+	static uint32_t firSfxId = SoundManager::GetInstance()->LoadSound(PLAYER_SFX_FIRE);
+	static uint32_t hitSfxId = SoundManager::GetInstance()->LoadSound(PLAYER_SFX_HIT);
+	player->mFireSFXId = firSfxId;
+	player->mHitSFXId = hitSfxId;
+	return player;
 }
 
 Player::Player(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType)
@@ -86,9 +86,34 @@ void Player::updateET(uint32_t milliseconds)
 	if (!mCanShoot)
 	{
 		mShotTimer += milliseconds;
-		if (mShotTimer >= SHOT_RATE)
-		{
-			mCanShoot = true;
+		switch (currentWeapon) {
+		case NormalWeapon:
+			if (mShotTimer >= NORMAL_SHOT_RATE)
+			{
+				mCanShoot = true;
+			}
+			break;
+		case QuickWeapon:
+			if (mShotTimer >= QUICK_SHOT_RATE)
+			{
+				mCanShoot = true;
+			}
+			break;
+		case SpreadWeapon:
+			if (mShotTimer >= SPREAD_SHOT_RATE)
+			{
+				mCanShoot = true;
+			}
+			break;
+		case HomingWeapon:
+			if (mShotTimer >= HOMING_SHOT_RATE)
+			{
+				mCanShoot = true;
+			}
+			break;
+		default:
+			mCanShoot = false;
+			break;
 		}
 	}
 
@@ -104,25 +129,25 @@ void Player::updateET(uint32_t milliseconds)
 void Player::playerHit()
 {
 	mNumLives--;
-    SoundManager::GetInstance()->PlaySoundResource(mHitSFXId);
+	SoundManager::GetInstance()->PlaySoundResource(mHitSFXId);
 	if (mNumLives >= 0)
 	{
 		delete mLives[mNumLives];
 		mLives[mNumLives] = nullptr;
-	}	
+	}
 
 }
 
 void Player::CheckForUserInput()
 {
 
-    float_t keyLeft, keyRight, keyUp, keyDown, keyShoot;
+	float_t keyLeft, keyRight, keyUp, keyDown, keyShoot;
 
-    JsyInputGetInput(CGame::GetInstance()->GetJsyInputHandle(), JSY_INPUT_LEFT, &keyLeft);
-    JsyInputGetInput(CGame::GetInstance()->GetJsyInputHandle(), JSY_INPUT_RIGHT, &keyRight);
-    JsyInputGetInput(CGame::GetInstance()->GetJsyInputHandle(), JSY_INPUT_UP, &keyUp);
-    JsyInputGetInput(CGame::GetInstance()->GetJsyInputHandle(), JSY_INPUT_DOWN, &keyDown);
-    JsyInputGetInput(CGame::GetInstance()->GetJsyInputHandle(), JSY_INPUT_A, &keyShoot);
+	JsyInputGetInput(CGame::GetInstance()->GetJsyInputHandle(), JSY_INPUT_LEFT, &keyLeft);
+	JsyInputGetInput(CGame::GetInstance()->GetJsyInputHandle(), JSY_INPUT_RIGHT, &keyRight);
+	JsyInputGetInput(CGame::GetInstance()->GetJsyInputHandle(), JSY_INPUT_UP, &keyUp);
+	JsyInputGetInput(CGame::GetInstance()->GetJsyInputHandle(), JSY_INPUT_DOWN, &keyDown);
+	JsyInputGetInput(CGame::GetInstance()->GetJsyInputHandle(), JSY_INPUT_A, &keyShoot);
 
 	// Check vertical movement
 	if ((keyUp > 0.0f))
@@ -159,9 +184,9 @@ void Player::CheckForUserInput()
 		mCanShoot = false;
 		mShotTimer = 0;
 		Shoot();
-        if (mFireSFXId != 0) {
-            SoundManager::GetInstance()->PlaySoundResource(mFireSFXId);
-        }
+		if (mFireSFXId != 0) {
+			SoundManager::GetInstance()->PlaySoundResource(mFireSFXId);
+		}
 	}
 }
 
