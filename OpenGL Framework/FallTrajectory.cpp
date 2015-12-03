@@ -20,7 +20,7 @@ FallTrajectory::~FallTrajectory()
 
 void FallTrajectory::update(uint32_t milliseconds) {
     mPosition.y -= FallTrajectory::FALLSPEED * milliseconds / 1000;
-    mPosition.x = 50 * sin(mPosition.y / 20) + mOriginalPosition.x;
+    mPosition.x = 50.0f * (float_t) sin(mPosition.y / 20) + mOriginalPosition.x;
 	checkBoundary();
 }
 

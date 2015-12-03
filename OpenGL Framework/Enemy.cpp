@@ -6,8 +6,9 @@
 #include "SpriteManager.h"
 #include "SoundManager.h"
 #include "Player.h"
+#include "random.h"
 
-Enemy::Enemy()
+Enemy::Enemy(uint32_t type)
 {
 	// Object
 	mPosition.x = 0.0f;
@@ -19,22 +20,43 @@ Enemy::Enemy()
 	// Sprite
     mWidth = ENEMY_WIDTH;
     mHeight = ENEMY_HEIGHT;
-	numSprites = ENEMY_NUM_SPRITES;
-	currentSprite = 0;	// No animations
+	mNumSprites = ENEMY_NUM_SPRITES;
+	mCurrentSprite = 0;	// No animations
+	mType = type;
 
     mEnabled = true;
 	mIsFacingLeft = false;
 
 	// Enemy
 	mTrajectory = nullptr;
+	mIsDead = false;
+	if (mType == SpriteManager::ENEMY_SHIP)
+	{
+		mHealth = ENEMY_SHIP_HP;
+	}
+	else
+	{
+		mHealth = ENEMY_BASE_HP;
+	}
+
 }
 
-void Enemy::killed() {
-	int32_t weaponType = SpriteManager::GetInstance()->getET()->SpreadWeapon;
-	//int32_t weaponType = SpriteManager::GetInstance()->getET()->QuickWeapon;
-	//int32_t weaponType = SpriteManager::GetInstance()->getET()->HomingWeapon;
-	SpriteManager::GetInstance()->CreateWeaponDrop(getPosition()->x, getPosition()->y, 0, -WEAPON_DROP_SPEED, weaponType);
-    SoundManager::GetInstance()->PlaySoundResource(mKillSFXId);
+bool8_t Enemy::hit() {
+
+	mHealth--;
+	if (mHealth <= 0)
+	{
+		SoundManager::GetInstance()->PlaySoundResource(mKillSFXId);
+		mIsDead = true;
+
+		if (mType == SpriteManager::ENEMY_SHIP)
+		{
+			int32_t weaponType = getRangedRandom(Player::QUICK, Player::HOMING);
+			SpriteManager::GetInstance()->CreateWeaponDrop(getPosition()->x, getPosition()->y, 0, -WEAPON_DROP_SPEED, weaponType);
+		}	
+	}
+
+	return mIsDead;
 }
 
 
@@ -69,7 +91,7 @@ void Enemy::update(uint32_t milliseconds)
 
 void Enemy::setSpriteType(int32_t type) {
     mType = type;
-    currentSprite = 0;
+	mCurrentSprite = 0;
 }
 
 void Enemy::reset() {

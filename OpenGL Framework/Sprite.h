@@ -7,6 +7,7 @@ class Sprite : public ObjectC
 public:
 	Sprite();
 	Sprite(float_t initPosX, float_t initPosY, float_t width, float_t height, int32_t gameObjectType);
+	Sprite(float_t initPosX, float_t initPosY, float_t width, float_t height, int32_t gameObjectType, int32_t spriteNum, int32_t numSprites);
 	~Sprite();
 
 	void update(uint32_t milliseconds);
@@ -20,8 +21,9 @@ public:
 	float_t getHeight() { return mHeight; }
 
 	int32_t getType() { return mType; }
-
     virtual void setSpriteType(int32_t type);
+
+	void setCurrentSprite(int32_t spriteNum);
 
 protected:
 
@@ -33,8 +35,8 @@ protected:
 
 	//GLuint mSpriteID;
 	int32_t mType;
-	int32_t numSprites;
-	int32_t currentSprite;
+	int32_t mNumSprites;
+	int32_t mCurrentSprite;
 
 };
 

@@ -18,8 +18,12 @@ public:
 		ENEMY_PURPLE,	// 500pts
 		ENEMY_RED,		// 800pts
 		ENEMY_YELLOW,	// 1000pts
+		ENEMY_SHIP,		// 1500pts
 		PLAYER,
 		BULLET,
+		QUICK_WEAPON,
+		SPREAD_WEAPON,
+		HOMING_WEAPON,
 		EXPLOSION_PLAYER,
 		EXPLOSION_ENEMY,
 		POINTS,
@@ -27,9 +31,7 @@ public:
 		HLINE,
 		VLINE,
 		LABEL,
-		QUICK_WEAPON,
-		SPREAD_WEAPON,
-		HOMING_WEAPON,
+		NUMBERS,
 		NUM_OBJECTS
 	};
 
@@ -59,8 +61,10 @@ public:
 	void	resetGame();
 	void	startGame();
 	void	endGame();
+	void	spawnEnemy(uint32_t indexEnemy);
 
-	Player* getET();
+
+	Player* getET() { return player; }
 	Bullet* CreateBullet(float_t x, float_t y, float_t xVel, float_t yVel, int32_t ownerType);
 	void CreateWeaponDrop(float_t x, float_t y, float_t xVel, float_t yVel, int32_t weaponType);
 	void CreateExplosion(float_t x, float_t y, uint32_t explosionType, uint32_t pointType);
@@ -88,10 +92,6 @@ private:
 	bool8_t CheckSpriteHitBoundaries(Sprite *sprite);
 	bool8_t CheckSpriteCollision(Sprite *sprite1, Sprite *sprite2);
 
-	// Enemies
-    void spawnEnemy();
-    uint32_t lastSpawnDuration = 0;
-    unsigned indexEnemy = 0;
 	float_t GetHeuristicDistance(Sprite* origin, Sprite* destination);
 };
 

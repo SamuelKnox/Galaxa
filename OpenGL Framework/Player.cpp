@@ -45,8 +45,8 @@ Player::Player(float_t initPosX, float_t initPosY, float_t initVelX, float_t ini
 	// Sprite
 	mWidth = PLAYER_WIDTH;
 	mHeight = PLAYER_HEIGHT;
-	numSprites = PLAYER_NUM_SPRITES;
-	currentSprite = 0; // No animations
+	mNumSprites = PLAYER_NUM_SPRITES;
+	mCurrentSprite = 0; // No animations
 
 	mType = gameObjectType;
 
@@ -65,7 +65,7 @@ Player::Player(float_t initPosX, float_t initPosY, float_t initVelX, float_t ini
 		// Get position for lives based on screen size and half player's actual size to
 		//	place them in the bottom-left corner;
 		float_t xPos = (-BG_WIDTH / 2.0f) + i * (mWidth / 2.0f);
-		float_t yPos = (BG_HEIGHT / 2.0f) - (mHeight / 2.0f);
+		float_t yPos = (-BG_HEIGHT / 2.0f) + (mHeight / 2.0f);
 		mLives[i - 1] = new Sprite(xPos, yPos, mWidth / 2.0f, mHeight / 2.0f, SpriteManager::PLAYER);
 	}
 }
@@ -87,25 +87,25 @@ void Player::updateET(uint32_t milliseconds)
 	{
 		mShotTimer += milliseconds;
 		switch (currentWeapon) {
-		case NormalWeapon:
+		case NORMAL:
 			if (mShotTimer >= NORMAL_SHOT_RATE)
 			{
 				mCanShoot = true;
 			}
 			break;
-		case QuickWeapon:
+		case QUICK:
 			if (mShotTimer >= QUICK_SHOT_RATE)
 			{
 				mCanShoot = true;
 			}
 			break;
-		case SpreadWeapon:
+		case SPREAD:
 			if (mShotTimer >= SPREAD_SHOT_RATE)
 			{
 				mCanShoot = true;
 			}
 			break;
-		case HomingWeapon:
+		case HOMING:
 			if (mShotTimer >= HOMING_SHOT_RATE)
 			{
 				mCanShoot = true;
@@ -194,19 +194,19 @@ void Player::Shoot() {
 	float_t spreadAngle;
 	Bullet* homingBullet;
 	switch (currentWeapon) {
-	case NormalWeapon:
+	case NORMAL:
 		SpriteManager::GetInstance()->CreateBullet(getPosition()->x, getPosition()->y, 0.0f, SHOT_FORCE, SpriteManager::PLAYER);
 		break;
-	case QuickWeapon:
+	case QUICK:
 		SpriteManager::GetInstance()->CreateBullet(getPosition()->x, getPosition()->y, 0.0f, QUICK_SHOT_FORCE, SpriteManager::PLAYER);
 		break;
-	case SpreadWeapon:
+	case SPREAD:
 		spreadAngle = atanf(SPREAD_SHOT_ANGLE / SPREAD_SHOT_FORCE);
 		SpriteManager::GetInstance()->CreateBullet(getPosition()->x, getPosition()->y, -spreadAngle, SPREAD_SHOT_FORCE, SpriteManager::PLAYER);
 		SpriteManager::GetInstance()->CreateBullet(getPosition()->x, getPosition()->y, 0.0f, SPREAD_SHOT_FORCE, SpriteManager::PLAYER);
 		SpriteManager::GetInstance()->CreateBullet(getPosition()->x, getPosition()->y, spreadAngle, SPREAD_SHOT_FORCE, SpriteManager::PLAYER);
 		break;
-	case HomingWeapon:
+	case HOMING:
 		homingBullet = SpriteManager::GetInstance()->CreateBullet(getPosition()->x, getPosition()->y, 0.0f, HOMING_FORCE, SpriteManager::PLAYER);
 		homingBullet->homingMissile = true;
 		break;

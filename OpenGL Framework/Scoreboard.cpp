@@ -4,7 +4,7 @@
 
 Scoreboard::Scoreboard()
 {
-	label = new Sprite(-3.0f * DIGIT_SEPARATION, SCOREBOARD_Y, HIGH_SCORE_WIDTH, HIGH_SCORE_HEIGHT, SpriteManager::LABEL);
+	label = new Sprite(HIGH_SCORE_X, HIGH_SCORE_Y, HIGH_SCORE_WIDTH, HIGH_SCORE_HEIGHT, SpriteManager::LABEL);
 	score = 0;
 
 	for (int32_t i = 0; i < NUM_LINES / 7; i++) {

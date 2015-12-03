@@ -8,7 +8,7 @@
 class Enemy : public Sprite
 {
 public:
-    Enemy();
+    Enemy(uint32_t type);
     ~Enemy();
 
     void update(uint32_t milliseconds);
@@ -17,13 +17,15 @@ public:
 	void setTrajectory(Trajectory* newTrajectory);
     void setKillSfxId(uint32_t killSFXId) { mKillSFXId = killSFXId; };
     void reset();
-    void killed();
+	bool8_t hit();
 
 private:
     Trajectory* mTrajectory;
     uint32_t lastShootDuration = 0;
 
     uint32_t mKillSFXId;
+	int32_t mHealth;
+	bool8_t mIsDead;
 };
 
 

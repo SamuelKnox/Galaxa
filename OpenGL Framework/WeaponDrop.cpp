@@ -19,8 +19,8 @@ WeaponDrop::WeaponDrop(float_t x, float_t y, float_t xVel, float_t yVel, int32_t
 	// Sprite
 	mWidth = WEAPON_DROP_WIDTH;
 	mHeight = WEAPON_DROP_HEIGHT;
-	numSprites = WEAPON_DROP_NUM_SPRITES;
-	currentSprite = 0;
+	mNumSprites = WEAPON_DROP_NUM_SPRITES;
+	mCurrentSprite = 0;
 
 	mType = objectType;
 

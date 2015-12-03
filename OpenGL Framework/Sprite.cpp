@@ -37,8 +37,29 @@ Sprite::Sprite(float_t initPosX, float_t initPosY, float_t width, float_t height
 	// Sprite
 	mWidth = width;
 	mHeight = height;
-	numSprites = 1;
-	currentSprite = 0; // No animations
+	mNumSprites = 1;
+	mCurrentSprite = 0; // No animations
+
+	mType = gameObjectType;
+
+	mEnabled = true;
+	mIsFacingLeft = false;
+}
+
+Sprite::Sprite(float_t initPosX, float_t initPosY, float_t width, float_t height, int32_t gameObjectType, int32_t spriteNum, int32_t numSprites)
+{
+	// Object
+	mPosition.x = initPosX;
+	mPosition.y = initPosY;
+	mVelocity.x = 0.0f;
+	mVelocity.y = 0.0f;
+	mCollInfo.shape = CollInfoC::SHAPE_RECTANGLE;
+
+	// Sprite
+	mWidth = width;
+	mHeight = height;
+	mNumSprites = numSprites;
+	mCurrentSprite = spriteNum; // Animated
 
 	mType = gameObjectType;
 
@@ -49,7 +70,8 @@ Sprite::Sprite(float_t initPosX, float_t initPosY, float_t width, float_t height
 Sprite::~Sprite()
 {}
 
-void Sprite::update(uint32_t milliseconds) {
+void Sprite::update(uint32_t milliseconds) 
+{
 	if (mEnabled)
 	{
 		mPosition.x += mVelocity.x * milliseconds / 10;
@@ -67,12 +89,20 @@ void Sprite::render()
 	float_t yPosTop = mPosition.y - mHeight / 2;
 	float_t yPosBot = mPosition.y + mHeight / 2;
 
-	float_t xTextureCoord = (float_t)currentSprite * (1.0f / numSprites);
+	float_t xTextureCoord = (float_t)mCurrentSprite * (1.0f / mNumSprites);
 	uint32_t spriteID = SpriteManager::GetInstance()->getSpriteTextureMap(mType);
-    JsyGDrawSprite(CGame::GetInstance()->GetJsyGHandle(), spriteID, mIsFacingLeft, xPosLeft, xPosRight, yPosTop, yPosBot, xTextureCoord, numSprites);
+
+    JsyGDrawSprite(CGame::GetInstance()->GetJsyGHandle(), spriteID, mIsFacingLeft, xPosLeft, xPosRight, yPosTop, yPosBot, xTextureCoord, mNumSprites);
+
 }
 
-void Sprite::setSpriteType(int32_t type) {
+void Sprite::setSpriteType(int32_t type) 
+{
     mType = type;
-    currentSprite = 0;
+	mCurrentSprite = 0;
+}
+
+void Sprite::setCurrentSprite(int32_t spriteNum)
+{
+	mCurrentSprite = spriteNum;
 }
