@@ -14,24 +14,6 @@
 #include <algorithm>
 
 
-//-----------------------------------------------------------------------------
-// Name: class MatchUserID
-// Desc: Predicate functor used to match on user id in player lists
-//-----------------------------------------------------------------------------
-struct MatchUserID
-{
-    ULONGLONG qwID;
-
-    explicit MatchUserID( ULONGLONG qwUserID )
-    {
-        qwID = qwUserID;
-    }
-
-    bool operator()( const CXBNetPlayerInfo& playerInfo ) const
-    {
-        return playerInfo.qwUserID == qwID;
-    }
-};
 
 
 //-----------------------------------------------------------------------------
@@ -60,6 +42,30 @@ struct MatchInAddr
         return playerInfo.inAddr.s_addr == ia.s_addr;
     }
 };
+
+
+
+
+//-----------------------------------------------------------------------------
+// Name: class MatchUserID
+// Desc: Predicate functor used to match on user id in player lists
+//-----------------------------------------------------------------------------
+struct MatchUserID
+{
+    ULONGLONG qwID;
+
+    explicit MatchUserID( ULONGLONG qwUserID )
+    {
+        qwID = qwUserID;
+    }
+
+    bool operator()( const CXBNetPlayerInfo& playerInfo ) const
+    {
+        return playerInfo.qwUserID == qwID;
+    }
+};
+
+
 
 
 //-----------------------------------------------------------------------------
