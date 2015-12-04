@@ -20,7 +20,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				OptimizeForProcessor="2"
-				AdditionalIncludeDirectories="C:\Program Files\Microsoft Xbox SDK\Samples\Xbox\Common\Include;..\..\OpenGL Framework\"
+				AdditionalIncludeDirectories="&quot;..\..\OpenGL Framework&quot;;&quot;C:\Program Files\Microsoft Xbox SDK\Samples\Xbox\Common\Include&quot;;&quot;C:\Documents and Settings\XBOXDEV\Desktop\github\Galaxa\Fuck\Galaxa&quot;"
 				PreprocessorDefinitions="_DEBUG;_XBOX"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -295,10 +295,19 @@
 				RelativePath="..\..\OpenGL Framework\GameManager.cpp">
 			</File>
 			<File
-				RelativePath="..\..\OpenGL Framework\gamepad.cpp">
+				RelativePath="gamepad.cpp">
 			</File>
 			<File
 				RelativePath="..\..\OpenGL Framework\HorizontalLine.cpp">
+			</File>
+			<File
+				RelativePath="..\..\OpenGL Framework\jsy\jsy.cpp">
+			</File>
+			<File
+				RelativePath="..\..\OpenGL Framework\jsy\jsy.h">
+			</File>
+			<File
+				RelativePath="..\..\OpenGL Framework\jsy\jsy_internal.h">
 			</File>
 			<File
 				RelativePath="..\..\OpenGL Framework\main.cpp">
@@ -317,6 +326,12 @@
 			</File>
 			<File
 				RelativePath="..\..\OpenGL Framework\SideTrajectory.cpp">
+			</File>
+			<File
+				RelativePath=".\sjis2unicode.cpp">
+			</File>
+			<File
+				RelativePath="..\..\OpenGL Framework\jsy\SOIL.h">
 			</File>
 			<File
 				RelativePath="..\..\OpenGL Framework\Sprite.cpp">
@@ -364,7 +379,82 @@
 				RelativePath="..\..\OpenGL Framework\Trajectory.cpp">
 			</File>
 			<File
+				RelativePath="..\..\OpenGL Framework\jsy\types.h">
+			</File>
+			<File
 				RelativePath="..\..\OpenGL Framework\WeaponDrop.cpp">
+			</File>
+			<File
+				RelativePath=".\xbapp.cpp">
+			</File>
+			<File
+				RelativePath=".\xbconfig.cpp">
+			</File>
+			<File
+				RelativePath=".\xbfont.cpp">
+			</File>
+			<File
+				RelativePath=".\xbhelp.cpp">
+			</File>
+			<File
+				RelativePath=".\xbinput.cpp">
+			</File>
+			<File
+				RelativePath=".\xbMediaDebug.cpp">
+			</File>
+			<File
+				RelativePath=".\xbmemunit.cpp">
+			</File>
+			<File
+				RelativePath=".\xbmesh.cpp">
+			</File>
+			<File
+				RelativePath=".\xbNet.cpp">
+			</File>
+			<File
+				RelativePath=".\xbNetMsg.cpp">
+			</File>
+			<File
+				RelativePath=".\xbOnline.cpp">
+			</File>
+			<File
+				RelativePath=".\xbOnlineTask.cpp">
+			</File>
+			<File
+				RelativePath=".\xbperf.cpp">
+			</File>
+			<File
+				RelativePath=".\xbprofiling.cpp">
+			</File>
+			<File
+				RelativePath=".\xbRandName.cpp">
+			</File>
+			<File
+				RelativePath=".\xbresource.cpp">
+			</File>
+			<File
+				RelativePath=".\xbsavedgame.cpp">
+			</File>
+			<File
+				RelativePath=".\xbsocket.cpp">
+			</File>
+			<File
+				RelativePath=".\xbsound.cpp">
+			</File>
+			<File
+				RelativePath=".\xbstopwatch.cpp">
+			</File>
+			<File
+				RelativePath=".\xbstoragedevice.cpp">
+			</File>
+			<File
+				RelativePath=".\xbstrip.cpp">
+			</File>
+			<File
+				RelativePath=".\xbutil.cpp">
+			</File>
+			<File
+				RelativePath=".\xbVoice.cpp">
 			</File>
 		</Filter>
 		<Filter
@@ -399,7 +489,13 @@
 				RelativePath="..\..\Xbox\Input\Gamepad\font12.h">
 			</File>
 			<File
+				RelativePath=".\font12.h">
+			</File>
+			<File
 				RelativePath="..\..\Xbox\Input\Gamepad\font16.h">
+			</File>
+			<File
+				RelativePath=".\font16.h">
 			</File>
 			<File
 				RelativePath="..\..\OpenGL Framework\game.h">
@@ -426,7 +522,13 @@
 				RelativePath="..\..\OpenGL Framework\random.h">
 			</File>
 			<File
+				RelativePath=".\Resource.h">
+			</File>
+			<File
 				RelativePath="..\..\Xbox\Input\Gamepad\Resource.h">
+			</File>
+			<File
+				RelativePath=".\sample.h">
 			</File>
 			<File
 				RelativePath="..\..\OpenGL Framework\Scoreboard.h">

@@ -1,8 +1,12 @@
-
 #include "jsy/jsy.h"
 
 #include "game.h"
 #include "gamedefs.h"
+
+#ifdef _XBOX
+#include "sample.h"
+
+#endif
 
 
 bool inited = false;
@@ -30,7 +34,20 @@ bool gameLoop() {
     return !CGame::GetInstance()->GetQuit();
 }
 
-#ifndef _XBOX_
+#ifdef _XBOX
+//-----------------------------------------------------------------------------
+// Name: main()
+// Desc: Entry point to the program.
+//-----------------------------------------------------------------------------
+VOID __cdecl main()
+{
+    CXBoxSample xbApp;
+    if( FAILED( xbApp.Create() ) )
+        return;
+    xbApp.Run();
+}
+
+#else
 // Program Entry (WinMain)
 int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {

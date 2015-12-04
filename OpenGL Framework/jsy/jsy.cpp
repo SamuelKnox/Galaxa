@@ -1,16 +1,19 @@
-#include <windows.h>													// Header File For The Windows Library
 #include <stdio.h>
 #include <io.h>
 #include <fcntl.h>
+#ifdef _XBOX
+#else
+#include <windows.h> // Header File For The Windows Library
 #include <gl/gl.h>														// Header File For The OpenGL32 Library
 #include <gl/glu.h>														// Header File For The GLu32 Library
+#endif
 
 
 #include "jsy_internal.h"
 
 
 
-#ifdef _XBOX_
+#ifdef _XBOX
 #else
 
 #ifndef		CDS_FULLSCREEN										// CDS_FULLSCREEN Is Not Defined By Some
@@ -277,7 +280,7 @@ static BOOL RegisterWindowClass(Application* application)						// Register A Win
 #endif
 
 
-#ifdef _XBOX_
+#ifdef _XBOX
 JSY_ERROR_T JsyInit_XBOX()
 #else
 JSY_ERROR_T JsyAppInit_Win(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow, int width, int height, AppLoop func)
@@ -298,7 +301,8 @@ JSY_ERROR_T JsyAppInit_Win(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR l
     setvbuf(hf_in, NULL, _IONBF, 128);
     *stdin = *hf_in;
 #endif
-
+#ifdef _XBOX
+#else
     ZeroMemory(&g_window, sizeof(GL_Window));							// Make Sure Memory Is Zeroed
 
     // Fill Out Application Data
@@ -340,20 +344,26 @@ JSY_ERROR_T JsyAppInit_Win(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR l
                 TerminateApplication(&g_window);
         }
     }
-
+#endif
     return JSY_SUCCEED;
 }
 
 JSY_ERROR_T JsyAppClose() {
-
+#ifdef _XBOX
+#else
     DestroyWindow(&g_window);
 
     UnregisterClass(g_window.init.application.className, g_window.init.application.hInstance);
+#endif
     return JSY_SUCCEED;
 }
 
 uint32_t JsyGetTickCount() {
+#ifdef _XBOX
+	return 0;
+#else
     return (uint32_t)GetTickCount();
+#endif
 }
 
 JSY_ERROR_T JsyInputOpen(JSYInputHandle * pHandle) {
@@ -375,6 +385,8 @@ JSY_ERROR_T JsyInputClose(JSYInputHandle handle) {
 }
 
 JSY_ERROR_T JsyInputGetInput(JSYInputHandle handle, JSY_INPUT_T input, float_t * value) {
+#ifdef _XBOX
+#else
     int winType;
     switch (input) {
         case JSY_INPUT_UP: winType = VK_UP;break;
@@ -396,11 +408,13 @@ JSY_ERROR_T JsyInputGetInput(JSYInputHandle handle, JSY_INPUT_T input, float_t *
     else {
         *value = 0.0f;
     }
-
+#endif
     return JSY_SUCCEED;
 }
 
 JSY_ERROR_T JsyGOpen(JSYGHandle * pHandle, int32_t colorDepth) {
+#ifdef _XBOX
+#else
     JsyGInternalT * handle = (JsyGInternalT *)malloc(sizeof(JsyGInternalT));
     ZeroMemory(handle, sizeof(JsyGInternalT));
     if (!handle)
@@ -419,27 +433,32 @@ JSY_ERROR_T JsyGOpen(JSYGHandle * pHandle, int32_t colorDepth) {
     glEnable(GL_CULL_FACE);										// Remove Back Face
 
     *pHandle = (JSYGHandle *)handle;
-
+#endif
     return JSY_SUCCEED;
 }
 
 JSY_ERROR_T JsyGClose(JSYGHandle handle) {
     JsyGInternalT * Internal_handle = (JsyGInternalT *)handle;
-
+#ifdef _XBOX
+#else
     DestroyWindowGL(Internal_handle->window);
-
+#endif
     if (!handle) {
         free(handle);
     }
+
     return JSY_SUCCEED;
 }
 
 JSY_ERROR_T JStGLoadTexture(JSYGHandle handle, const char * fileName, uint32_t * resourceId) {
     JsyGInternalT * Internal_handle = (JsyGInternalT *)handle;
+#ifdef _XBOX
+#else
     Internal_handle->texture[Internal_handle->textureCnt++].soilTextureId = SOIL_load_OGL_texture(fileName, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
         SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
 
     *resourceId = Internal_handle->textureCnt-1;
+#endif
     return JSY_SUCCEED;
 }
 
@@ -447,7 +466,8 @@ JSY_ERROR_T JsyGDrawBackGround(JSYGHandle handle, uint32_t resourceId, float_t w
     float_t yTexCoord, uint32_t numSprites) {
 
     JsyGInternalT * Internal_handle = (JsyGInternalT *)handle;
-
+#ifdef _XBOX
+#else
     GLfloat yTexCoordUp = yTexCoord;
     GLfloat yTexCoordDown = yTexCoord + (1.0f / numSprites);
 
@@ -474,19 +494,26 @@ JSY_ERROR_T JsyGDrawBackGround(JSYGHandle handle, uint32_t resourceId, float_t w
         glVertex3f(-width / 2.0f, height / 2.0f, 0.0f);
     }
     glEnd();
+#endif
     return JSY_SUCCEED;
 }
 
 JSY_ERROR_T JsyGClear(JSYGHandle handle) {
     // Clear the window
+#ifdef _XBOX
+#else
     glClear(GL_COLOR_BUFFER_BIT);
     // Set the modelview matrix to be the identity matrix
-    glLoadIdentity();
+    glLoadIdentity()
+#endif
     return JSY_SUCCEED;
 }
 
 JSY_ERROR_T JsyGSwapBuffer(JSYGHandle handle) {
+#ifdef _XBOX
+#else
     SwapBuffers(g_window.hDC);					// Swap Buffers (Double Buffering)
+#endif
     return JSY_SUCCEED;
 }
 
@@ -494,7 +521,8 @@ JSY_ERROR_T JsyGDrawLine(JSYGHandle handle, float_t startX, float_t startY, floa
     char8_t r, char8_t g, char8_t b, float_t lineWidth) {
 
     JsyGInternalT * Internal_handle = (JsyGInternalT *)handle;
-
+#ifdef _XBOX
+#else
     glColor3ub(r, g, b);
     // Draw filtered lines
     glEnable(GL_LINE_SMOOTH);
@@ -505,6 +533,7 @@ JSY_ERROR_T JsyGDrawLine(JSYGHandle handle, float_t startX, float_t startY, floa
     glVertex2f(startX, startY);
     glVertex2f(endX, endY);
     glEnd();
+#endif
     return JSY_SUCCEED;
 }
 
@@ -512,7 +541,8 @@ JSY_ERROR_T JsyGDrawSprite(JSYGHandle handle, uint32_t resourceId, bool8_t isFli
     float_t yPosTop, float_t yPosBot, float_t xTexCoord, uint32_t numSprites) {
 
     JsyGInternalT * Internal_handle = (JsyGInternalT *)handle;
-
+#ifdef _XBOX
+#else
     GLfloat xTexCoordLeft = xTexCoord;
     GLfloat xTexCoordRight = xTexCoord;
 
@@ -548,12 +578,15 @@ JSY_ERROR_T JsyGDrawSprite(JSYGHandle handle, uint32_t resourceId, bool8_t isFli
         glVertex3f(xPosLeft, yPosBot, 0.0f);
     }
     glEnd();
+#endif
     return JSY_SUCCEED;
 }
 
 JSY_ERROR_T JsyAudioOpen(JSYAudioHandle * pHandle) {
 
     JsyAudioInternalT * handle = (JsyAudioInternalT *)malloc(sizeof(JsyAudioInternalT));
+#ifdef _XBOX
+#else
     ZeroMemory(handle, sizeof(JsyAudioInternalT));
     if (!handle)
         return JSY_ERROR_OOM;
@@ -570,13 +603,14 @@ JSY_ERROR_T JsyAudioOpen(JSYAudioHandle * pHandle) {
     memset(&handle->channels, 0, sizeof(FMOD::Channel*) * 32);
 
     *pHandle = (JSYAudioHandle *)handle;
-
+#endif
     return JSY_SUCCEED;
 }
 
 JSY_ERROR_T JsyAudioClose(JSYAudioHandle handle) {
     JsyAudioInternalT * localhandle = (JsyAudioInternalT *)handle;
-
+#ifdef _XBOX
+#else
     SoundNode_t* currentSoundNode = localhandle->listSounds;
     while (currentSoundNode != NULL) {
         SoundNode_t* tmp = currentSoundNode->nextSound;
@@ -588,11 +622,15 @@ JSY_ERROR_T JsyAudioClose(JSYAudioHandle handle) {
     if (!localhandle) {
         free(localhandle);
     }
+#endif
     return JSY_SUCCEED;
 }
 
 uint32_t JsyAudioLoad(JSYAudioHandle handle, const char8_t * fileName) {
     JsyAudioInternalT * localhandle = (JsyAudioInternalT *)handle;
+#ifdef _XBOX
+	return 0;
+#else
     // Load the sound file into the SoundManager
     SoundNode_t * newNode = (SoundNode_t*)malloc(sizeof(SoundNode_t));
     // Put into the internal list
@@ -615,8 +653,10 @@ uint32_t JsyAudioLoad(JSYAudioHandle handle, const char8_t * fileName) {
     newNode->sound->setMode(FMOD_LOOP_OFF);
 
     return newNode->id;
+#endif
 }
-
+#ifdef _XBOX
+#else
 // This function is for fixing FMOD bug
 static void resumeChannel(JsyAudioInternalT * localhandle) {
     // Find all channel and modify their priority, the one that is curreny playing has high priority
@@ -660,10 +700,12 @@ static void putChannel(JsyAudioInternalT * localhandle, FMOD::Channel * channel)
     }
     localhandle->channels[index] = channel;
 }
+#endif
 
 JSY_ERROR_T JsyAudioPlaySound(JSYAudioHandle handle, uint32_t resourceId) {
     JsyAudioInternalT * localhandle = (JsyAudioInternalT *)handle;
-
+#ifdef _XBOX
+#else
     SoundNode_t* currentSoundNode = localhandle->listSounds;
     if (currentSoundNode == NULL) return JSY_SUCCEED;
     // Loop through the list until we find the sound resource
@@ -683,5 +725,6 @@ JSY_ERROR_T JsyAudioPlaySound(JSYAudioHandle handle, uint32_t resourceId) {
         // So we need to store the new channel handle even the channel is included in our list
         putChannel(localhandle, channel);
     }
+#endif
     return JSY_SUCCEED;
 }

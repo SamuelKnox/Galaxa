@@ -1,8 +1,14 @@
-#define _XBOX_
 #ifndef _JSY_H_
 #define _JSY_H_
 
-#ifdef _XBOX_
+#ifdef _XBOX
+#include <XBApp.h>
+#include <XBFont.h>
+#include <XBMesh.h>
+#include <XBUtil.h>
+#include <XBResource.h>
+#include <xgraphics.h>
+#include "Resource.h"
 #else
 #include <Windows.h>
 #endif
@@ -21,7 +27,7 @@ typedef enum JSY_ERROR_S {
 ///////////////////////
 // Init library
 
-#ifdef _XBOX_
+#ifdef _XBOX
 JSY_ERROR_T JsyAppInit_XBOX();
 
 #define nullptr 0
