@@ -23,7 +23,9 @@ typedef enum JSY_ERROR_S {
 
 #ifdef _XBOX_
 JSY_ERROR_T JsyAppInit_XBOX();
+
 #define nullptr 0
+
 #else
 typedef bool(*AppLoop)();
 
