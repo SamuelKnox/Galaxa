@@ -50,12 +50,17 @@
 			<Tool
 				Name="VCPreLinkEventTool"/>
 			<Tool
-				Name="XboxDeploymentTool"/>
+				Name="XboxDeploymentTool"
+				AdditionalFiles="media"/>
 			<Tool
 				Name="XboxImageTool"
-				StackSize="65536"
+				StackSize="0x10000"
 				IncludeDebugInfo="TRUE"
-				NoLibWarn="TRUE"/>
+				DontMountUD="TRUE"
+				NoLibWarn="TRUE"
+				TitleName="Galaxa"
+				TitleImage=""
+				XBEVersion="4096"/>
 		</Configuration>
 		<Configuration
 			Name="Profile|Xbox"
@@ -486,16 +491,16 @@
 				RelativePath="..\..\OpenGL Framework\FollowTrajectory.h">
 			</File>
 			<File
-				RelativePath="..\..\Xbox\Input\Gamepad\font12.h">
-			</File>
-			<File
 				RelativePath=".\font12.h">
 			</File>
 			<File
-				RelativePath="..\..\Xbox\Input\Gamepad\font16.h">
+				RelativePath="..\..\Xbox\Input\Gamepad\font12.h">
 			</File>
 			<File
 				RelativePath=".\font16.h">
+			</File>
+			<File
+				RelativePath="..\..\Xbox\Input\Gamepad\font16.h">
 			</File>
 			<File
 				RelativePath="..\..\OpenGL Framework\game.h">
@@ -522,10 +527,10 @@
 				RelativePath="..\..\OpenGL Framework\random.h">
 			</File>
 			<File
-				RelativePath=".\Resource.h">
+				RelativePath="..\..\Xbox\Input\Gamepad\Resource.h">
 			</File>
 			<File
-				RelativePath="..\..\Xbox\Input\Gamepad\Resource.h">
+				RelativePath=".\Resource.h">
 			</File>
 			<File
 				RelativePath=".\sample.h">
