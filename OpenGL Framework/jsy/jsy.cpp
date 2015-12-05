@@ -281,11 +281,13 @@ static BOOL RegisterWindowClass(Application* application)						// Register A Win
 
 
 #ifdef _XBOX
-JSY_ERROR_T JsyInit_XBOX()
+JSY_ERROR_T JsyAppInit_XBOX(AppLoop func)
 #else
 JSY_ERROR_T JsyAppInit_Win(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow, int width, int height, AppLoop func)
 #endif
 {
+	while (func()) {
+	}
 #ifdef _MY_DEBUG_
     AllocConsole();
 
@@ -360,7 +362,7 @@ JSY_ERROR_T JsyAppClose() {
 
 uint32_t JsyGetTickCount() {
 #ifdef _XBOX
-	return 0;
+	return (uint32_t)GetTickCount();
 #else
     return (uint32_t)GetTickCount();
 #endif
@@ -386,6 +388,10 @@ JSY_ERROR_T JsyInputClose(JSYInputHandle handle) {
 
 JSY_ERROR_T JsyInputGetInput(JSYInputHandle handle, JSY_INPUT_T input, float_t * value) {
 #ifdef _XBOX
+	if (input == JSY_INPUT_A)
+		*value = 1.0f;
+	else 
+		*value = 0.0f;
 #else
     int winType;
     switch (input) {
@@ -412,10 +418,168 @@ JSY_ERROR_T JsyInputGetInput(JSYInputHandle handle, JSY_INPUT_T input, float_t *
     return JSY_SUCCEED;
 }
 
-JSY_ERROR_T JsyGOpen(JSYGHandle * pHandle, int32_t colorDepth) {
 #ifdef _XBOX
+
+static HRESULT InitD3D(JsyGInternalT * handle)
+{
+    // Create the D3D object.
+    if( NULL == ( handle->g_pD3D = Direct3DCreate8( D3D_SDK_VERSION ) ) )
+        return E_FAIL;
+
+    // Set up the structure used to create the D3DDevice.
+    D3DPRESENT_PARAMETERS d3dpp; 
+    ZeroMemory( &d3dpp, sizeof(d3dpp) );
+    d3dpp.BackBufferWidth        = 640;
+    d3dpp.BackBufferHeight       = 480;
+    d3dpp.BackBufferFormat       = D3DFMT_X8R8G8B8;
+    d3dpp.BackBufferCount        = 1;
+    d3dpp.EnableAutoDepthStencil = TRUE;
+    d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;
+    d3dpp.SwapEffect             = D3DSWAPEFFECT_DISCARD;
+
+    // Create the Direct3D device.
+    if( FAILED( handle->g_pD3D->CreateDevice( 0, D3DDEVTYPE_HAL, NULL,
+                                      D3DCREATE_HARDWARE_VERTEXPROCESSING,
+                                      &d3dpp, &handle->g_pd3dDevice ) ) )
+        return E_FAIL;
+
+    // Turn off culling
+    handle->g_pd3dDevice->SetRenderState( D3DRS_CULLMODE, D3DCULL_NONE );
+
+    // Turn off D3D lighting
+    handle->g_pd3dDevice->SetRenderState( D3DRS_LIGHTING, FALSE );
+
+    // Turn on the zbuffer
+    handle->g_pd3dDevice->SetRenderState( D3DRS_ZENABLE, TRUE );
+
+    return S_OK;
+}
+
+static HRESULT LoadPackedResource(JsyGInternalT * handle)
+{
+    // Open the file to read the XPR headers
+    FILE* file = fopen( "D:\\Media\\Resource.xpr", "rb" );
+    if( NULL == file )
+        return E_FAIL;
+
+    // Read in and verify the XPR magic header
+    XPR_HEADER xprh;
+    if( fread( &xprh, sizeof(XPR_HEADER), 1, file ) != 1 )
+    {
+        fclose(file);
+        return E_FAIL;
+    }
+
+    if( xprh.dwMagic != XPR_MAGIC_VALUE )
+    {
+        OutputDebugStringA( "ERROR: Invalid Xbox Packed Resource (.xpr) file" );
+        fclose( file );
+        return E_INVALIDARG;
+    }
+
+    // Compute memory requirements
+    DWORD dwSysMemDataSize = xprh.dwHeaderSize - sizeof(XPR_HEADER);
+    DWORD dwVidMemDataSize = xprh.dwTotalSize - xprh.dwHeaderSize;
+
+    // Allocate memory
+    handle->g_pResourceSysMemData = new BYTE[dwSysMemDataSize];
+    handle->g_pResourceVidMemData = (BYTE*)D3D_AllocContiguousMemory( dwVidMemDataSize, D3DTEXTURE_ALIGNMENT );
+
+    // Read in the data from the file
+    if( fread( handle->g_pResourceSysMemData, dwSysMemDataSize, 1, file ) != 1 ||
+        fread( handle->g_pResourceVidMemData, dwVidMemDataSize, 1, file ) != 1 )
+        
+    {
+        delete[] handle->g_pResourceSysMemData;
+        D3D_FreeContiguousMemory( handle->g_pResourceVidMemData );
+        fclose( file );
+        return E_FAIL;
+    }
+
+    // Done with the file
+    fclose( file );
+    
+    // Loop over resources, calling Register()
+    BYTE* pData = handle->g_pResourceSysMemData;
+
+    for( DWORD i = 0; i < resource_NUM_RESOURCES; i++ )
+    {
+        // Get the resource
+        LPDIRECT3DRESOURCE8 pResource = (LPDIRECT3DRESOURCE8)pData;
+
+        // Register the resource
+        pResource->Register( handle->g_pResourceVidMemData );
+    
+        // Advance the pointer
+        switch( pResource->GetType() )
+        {
+            case D3DRTYPE_TEXTURE:       pData += sizeof(D3DTexture);       break;
+            case D3DRTYPE_VOLUMETEXTURE: pData += sizeof(D3DVolumeTexture); break;
+            case D3DRTYPE_CUBETEXTURE:   pData += sizeof(D3DCubeTexture);   break;
+            case D3DRTYPE_VERTEXBUFFER:  pData += sizeof(D3DVertexBuffer);  break;
+            case D3DRTYPE_INDEXBUFFER:   pData += sizeof(D3DIndexBuffer);   break;
+            case D3DRTYPE_PALETTE:       pData += sizeof(D3DPalette);       break;
+            default:                     return E_FAIL;
+        }
+    }
+
+    return S_OK;
+}
+
+static void PostInitialize(JsyGInternalT * handle) 
+{
+	D3DXMATRIX Ortho2D;	
+	D3DXMATRIX Identity;
+	
+	D3DXMatrixOrthoLH(&Ortho2D, XBOX_WIN_Width, XBOX_WIN_Height, 0.0f, 1.0f);
+	D3DXMatrixIdentity(&Identity);
+
+	handle->g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &Ortho2D);
+	handle->g_pd3dDevice->SetTransform(D3DTS_WORLD, &Identity);
+	handle->g_pd3dDevice->SetTransform(D3DTS_VIEW, &Identity);
+	handle->g_pd3dDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+	// Load the packed resource
+    LoadPackedResource(handle);
+
+	handle->g_pd3dDevice->CreateVertexBuffer(4 * sizeof(PANELVERTEX), D3DUSAGE_WRITEONLY,
+									D3DFVF_PANELVERTEX, D3DPOOL_MANAGED, &handle->g_pVertices);
+
+	//PANELVERTEX* pVertices = NULL;
+	//g_pVertices->Lock(0, 4 * sizeof(PANELVERTEX), (BYTE**)&pVertices, 0);
+
+	////Set all the colors to white
+	//pVertices[0].color = pVertices[1].color = pVertices[2].color = pVertices[3].color = 0xffffffff;
+
+	////Set positions and texture coordinates
+	//pVertices[0].x = pVertices[3].x = -PanelWidth / 2.0f;
+	//pVertices[1].x = pVertices[2].x = PanelWidth / 2.0f;
+
+	//pVertices[0].y = pVertices[1].y = PanelHeight / 2.0f;
+	//pVertices[2].y = pVertices[3].y = -PanelHeight / 2.0f;
+
+	//pVertices[0].z = pVertices[1].z = pVertices[2].z = pVertices[3].z = 1.0f;
+
+	//pVertices[1].u = pVertices[2].u = 1.0f;
+	//pVertices[0].u = pVertices[3].u = 0.0f;
+
+	//pVertices[0].v = pVertices[1].v = 0.0f;
+	//pVertices[2].v = pVertices[3].v = 1.0f;
+
+	//g_pVertices->Unlock();
+}
+
+#endif
+
+JSY_ERROR_T JsyGOpen(JSYGHandle * pHandle, int32_t colorDepth) {
+	JsyGInternalT * handle = (JsyGInternalT *)malloc(sizeof(JsyGInternalT));
+#ifdef _XBOX
+	memset(handle, 0, sizeof(JsyGInternalT));
+	InitD3D(handle);
+
+	PostInitialize(handle);
 #else
-    JsyGInternalT * handle = (JsyGInternalT *)malloc(sizeof(JsyGInternalT));
+    
     ZeroMemory(handle, sizeof(JsyGInternalT));
     if (!handle)
         return JSY_ERROR_OOM;
@@ -431,9 +595,8 @@ JSY_ERROR_T JsyGOpen(JSYGHandle * pHandle, int32_t colorDepth) {
     glEnable(GL_BLEND);											// Enable Blending
     glEnable(GL_TEXTURE_2D);									// Enable Texture Mapping
     glEnable(GL_CULL_FACE);										// Remove Back Face
-
-    *pHandle = (JSYGHandle *)handle;
 #endif
+    *pHandle = (JSYGHandle *)handle;
     return JSY_SUCCEED;
 }
 
@@ -450,15 +613,24 @@ JSY_ERROR_T JsyGClose(JSYGHandle handle) {
     return JSY_SUCCEED;
 }
 
-JSY_ERROR_T JStGLoadTexture(JSYGHandle handle, const char * fileName, uint32_t * resourceId) {
-    JsyGInternalT * Internal_handle = (JsyGInternalT *)handle;
 #ifdef _XBOX
+JSY_ERROR_T JStGLoadTexture(JSYGHandle handle, uint32_t fileName, uint32_t * resourceId) {
+#else
+JSY_ERROR_T JStGLoadTexture(JSYGHandle handle, const char * fileName, uint32_t * resourceId) {
+#endif
+	JsyGInternalT * Internal_handle = (JsyGInternalT *)handle;
+#ifdef _XBOX
+
+    // Get access to the texture
+    Internal_handle->g_pTexture[Internal_handle->textureCnt++] = (LPDIRECT3DTEXTURE8)&Internal_handle->g_pResourceSysMemData[ fileName ];
+
+
+
 #else
     Internal_handle->texture[Internal_handle->textureCnt++].soilTextureId = SOIL_load_OGL_texture(fileName, SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID,
         SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT);
-
-    *resourceId = Internal_handle->textureCnt-1;
 #endif
+    *resourceId = Internal_handle->textureCnt-1;
     return JSY_SUCCEED;
 }
 
@@ -467,6 +639,63 @@ JSY_ERROR_T JsyGDrawBackGround(JSYGHandle handle, uint32_t resourceId, float_t w
 
     JsyGInternalT * Internal_handle = (JsyGInternalT *)handle;
 #ifdef _XBOX
+	float_t ratio = XBOX_WIN_Height / height;
+	width = width * ratio;
+	height = height * ratio;
+	/*g_pd3dDevice->CreateVertexBuffer(4 * sizeof(PANELVERTEX), D3DUSAGE_WRITEONLY,
+									D3DFVF_PANELVERTEX, D3DPOOL_MANAGED, &g_pVertices);*/
+	PANELVERTEX* pVertices = NULL;
+	Internal_handle->g_pVertices->Lock(0, 4 * sizeof(PANELVERTEX), (BYTE**)&pVertices, 0);
+
+	//Set all the colors to white
+	pVertices[0].color = pVertices[1].color = pVertices[2].color = pVertices[3].color = 0xffffffff;
+
+	//Set positions and texture coordinates
+	float_t yTexCoordUp = yTexCoord;
+    float_t yTexCoordDown = yTexCoord + (1.0f / numSprites);
+
+	// 0 - xleft, ytop
+	// 1 - xright, ytop
+	// 2 - xright, ybot
+	// 3 - xleft, ybot
+
+	// Top-Left
+	pVertices[0].u = pVertices[3].u = 0.0f;
+	pVertices[0].x = pVertices[3].x = -width / 2.0f;
+
+	// Top-Right
+	pVertices[1].u = pVertices[2].u = 1.0f;
+	pVertices[1].x = pVertices[2].x = width / 2.0f;
+
+	// Bot-Right
+	pVertices[0].v = pVertices[1].v = yTexCoordUp;
+	pVertices[0].y = pVertices[1].y = height / 2.0f;
+
+	// Bot-Left
+	pVertices[2].v = pVertices[3].v = yTexCoordDown;
+	pVertices[2].y = pVertices[3].y = -height / 2.0f;
+
+	pVertices[1].u = pVertices[2].u = 1.0f;
+	pVertices[0].u = pVertices[3].u = 0.0f;
+
+	pVertices[0].v = pVertices[1].v = 0.0f;
+	pVertices[2].v = pVertices[3].v = 1.0f;
+
+	/*pVertices[0].x = pVertices[3].x = xPosLeft;
+	pVertices[1].x = pVertices[2].x = xPosRight;
+
+	pVertices[0].y = pVertices[1].y = yPosTop;
+	pVertices[2].y = pVertices[3].y = yPosBot;*/
+
+	pVertices[0].z = pVertices[1].z = pVertices[2].z = pVertices[3].z = 1.0f;
+
+	Internal_handle->g_pVertices->Unlock();
+
+	Internal_handle->g_pd3dDevice->SetTexture(0, Internal_handle->g_pTexture[resourceId]);
+	Internal_handle->g_pd3dDevice->SetVertexShader(D3DFVF_PANELVERTEX);
+	Internal_handle->g_pd3dDevice->SetStreamSource(0, Internal_handle->g_pVertices, sizeof(PANELVERTEX));
+	Internal_handle->g_pd3dDevice->DrawPrimitive(D3DPT_TRIANGLEFAN, 0, 2);
+
 #else
     GLfloat yTexCoordUp = yTexCoord;
     GLfloat yTexCoordDown = yTexCoord + (1.0f / numSprites);
@@ -500,7 +729,13 @@ JSY_ERROR_T JsyGDrawBackGround(JSYGHandle handle, uint32_t resourceId, float_t w
 
 JSY_ERROR_T JsyGClear(JSYGHandle handle) {
     // Clear the window
+	
 #ifdef _XBOX
+	JsyGInternalT * Internal_handle = (JsyGInternalT *)handle;
+	Internal_handle->g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0,0,0), 1.0f, 0 );
+    
+    // Begin the scene
+    Internal_handle->g_pd3dDevice->BeginScene();
 #else
     glClear(GL_COLOR_BUFFER_BIT);
     // Set the modelview matrix to be the identity matrix
@@ -511,6 +746,12 @@ JSY_ERROR_T JsyGClear(JSYGHandle handle) {
 
 JSY_ERROR_T JsyGSwapBuffer(JSYGHandle handle) {
 #ifdef _XBOX
+	JsyGInternalT * Internal_handle = (JsyGInternalT *)handle;
+	    // End the scene
+    Internal_handle->g_pd3dDevice->EndScene();
+
+	// Present the backbuffer contents to the display
+    Internal_handle->g_pd3dDevice->Present( NULL, NULL, NULL, NULL );
 #else
     SwapBuffers(g_window.hDC);					// Swap Buffers (Double Buffering)
 #endif
@@ -542,6 +783,9 @@ JSY_ERROR_T JsyGDrawSprite(JSYGHandle handle, uint32_t resourceId, bool8_t isFli
 
     JsyGInternalT * Internal_handle = (JsyGInternalT *)handle;
 #ifdef _XBOX
+	
+
+
 #else
     GLfloat xTexCoordLeft = xTexCoord;
     GLfloat xTexCoordRight = xTexCoord;

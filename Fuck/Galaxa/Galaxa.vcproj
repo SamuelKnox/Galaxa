@@ -51,13 +51,14 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="XboxDeploymentTool"
-				AdditionalFiles="media"/>
+				AdditionalFiles="Media"/>
 			<Tool
 				Name="XboxImageTool"
 				StackSize="0x10000"
 				IncludeDebugInfo="TRUE"
 				DontMountUD="TRUE"
 				NoLibWarn="TRUE"
+				TitleID="0xffff881c"
 				TitleName="Galaxa"
 				TitleImage=""
 				XBEVersion="4096"/>
@@ -491,16 +492,16 @@
 				RelativePath="..\..\OpenGL Framework\FollowTrajectory.h">
 			</File>
 			<File
-				RelativePath=".\font12.h">
-			</File>
-			<File
 				RelativePath="..\..\Xbox\Input\Gamepad\font12.h">
 			</File>
 			<File
-				RelativePath=".\font16.h">
+				RelativePath=".\font12.h">
 			</File>
 			<File
 				RelativePath="..\..\Xbox\Input\Gamepad\font16.h">
+			</File>
+			<File
+				RelativePath=".\font16.h">
 			</File>
 			<File
 				RelativePath="..\..\OpenGL Framework\game.h">
@@ -527,10 +528,10 @@
 				RelativePath="..\..\OpenGL Framework\random.h">
 			</File>
 			<File
-				RelativePath="..\..\Xbox\Input\Gamepad\Resource.h">
+				RelativePath=".\Resource.h">
 			</File>
 			<File
-				RelativePath=".\Resource.h">
+				RelativePath="..\..\Xbox\Input\Gamepad\Resource.h">
 			</File>
 			<File
 				RelativePath=".\sample.h">
@@ -558,6 +559,53 @@
 			</File>
 			<File
 				RelativePath="..\..\OpenGL Framework\WeaponDrop.h">
+			</File>
+		</Filter>
+		<Filter
+			Name="Resources"
+			Filter="*.rdf">
+			<File
+				RelativePath=".\resource.rdf">
+				<FileConfiguration
+					Name="Debug|Xbox">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="bundler &quot;$(InputPath)&quot;"
+						CommandLine="bundler &quot;$(InputPath)&quot;"
+						Outputs="$(ProjectDir)Media\$(InputName).xpr;$(ProjectDir)$(InputName).h"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Profile|Xbox">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="bundler &quot;$(InputPath)&quot;"
+						CommandLine="bundler &quot;$(InputPath)&quot;"
+						Outputs="$(ProjectDir)Media\$(InputName).xpr;$(ProjectDir)$(InputName).h"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Profile_FastCap|Xbox">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="bundler &quot;$(InputPath)&quot;"
+						CommandLine="bundler &quot;$(InputPath)&quot;"
+						Outputs="$(ProjectDir)Media\$(InputName).xpr;$(ProjectDir)$(InputName).h"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Xbox">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="bundler &quot;$(InputPath)&quot;"
+						CommandLine="bundler &quot;$(InputPath)&quot;"
+						Outputs="$(ProjectDir)Media\$(InputName).xpr;$(ProjectDir)$(InputName).h"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release_LTCG|Xbox">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="bundler &quot;$(InputPath)&quot;"
+						CommandLine="bundler &quot;$(InputPath)&quot;"
+						Outputs="$(ProjectDir)Media\$(InputName).xpr;$(ProjectDir)$(InputName).h"/>
+				</FileConfiguration>
 			</File>
 		</Filter>
 		<File

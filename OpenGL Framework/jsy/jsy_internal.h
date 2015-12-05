@@ -4,6 +4,9 @@
 #ifdef _XBOX
 #include <stdlib.h>
 #include <string.h>
+#include <xtl.h>
+#include <xgraphics.h>
+#include "Resource.h"
 #else
 // Win32
 #include <Windows.h>
@@ -41,6 +44,12 @@ typedef struct {									// Contains Information Vital To A Window
 
 #endif
 
+///////////////
+// Input APIs
+typedef struct JsyInputInternalS {
+
+} JsyInputInternalT;
+
 typedef struct JsyTextureS
 {
 #ifdef _XBOX
@@ -51,21 +60,42 @@ typedef struct JsyTextureS
 } JsyTextureT;
 
 ///////////////
-// Input APIs
-typedef struct JsyInputInternalS {
-
-} JsyInputInternalT;
-
-
-///////////////
 // Graphic APIs
+
+#ifdef _XBOX
+
+#define XBOX_WIN_Width 640.0f
+#define XBOX_WIN_Height 480.0f
+
+struct PANELVERTEX
+{
+    FLOAT x, y, z;
+    DWORD color;
+    FLOAT u, v;
+};
+
+#define D3DFVF_PANELVERTEX (D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1)
+
+// Our custom FVF, which describes our custom vertex structure
+#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE|D3DFVF_TEX1)
+
+#endif
+
+
 typedef struct JsyGInternalS {
 #ifdef _XBOX
+
+	LPDIRECT3D8             g_pD3D;          // Used to create the D3DDevice
+	LPDIRECT3DDEVICE8       g_pd3dDevice;          // Our rendering device
+	BYTE*                   g_pResourceSysMemData; // Sysmem data for the packed resource
+	BYTE*                   g_pResourceVidMemData; // Vidmem data for the packed resource
+	LPDIRECT3DTEXTURE8      g_pTexture[256]; // Our texture
+	LPDIRECT3DVERTEXBUFFER8 g_pVertices;
 #else
     GL_Window * window;
-#endif
     JsyTextureT texture[256]; // FIXME: Now only support 256 texture, means 256 texture id
-    uint32_t textureCnt;
+#endif
+	uint32_t textureCnt;
 } JsyGInternalT;
 
 ///////////////

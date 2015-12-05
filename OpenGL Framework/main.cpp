@@ -41,10 +41,16 @@ bool gameLoop() {
 //-----------------------------------------------------------------------------
 VOID __cdecl main()
 {
-    CXBoxSample xbApp;
-    if( FAILED( xbApp.Create() ) )
-        return;
-    xbApp.Run();
+    //CXBoxSample xbApp;
+    //if( FAILED( xbApp.Create() ) )
+    //    return;
+    //xbApp.Run();
+	JsyAppInit_XBOX(gameLoop);
+
+    CGame::GetInstance()->shutdown();										// User Defined DeInitialization
+    CGame::GetInstance()->DestroyGame();
+
+    JsyAppClose();
 }
 
 #else

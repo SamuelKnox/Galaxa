@@ -26,15 +26,13 @@ typedef enum JSY_ERROR_S {
 
 ///////////////////////
 // Init library
-
+typedef bool(*AppLoop)();
 #ifdef _XBOX
-JSY_ERROR_T JsyAppInit_XBOX();
+JSY_ERROR_T JsyAppInit_XBOX(AppLoop func);
 
 #define nullptr 0
 
 #else
-typedef bool(*AppLoop)();
-
 JSY_ERROR_T JsyAppInit_Win(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow, int width, int height, AppLoop func);
 #endif
 
@@ -93,7 +91,11 @@ JSY_ERROR_T JsyGOpen(JSYGHandle * pHandle, int32_t colorDepth);
 
 JSY_ERROR_T JsyGClose(JSYGHandle handle);
 
+#ifdef _XBOX
+JSY_ERROR_T JStGLoadTexture(JSYGHandle handle, uint32_t fileID, uint32_t * pTextureId);
+#else
 JSY_ERROR_T JStGLoadTexture(JSYGHandle handle, const char * fileName, uint32_t * pTextureId);
+#endif
 
 JSY_ERROR_T JsyGClear(JSYGHandle handle);
 

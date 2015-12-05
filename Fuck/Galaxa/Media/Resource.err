@@ -1,0 +1,2 @@
+Bundler : error : Couldn't load image <Media\Textures\AnalogGauge.bmp>
+Bundler : error : Texture: Couldn't load source file <Media\Textures\AnalogGauge.bmp> or <Media\Textures\AnalogGauge_a.bmp>
