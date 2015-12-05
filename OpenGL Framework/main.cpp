@@ -1,13 +1,6 @@
 #include "jsy/jsy.h"
-
-#include "game.h"
 #include "gamedefs.h"
-
-#ifdef _XBOX
-#include "sample.h"
-
-#endif
-
+#include "game.h"
 
 bool inited = false;
 uint32_t lastTickCount;

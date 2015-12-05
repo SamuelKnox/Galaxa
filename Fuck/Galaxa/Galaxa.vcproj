@@ -343,39 +343,6 @@
 				RelativePath="..\..\OpenGL Framework\stateManager.cpp">
 			</File>
 			<File
-				RelativePath=".\stdafx.cpp">
-				<FileConfiguration
-					Name="Debug|Xbox">
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Profile|Xbox">
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Profile_FastCap|Xbox">
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Xbox">
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release_LTCG|Xbox">
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\OpenGL Framework\Trajectory.cpp">
 			</File>
 			<File
@@ -457,9 +424,6 @@
 			</File>
 			<File
 				RelativePath="..\..\OpenGL Framework\stateManager.h">
-			</File>
-			<File
-				RelativePath=".\stdafx.h">
 			</File>
 			<File
 				RelativePath="..\..\OpenGL Framework\Trajectory.h">
