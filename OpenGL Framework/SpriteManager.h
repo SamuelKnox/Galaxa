@@ -1,16 +1,13 @@
 #ifndef _SPRITE_MANAGER_H
 #define _SPRITE_MANAGER_H
 
-#include "Sprite.h"
-
 #include "Player.h"
 #include "Bullet.h"
-//#include "gamedefs.h"
-//#include "jsy/jsy.h"
+#include "gamedefs.h"
+#include "jsy/jsy.h"
 #include "Enemy.h"
 #include "Explosion.h"
 #include "WeaponDrop.h"
-#include "Object.h"
 
 class SpriteManager
 {

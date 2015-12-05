@@ -2,6 +2,7 @@
 #define _BULLET_H
 
 #include "Sprite.h"
+
 class Bullet : public Sprite
 {
 

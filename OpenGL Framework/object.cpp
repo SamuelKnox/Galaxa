@@ -1,9 +1,6 @@
-#ifndef _OBJINCLUDE_H
-#define _OBJINCLUDE_H
-
+#include "jsy/jsy.h"
+#include "collInfo.h"
 #include "Object.h"
-//#include "jsy/jsy.h"
-//#include "collInfo.h"
 
 ObjectC::ObjectC(float initPosX, float initPosY, float initVelX, float initVelY)
 {
@@ -22,5 +19,3 @@ ObjectC::ObjectC()
 ObjectC::~ObjectC()
 {
 };
-
-#endif

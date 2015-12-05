@@ -1,9 +1,8 @@
 #ifndef _ENEMY_H_
 #define _ENEMY_H_
 
-//#include "jsy/jsy.h"
-//#include "Sprite.h"
-
+#include "jsy/jsy.h"
+#include "Sprite.h"
 #include "Trajectory.h"
 
 class Enemy : public Sprite

@@ -3,14 +3,14 @@
 #include <stdarg.h>												// Header File For Variable Argument Routines
 #include <math.h>												// Header File For Math Operations
 
-//#include "jsy/jsy.h"
-#include "SpriteManager.h"
-//#include "object.h"
+#include "jsy/jsy.h"
 #include "gamedefs.h"
 #include "collInfo.h"
-//#include "Sprite.h"
+#include "object.h"
+#include "Sprite.h"
 #include "field.h"
 #include "random.h"
+#include "SpriteManager.h"
 #include "FieldManager.h"
 #include "GameManager.h"
 #include "game.h"

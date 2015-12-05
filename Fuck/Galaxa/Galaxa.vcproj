@@ -331,9 +331,6 @@
 				RelativePath="..\..\OpenGL Framework\SideTrajectory.cpp">
 			</File>
 			<File
-				RelativePath=".\sjis2unicode.cpp">
-			</File>
-			<File
 				RelativePath="..\..\OpenGL Framework\jsy\SOIL.h">
 			</File>
 			<File
@@ -388,76 +385,7 @@
 				RelativePath="..\..\OpenGL Framework\WeaponDrop.cpp">
 			</File>
 			<File
-				RelativePath=".\xbapp.cpp">
-			</File>
-			<File
-				RelativePath=".\xbconfig.cpp">
-			</File>
-			<File
-				RelativePath=".\xbfont.cpp">
-			</File>
-			<File
-				RelativePath=".\xbhelp.cpp">
-			</File>
-			<File
 				RelativePath=".\xbinput.cpp">
-			</File>
-			<File
-				RelativePath=".\xbMediaDebug.cpp">
-			</File>
-			<File
-				RelativePath=".\xbmemunit.cpp">
-			</File>
-			<File
-				RelativePath=".\xbmesh.cpp">
-			</File>
-			<File
-				RelativePath=".\xbNet.cpp">
-			</File>
-			<File
-				RelativePath=".\xbNetMsg.cpp">
-			</File>
-			<File
-				RelativePath=".\xbOnline.cpp">
-			</File>
-			<File
-				RelativePath=".\xbOnlineTask.cpp">
-			</File>
-			<File
-				RelativePath=".\xbperf.cpp">
-			</File>
-			<File
-				RelativePath=".\xbprofiling.cpp">
-			</File>
-			<File
-				RelativePath=".\xbRandName.cpp">
-			</File>
-			<File
-				RelativePath=".\xbresource.cpp">
-			</File>
-			<File
-				RelativePath=".\xbsavedgame.cpp">
-			</File>
-			<File
-				RelativePath=".\xbsocket.cpp">
-			</File>
-			<File
-				RelativePath=".\xbsound.cpp">
-			</File>
-			<File
-				RelativePath=".\xbstopwatch.cpp">
-			</File>
-			<File
-				RelativePath=".\xbstoragedevice.cpp">
-			</File>
-			<File
-				RelativePath=".\xbstrip.cpp">
-			</File>
-			<File
-				RelativePath=".\xbutil.cpp">
-			</File>
-			<File
-				RelativePath=".\xbVoice.cpp">
 			</File>
 		</Filter>
 		<Filter
@@ -489,18 +417,6 @@
 				RelativePath="..\..\OpenGL Framework\FollowTrajectory.h">
 			</File>
 			<File
-				RelativePath=".\font12.h">
-			</File>
-			<File
-				RelativePath="..\..\Xbox\Input\Gamepad\font12.h">
-			</File>
-			<File
-				RelativePath=".\font16.h">
-			</File>
-			<File
-				RelativePath="..\..\Xbox\Input\Gamepad\font16.h">
-			</File>
-			<File
 				RelativePath="..\..\OpenGL Framework\game.h">
 			</File>
 			<File
@@ -526,9 +442,6 @@
 			</File>
 			<File
 				RelativePath=".\Resource.h">
-			</File>
-			<File
-				RelativePath=".\sample.h">
 			</File>
 			<File
 				RelativePath="..\..\OpenGL Framework\Scoreboard.h">
@@ -606,22 +519,10 @@
 			RelativePath="..\..\OpenGL Framework\fmod.dll">
 		</File>
 		<File
-			RelativePath="..\..\Xbox\Input\Gamepad\font12.rdf">
-		</File>
-		<File
-			RelativePath="..\..\Xbox\Input\Gamepad\font16.rdf">
-		</File>
-		<File
-			RelativePath="..\..\OpenGL Framework\ncb">
-		</File>
-		<File
-			RelativePath="..\..\Xbox\Input\Gamepad\readme.txt">
-		</File>
-		<File
 			RelativePath=".\ReadMe.txt">
 		</File>
 		<File
-			RelativePath="..\..\Xbox\Input\Gamepad\resource.rdf">
+			RelativePath="..\..\Xbox\Input\Gamepad\readme.txt">
 		</File>
 		<File
 			RelativePath="..\..\OpenGL Framework\snoods_default.png">

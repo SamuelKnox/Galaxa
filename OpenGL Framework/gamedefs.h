@@ -1,5 +1,3 @@
-#ifndef _GAMEDEFGUARD_H_
-#define _GAMEDEFGUARD_H_
 
 #define GAME_SPEED 10000
 
@@ -156,6 +154,4 @@
 #define BG_SPACE			"assets/background2.png"
 #define PLAYER_SPRITE	"assets/player.png"
 #define NUMBER_SPRITES		"assets/numbers.png"
-#endif
-
 #endif

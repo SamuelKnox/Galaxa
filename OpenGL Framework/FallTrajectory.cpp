@@ -1,5 +1,5 @@
-//#include "object.h"
-//#include "Sprite.h"
+#include "object.h"
+#include "Sprite.h"
 #include "field.h"
 #include "FieldManager.h"
 #include <math.h>

@@ -1,8 +1,3 @@
-#ifndef _STATEY_H_
-#define _STATEY_H_
-
-#include "jsy/types.h"
-
 class StateManagerC
 {
 public:
@@ -24,5 +19,3 @@ private:
 	StateManagerC(){};
 	int32_t		mCurrentState;
 };
-
-#endif

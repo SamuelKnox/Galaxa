@@ -1,6 +1,3 @@
-#ifndef _SPRITE_MANAGER_MANAGER_H
-#define _SPRITE_MANAGER_MANAGER_H
-
 #define SPRITE_MANAGER_CPP
 #include <assert.h>
 #include <stdio.h>												// Header File For Standard Input / Output
@@ -8,15 +5,15 @@
 #include <math.h>												// Header File For Math Operations
 #include <float.h>
 #include <malloc.h>
-//#include "jsy/jsy.h"
+#include "jsy/jsy.h"
 
-//#include "object.h"
-//#include "jsy/jsy.h"	
+#include "jsy/jsy.h"	
 #include "gamedefs.h"
-//#include "collinfo.h"
+#include "collinfo.h"
+#include "object.h"
 #include "Sprite.h"
 #include "Player.h"
-//#include "Bullet.h"
+#include "Bullet.h"
 #include "random.h"
 #include "field.h"
 #include "FieldManager.h"
@@ -550,6 +547,3 @@ bool8_t SpriteManager::CheckSpriteCollision(Sprite *sprite1, Sprite *sprite2)
 	return	(sprite1Left <= sprite2Right) && (sprite1Right >= sprite2Left) &&
 		(sprite1Up <= sprite2Down) && (sprite1Down >= sprite2Up);
 }
-
-
-#endif

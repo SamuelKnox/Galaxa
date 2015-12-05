@@ -1,9 +1,8 @@
-
-#include "SideTrajectory.h"
-//#include "object.h"
-//#include "Sprite.h"
+#include "object.h"
+#include "Sprite.h"
 #include "field.h"
 #include "FieldManager.h"
+#include "SideTrajectory.h"
 
 const float SideTrajectory::SIDESPEED = SIDE_TRAJECTORY_SPEED;
 

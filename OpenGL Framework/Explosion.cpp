@@ -3,10 +3,10 @@
 #include <stdarg.h>												// Header File For Variable Argument Routines
 #include <math.h>												// Header File For Math Operations
 
-//#include "jsy/jsy.h"
-//#include "object.h"
-//#include "collInfo.h"
-//#include "Sprite.h"
+#include "jsy/jsy.h"
+#include "collInfo.h"
+#include "object.h"
+#include "Sprite.h"
 #include "field.h"
 #include "fieldmanager.h"
 #include "gamedefs.h"
@@ -14,7 +14,7 @@
 #include "random.h"
 #include "SpriteManager.h"
 
-//#include "Explosion.h"
+#include "Explosion.h"
 
 Explosion::Explosion(float_t initPosX, float_t initPosY, uint32_t explosionType, uint32_t pointType)
 {
