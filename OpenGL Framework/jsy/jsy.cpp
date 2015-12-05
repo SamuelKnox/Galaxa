@@ -1,6 +1,3 @@
-#ifndef _JSYMANAGER_H
-#define _JSYMANAGER_H
-
 #include <stdio.h>
 #include <io.h>
 #include <fcntl.h>
@@ -59,9 +56,6 @@
 #endif															// We Can Avoid Errors
 
 static GL_Window g_window;
-
-
-
 
 static void TerminateApplication(GL_Window* window)							// Terminate The Application
 {
@@ -322,14 +316,11 @@ static BOOL RegisterWindowClass(Application* application)						// Register A Win
 
 
 #ifdef _XBOX
-
 JSY_ERROR_T JsyAppInit_XBOX(AppLoop func)
 #else
 JSY_ERROR_T JsyAppInit_Win(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow, int width, int height, AppLoop func)
 #endif
 {
-
-
 	while (func()) {
 	}
 #ifdef _MY_DEBUG_
@@ -1105,5 +1096,3 @@ JSY_ERROR_T JsyAudioPlaySound(JSYAudioHandle handle, uint32_t resourceId) {
 #endif
     return JSY_SUCCEED;
 }
-
-#endif
