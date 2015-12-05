@@ -1,11 +1,12 @@
 #ifndef _FOLLOW_TRAJECTORY_H_
 #define _FOLLOW_TRAJECTORY_H_
 
-#include "jsy/jsy.h"
+//#include "jsy/jsy.h"
+
+#include "Trajectory.h"
 #include "gamedefs.h"
 #include "FieldManager.h"
 #include "SpriteManager.h"
-#include "Trajectory.h"
 
 class FollowTrajectory : public Trajectory
 {

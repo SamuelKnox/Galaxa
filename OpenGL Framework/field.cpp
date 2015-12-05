@@ -2,9 +2,9 @@
 #include <stdarg.h>												// Header File For Variable Argument Routines
 #include <math.h>												// Header File For Math Operations
 
-#include "jsy/jsy.h"
-#include "collInfo.h"
+//#include "jsy/jsy.h"
 #include "object.h"
+//#include "collInfo.h"
 #include "field.h"
 #include "game.h"
 #include "gamedefs.h"

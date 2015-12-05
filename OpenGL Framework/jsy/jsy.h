@@ -30,7 +30,9 @@ typedef bool(*AppLoop)();
 #ifdef _XBOX
 JSY_ERROR_T JsyAppInit_XBOX(AppLoop func);
 
+
 #define nullptr 0
+
 
 #else
 JSY_ERROR_T JsyAppInit_Win(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow, int width, int height, AppLoop func);

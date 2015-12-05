@@ -1,6 +1,8 @@
 #ifndef _FIELD_H_
 #define _FIELD_H_
 
+#include "Object.h"
+
 class FieldC : public ObjectC
 {
 public:

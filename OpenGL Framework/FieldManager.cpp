@@ -4,10 +4,10 @@
 #include <stdarg.h>												// Header File For Variable Argument Routines
 #include <math.h>												// Header File For Math Operations
  
-#include "jsy/jsy.h"
+//#include "jsy/jsy.h"
+#include "object.h"
 #include "gamedefs.h"
 #include "collinfo.h"
-#include "object.h"
 #include "stateManager.h"
 #include "field.h"
 #include "FieldManager.h"

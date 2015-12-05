@@ -1,13 +1,16 @@
+#ifndef _INCSPRITE_H
+#define _INCSPRITE_H
+
 #include <iostream>
 #include <stdio.h>												// Header File For Standard Input / Output
 #include <stdarg.h>												// Header File For Variable Argument Routines
 #include <math.h>												// Header File For Math Operations
 
-#include "jsy/jsy.h"
-#include "collInfo.h"
-#include "object.h"
+//#include "object.h"
+//#include "jsy/jsy.h"
+//#include "collInfo.h"
 //#include "inputmapper.h"
-#include "Sprite.h"
+//#include "Sprite.h"
 #include "SpriteManager.h"
 #include "field.h"
 #include "fieldmanager.h"
@@ -17,7 +20,7 @@
 #include "stateManager.h"
 #include "game.h"
 
-#include "jsy/jsy.h"
+//#include "jsy/jsy.h"
 
 Sprite::Sprite()
 {
@@ -105,3 +108,5 @@ void Sprite::setCurrentSprite(int32_t spriteNum)
 {
 	mCurrentSprite = spriteNum;
 }
+
+#endif

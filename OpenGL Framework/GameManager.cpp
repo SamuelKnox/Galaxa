@@ -6,12 +6,12 @@
 #include <assert.h>
 #include <iostream>
 
-#include "jsy/jsy.h"
+//#include "jsy/jsy.h"
 #include "gamedefs.h"
 #include "stateManager.h"
 #include "SpriteManager.h"
-#include "Scoreboard.h"
-#include "jsy/jsy.h"
+//#include "Scoreboard.h"
+//#include "jsy/jsy.h"
 #include "game.h"
 #include "GameManager.h"
 

@@ -5,9 +5,9 @@
 #include <stdarg.h>												// Header File For Variable Argument Routines
 #include <math.h>												// Header File For Math Operations
 
-#include "jsy/jsy.h"
-#include "collInfo.h"
-#include "object.h"
+//#include "object.h"
+//#include "jsy/jsy.h"
+//#include "collInfo.h"
 #include "Sprite.h"
 #include "Player.h"
 

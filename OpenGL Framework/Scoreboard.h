@@ -1,9 +1,9 @@
 #ifndef _SCOREBOARD_H
 #define _SCOREBOARD_H
 
-#include "jsy/jsy.h"
-#include "gamedefs.h"
 #include "Sprite.h"
+//#include "jsy/jsy.h"
+#include "gamedefs.h"
 
 class Scoreboard
 {

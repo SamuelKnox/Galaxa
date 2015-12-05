@@ -1,3 +1,6 @@
+#ifndef _JSYMANAGER_H
+#define _JSYMANAGER_H
+
 #include <stdio.h>
 #include <io.h>
 #include <fcntl.h>
@@ -14,6 +17,41 @@
 
 
 #ifdef _XBOX
+
+#define CONTROL_LEFTTHUMBSTICK  0
+#define CONTROL_RIGHTTHUMBSTICK 1
+#define CONTROL_BODY            2
+#define CONTROL_BACKBUTTON      3
+#define CONTROL_STARTBUTTON     4
+#define CONTROL_ABUTTON         5
+#define CONTROL_BBUTTON         6
+#define CONTROL_XBUTTON         7
+#define CONTROL_YBUTTON         8
+#define CONTROL_WHITEBUTTON     9
+#define CONTROL_BLACKBUTTON    10
+#define CONTROL_CORDSTUB       11
+#define CONTROL_GASKETS        12
+#define CONTROL_MEMCARDSLOT    13
+#define CONTROL_LEFTTRIGGER    14
+#define CONTROL_RIGHTTRIGGER   15
+#define CONTROL_DPAD           16
+#define CONTROL_JEWEL          17
+#define NUM_CONTROLS           18
+
+#include <XBApp.h>
+#include <XBFont.h>
+#include <XBMesh.h>
+#include <XBUtil.h>
+#include <XBResource.h>
+#include <xgraphics.h>
+#include "Resource.h"
+
+    // Members to init the XINPUT devices.
+    DWORD                  m_dwNumInputDeviceTypes;
+    XBGAMEPAD* m_Gamepad;
+    XBGAMEPAD              m_DefaultGamepad;
+
+
 #else
 
 #ifndef		CDS_FULLSCREEN										// CDS_FULLSCREEN Is Not Defined By Some
@@ -21,6 +59,9 @@
 #endif															// We Can Avoid Errors
 
 static GL_Window g_window;
+
+
+
 
 static void TerminateApplication(GL_Window* window)							// Terminate The Application
 {
@@ -281,11 +322,14 @@ static BOOL RegisterWindowClass(Application* application)						// Register A Win
 
 
 #ifdef _XBOX
+
 JSY_ERROR_T JsyAppInit_XBOX(AppLoop func)
 #else
 JSY_ERROR_T JsyAppInit_Win(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow, int width, int height, AppLoop func)
 #endif
 {
+
+
 	while (func()) {
 	}
 #ifdef _MY_DEBUG_
@@ -376,6 +420,15 @@ JSY_ERROR_T JsyInputOpen(JSYInputHandle * pHandle) {
 
     *pHandle = (JsyInputInternalT *)handle;
 
+		    // Initialize core peripheral port support. Note: If these parameters
+    // are 0 and NULL, respectively, then the default number and types of 
+    // controllers will be initialized.
+    //XInitDevices( m_dwNumInputDeviceTypes, m_InputDeviceTypes );
+	XInitDevices( 0, NULL );
+    // Create the gamepad devices
+    XBInput_CreateGamepads( &m_Gamepad );
+
+
     return JSY_SUCCEED;
 }
 
@@ -388,10 +441,41 @@ JSY_ERROR_T JsyInputClose(JSYInputHandle handle) {
 
 JSY_ERROR_T JsyInputGetInput(JSYInputHandle handle, JSY_INPUT_T input, float_t * value) {
 #ifdef _XBOX
-	if (input == JSY_INPUT_A)
-		*value = 1.0f;
-	else 
-		*value = 0.0f;
+
+XBInput_GetInput( m_Gamepad );
+
+    switch (input) {
+        case JSY_INPUT_UP:
+			*value = m_Gamepad[0].fY1;
+			break;
+        case JSY_INPUT_DOWN:
+			*value = -m_Gamepad[0].fY1;
+			break;
+        case JSY_INPUT_LEFT:
+			*value = -m_Gamepad[0].fX1;
+			break;
+        case JSY_INPUT_RIGHT:
+			*value = m_Gamepad[0].fX1;
+			break;
+        case JSY_INPUT_A: 
+			*value = m_Gamepad[0].bLastAnalogButtons[XINPUT_GAMEPAD_A] ? 1.0f : 0.0f;
+			break;
+        case JSY_INPUT_B: 
+			*value = m_Gamepad[0].bLastAnalogButtons[XINPUT_GAMEPAD_B] ? 1.0f : 0.0f;
+			break;
+        case JSY_INPUT_START: 
+			//*value = ???;
+			*value = m_Gamepad[0].bLastAnalogButtons[XINPUT_GAMEPAD_B] ? 1.0f : 0.0f;
+			break;
+        case JSY_INPUT_BACK: 
+			//*value = ???;
+			break;
+        default:
+			*value = 0.0f;
+            break;
+    }
+
+
 #else
     int winType;
     switch (input) {
@@ -1021,3 +1105,5 @@ JSY_ERROR_T JsyAudioPlaySound(JSYAudioHandle handle, uint32_t resourceId) {
 #endif
     return JSY_SUCCEED;
 }
+
+#endif

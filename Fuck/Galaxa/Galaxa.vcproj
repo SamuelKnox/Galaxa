@@ -513,9 +513,6 @@
 				RelativePath="..\..\OpenGL Framework\GameManager.h">
 			</File>
 			<File
-				RelativePath="..\..\OpenGL Framework\gameObjects.h">
-			</File>
-			<File
 				RelativePath="..\..\OpenGL Framework\HorizontalLine.h">
 			</File>
 			<File

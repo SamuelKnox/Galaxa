@@ -2,6 +2,9 @@
 #define _OBJECT_H
 
 #include "jsy/jsy.h"
+
+
+
 #include "collInfo.h"
 
 class ObjectC
