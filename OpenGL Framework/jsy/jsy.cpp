@@ -442,121 +442,40 @@ JSY_ERROR_T JsyInputClose(JSYInputHandle handle) {
 JSY_ERROR_T JsyInputGetInput(JSYInputHandle handle, JSY_INPUT_T input, float_t * value) {
 #ifdef _XBOX
 
-
 XBInput_GetInput( m_Gamepad );
-		//if( m_Gamepad[0].wPressedButtons & XINPUT_GAMEPAD_START );
-		//if( m_Gamepad[0].bPressedAnalogButtons[XINPUT_GAMEPAD_A] || m_Gamepad[0].bPressedAnalogButtons[XINPUT_GAMEPAD_X] || m_Gamepad[0].bPressedAnalogButtons[XINPUT_GAMEPAD_B] || m_Gamepad[0].bPressedAnalogButtons[XINPUT_GAMEPAD_Y]){
-if(m_Gamepad[0].bLastAnalogButtons[XINPUT_GAMEPAD_A]){
-            *value = 1.0f;
-}
-else if(m_Gamepad[0].bPressedAnalogButtons[XINPUT_GAMEPAD_A]){
-            *value = 1.0f;
-		}
-		else{
+
+    switch (input) {
+        case JSY_INPUT_UP:
+			*value = m_Gamepad[0].fY1;
+			break;
+        case JSY_INPUT_DOWN:
+			*value = -m_Gamepad[0].fY1;
+			break;
+        case JSY_INPUT_LEFT:
+			*value = -m_Gamepad[0].fX1;
+			break;
+        case JSY_INPUT_RIGHT:
+			*value = m_Gamepad[0].fX1;
+			break;
+        case JSY_INPUT_A: 
+			*value = m_Gamepad[0].bLastAnalogButtons[XINPUT_GAMEPAD_A] ? 1.0f : 0.0f;
+			break;
+        case JSY_INPUT_B: 
+			*value = m_Gamepad[0].bLastAnalogButtons[XINPUT_GAMEPAD_B] ? 1.0f : 0.0f;
+			break;
+        case JSY_INPUT_START: 
+			//*value = ???;
+			*value = m_Gamepad[0].bLastAnalogButtons[XINPUT_GAMEPAD_B] ? 1.0f : 0.0f;
+			break;
+        case JSY_INPUT_BACK: 
+			//*value = ???;
+			break;
+        default:
 			*value = 0.0f;
-		}
-
-  //      // Lump inputs of all connected gamepads into one common structure.
-  //      // This is done so apps that need only one gamepad can function with
-  //      // any gamepad.
-  //      ZeroMemory( &m_DefaultGamepad, sizeof(m_DefaultGamepad) );
-  //      INT nThumbLX = 0;
-  //      INT nThumbLY = 0;
-  //      INT nThumbRX = 0;
-  //      INT nThumbRY = 0;
-
-  //      for( DWORD i=0; i<4; i++ )
-  //      {
-  //          if( m_Gamepad[i].hDevice )
-  //          {
-		//		
-		//		const SHORT XINPUT_DEADZONE = (SHORT)( 0.24f * FLOAT(0x7FFF) );
-  //              // Only account for thumbstick info beyond the deadzone
-  //              if( m_Gamepad[i].sThumbLX > XINPUT_DEADZONE ||
-  //                  m_Gamepad[i].sThumbLX < -XINPUT_DEADZONE )
-  //                  nThumbLX += m_Gamepad[i].sThumbLX;
-  //              if( m_Gamepad[i].sThumbLY > XINPUT_DEADZONE ||
-  //                  m_Gamepad[i].sThumbLY < -XINPUT_DEADZONE )
-  //                  nThumbLY += m_Gamepad[i].sThumbLY;
-  //              if( m_Gamepad[i].sThumbRX > XINPUT_DEADZONE ||
-  //                  m_Gamepad[i].sThumbRX < -XINPUT_DEADZONE )
-  //                  nThumbRX += m_Gamepad[i].sThumbRX;
-  //              if( m_Gamepad[i].sThumbRY > XINPUT_DEADZONE ||
-  //                  m_Gamepad[i].sThumbRY < -XINPUT_DEADZONE )
-  //                  nThumbRY += m_Gamepad[i].sThumbRY;
-
-  //              m_DefaultGamepad.fX1 += m_Gamepad[i].fX1;
-  //              m_DefaultGamepad.fY1 += m_Gamepad[i].fY1;
-  //              m_DefaultGamepad.fX2 += m_Gamepad[i].fX2;
-  //              m_DefaultGamepad.fY2 += m_Gamepad[i].fY2;
-  //              m_DefaultGamepad.wButtons        |= m_Gamepad[i].wButtons;
-  //              m_DefaultGamepad.wPressedButtons |= m_Gamepad[i].wPressedButtons;
-  //              m_DefaultGamepad.wLastButtons    |= m_Gamepad[i].wLastButtons;
-
-  //              if( m_Gamepad[i].Event )
-  //                  m_DefaultGamepad.Event = m_Gamepad[i].Event;
-
-  //              for( DWORD b=0; b<8; b++ )
-  //              {
-  //                  m_DefaultGamepad.bAnalogButtons[b]        |= m_Gamepad[i].bAnalogButtons[b];
-  //                  m_DefaultGamepad.bPressedAnalogButtons[b] |= m_Gamepad[i].bPressedAnalogButtons[b];
-  //                  m_DefaultGamepad.bLastAnalogButtons[b]    |= m_Gamepad[i].bLastAnalogButtons[b];
-  //              }
-  //          }
-  //      }
-
-  //      // Clamp summed thumbstick values to proper range
-  //      m_DefaultGamepad.sThumbLX = (SHORT)nThumbLX;
-  //      m_DefaultGamepad.sThumbLY = (SHORT)nThumbLY;
-  //      m_DefaultGamepad.sThumbRX = (SHORT)nThumbRX;
-  //      m_DefaultGamepad.sThumbRY = (SHORT)nThumbRY;
-
-  //      // Handle special input combo to trigger a reboot to the Xbox Dashboard
-  //      if( m_DefaultGamepad.bAnalogButtons[XINPUT_GAMEPAD_LEFT_TRIGGER] > 0 )
-  //      {
-  //          if( m_DefaultGamepad.bAnalogButtons[XINPUT_GAMEPAD_RIGHT_TRIGGER] > 0 )
-  //          {
-  //              if( m_DefaultGamepad.bPressedAnalogButtons[XINPUT_GAMEPAD_BLACK] )
-  //              {
-  //                  LD_LAUNCH_DASHBOARD LaunchData = { XLD_LAUNCH_DASHBOARD_MAIN_MENU };
-  //                  XLaunchNewImage( NULL, (LAUNCH_DATA*)&LaunchData );
-  //              }
-  //          }
-  //      }
-
-		//if( m_DefaultGamepad.wPressedButtons & XINPUT_GAMEPAD_START ){
-		////if( m_DefaultGamepad.wPressedButtons & XINPUT_GAMEPAD_A ){
-		//	
-  //          *value = 1.0f;
-		//}
-		//else{
-		//	*value = 0.0f;
-		//}
-
-//end controller input
+            break;
+    }
 
 
-
-
-
-
-
-
-//	XBInput_GetInput( m_Gamepad );
-//	bool aPressed = m_pGamepad[0]->bAnalogButtons[XINPUT_GAMEPAD_A];
-//	if(aPressed){
-//*value = 1.0f;
-//	}
-//	else{
-//		*value = 0.0f;
-//	}
-
-
-
-	/*if (input == JSY_INPUT_A)
-		*value = 1.0f;
-	else 
-		*value = 0.0f;*/
 #else
     int winType;
     switch (input) {

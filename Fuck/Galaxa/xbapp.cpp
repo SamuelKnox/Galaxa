@@ -115,7 +115,8 @@ HRESULT CXBApplication::Create()
     // Initialize core peripheral port support. Note: If these parameters
     // are 0 and NULL, respectively, then the default number and types of 
     // controllers will be initialized.
-    XInitDevices( m_dwNumInputDeviceTypes, m_InputDeviceTypes );
+    //XInitDevices( m_dwNumInputDeviceTypes, m_InputDeviceTypes );
+	XInitDevices(0, NULL);
 
     // Create the gamepad devices
     OUTPUT_DEBUG_STRING( "XBApp: Creating gamepad devices...\n" );
