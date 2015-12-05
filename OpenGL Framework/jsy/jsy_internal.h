@@ -6,6 +6,9 @@
 #include <string.h>
 #include <xtl.h>
 #include <xgraphics.h>
+#include <DSound.h>
+#include <dmusicfx.h>
+
 #include "Resource.h"
 #else
 // Win32
@@ -104,21 +107,77 @@ typedef struct JsyGInternalS {
 // Audio APIs
 
 // node of the sound resources list
+
+#ifdef _XBOX
+//
+// the WMA decoder will work properly in async mode, with all formats
+// only when using a look ahead size of at least 64k. We are using it synchronous mode
+// but for good measure we still pass 64k
+//
+
+#define WMASTRM_LOOKAHEAD_SIZE (4096*16)
+
+// Define the maximum amount of packets we will ever submit to the renderer
+#define WMASTRM_PACKET_COUNT 8
+
+
+
+
+// Define the source packet size:
+// This value is hard-coded assuming a WMA file of stereo, 16bit resolution.  If
+// this Value can by dynamically set based on the WMA format, keeping in mind
+// that WMA needs enough buffer for a minimum of 2048 samples worth of PCM data
+#define WMASTRM_SOURCE_PACKET_BYTES (2048*2*2)
+
+DWORD CALLBACK WMAStreamCallback (
+    LPVOID pContext,
+    DWORD offset,
+    DWORD num_bytes,
+    LPVOID *ppData);
+#endif
+
+#ifdef _XBOX
+typedef struct SoundStream_s {
+	bool				isValid;
+	XMediaObject*       m_pSourceFilter;                         // Source (wave file) filter
+    IDirectSoundStream* m_pRenderFilter;                         // Render (DirectSoundStream) filter
+    LPVOID              m_pvSourceBuffer;                        // Source filter data buffer
+    LPVOID              m_pvRenderBuffer;                        // Render filter data buffer
+	DWORD               m_adwPacketStatus[WMASTRM_PACKET_COUNT]; // Packet status array
+} SoundStream_t;
+#endif
+
 typedef struct SoundNode_s {
     uint32_t id;
+#ifdef _XBOX
+	XMediaObject*       m_pSourceFilter;                         // Source (wave file) filter
+    DWORD               m_dwFileLength;                          // File duration, in bytes
+    DWORD               m_dwFileProgress;                        // File progress, in bytes
+    PUCHAR              m_pFileBuffer;
+    HANDLE              m_hFile;
+	SoundStream_t*      streams[256];
+	WAVEFORMATEX   wfxSourceFormat;
+#else
     FMOD::Sound * sound;
+#endif
     struct SoundNode_s * nextSound;
 } SoundNode_t;
 
 
 typedef struct JsyAudioInternalS {
+#ifdef _XBOX
+	LPDIRECTSOUND8 m_pDSound;
+#else
     // FMOD stuff
     FMOD::System *soundSystem;
     FMOD::Channel * channels[32];
+#endif
     // the sound resources list
     SoundNode_t * listSounds;
     SoundNode_t * tailSounds;
     uint32_t id_cnt;
 } JsyAudioInternalT;
+
+HRESULT Process( SoundStream_t * handle);
 
 #endif

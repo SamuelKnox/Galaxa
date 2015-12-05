@@ -11,15 +11,12 @@
 #define TITLE_NUM_SPRITES	1
 
 // Space (in-game)
-#define START_SFX			".\\assets\\sfx\\start.wma"
 #define SPACE_NUM_SPRITES	2
 #define SCROLL_RATE			0.10f
 
 // ***** Sprite Images *****
 
 // Player
-#define PLAYER_SFX_FIRE	".\\assets\\sfx\\fire.wma"
-#define PLAYER_SFX_HIT	".\\assets\\sfx\\hit.wma"
 #define PLAYER_WIDTH		48
 #define PLAYER_HEIGHT		48
 #define PLAYER_NUM_SPRITES	1
@@ -45,7 +42,6 @@
 #define WEAPON_DROP_SPEED		0.5f
 
 // Enemies
-#define ENEMY_SFX_KILL		".\\assets\\sfx\\kill.wma"
 #define ENEMY_WIDTH					42
 #define ENEMY_HEIGHT				38
 #define ENEMY_NUM_SPRITES			1
@@ -133,6 +129,12 @@
 #define BG_SPACE			resource_BG_SPACE_OFFSET
 #define PLAYER_SPRITE	resource_PLAYER_SPRITE_OFFSET
 #define NUMBER_SPRITES		resource_NUMBER_SPRITES_OFFSET
+
+#define PLAYER_SFX_FIRE	"D:\\Media\\sfx\\fire.wma"
+#define PLAYER_SFX_HIT	"D:\\Media\\sfx\\hit.wma"
+#define START_SFX			"D:\\Media\\sfx\\start.wma"
+#define ENEMY_SFX_KILL		"D:\\Media\\sfx\\kill.wma"
+
 #else
 #define ENEMY_SPRITE_GREEN	"assets/enemy_green.png"
 #define ENEMY_SPRITE_PURPLE "assets/enemy_purple.png"
@@ -154,4 +156,10 @@
 #define BG_SPACE			"assets/background2.png"
 #define PLAYER_SPRITE	"assets/player.png"
 #define NUMBER_SPRITES		"assets/numbers.png"
+
+
+#define PLAYER_SFX_FIRE	".\\assets\\sfx\\fire.wma"
+#define PLAYER_SFX_HIT	".\\assets\\sfx\\hit.wma"
+#define START_SFX			".\\assets\\sfx\\start.wma"
+#define ENEMY_SFX_KILL		".\\assets\\sfx\\kill.wma"
 #endif

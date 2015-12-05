@@ -55,8 +55,6 @@
 #define		CDS_FULLSCREEN 4									// Compilers. By Defining It This Way,
 #endif															// We Can Avoid Errors
 
-static GL_Window g_window;
-
 static void TerminateApplication(GL_Window* window)							// Terminate The Application
 {
     PostMessage(window->hWnd, WM_QUIT, 0, 0);							// Send A WM_QUIT Message
@@ -316,12 +314,32 @@ static BOOL RegisterWindowClass(Application* application)						// Register A Win
 
 
 #ifdef _XBOX
+JsyAudioInternalT * g_audio;
 JSY_ERROR_T JsyAppInit_XBOX(AppLoop func)
 #else
 JSY_ERROR_T JsyAppInit_Win(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow, int width, int height, AppLoop func)
 #endif
 {
+	g_audio = NULL;
 	while (func()) {
+		if (g_audio != NULL) {
+			SoundNode_t* currentSoundNode = g_audio->listSounds;
+			// Loop through the list until we find the sound resource
+			while (currentSoundNode != NULL) {
+				for (int i = 0; i < 256; i++ ) {
+					if (currentSoundNode->streams[i] != NULL) {
+						Process(currentSoundNode->streams[i]);
+						if (!currentSoundNode->streams[i]->isValid) {
+							free(currentSoundNode->streams[i]);
+							currentSoundNode->streams[i] = NULL;
+						}
+					}
+
+				}
+				currentSoundNode = currentSoundNode->nextSound;
+			}
+		}
+		DirectSoundDoWork();
 	}
 #ifdef _MY_DEBUG_
     AllocConsole();
@@ -950,10 +968,164 @@ JSY_ERROR_T JsyGDrawSprite(JSYGHandle handle, uint32_t resourceId, bool8_t isFli
     return JSY_SUCCEED;
 }
 
+#ifdef _XBOX
+
+//-----------------------------------------------------------------------------
+// Name: WMAStreamCallback()
+// Desc: The WMA decoder calls this function to retrieve raw (compressed) file data.
+//-----------------------------------------------------------------------------
+DWORD CALLBACK WMAStreamCallback( VOID* pContext, ULONG offset, ULONG num_bytes,
+                                  VOID** ppData )
+{
+
+    SoundNode_t *pThis = (SoundNode_t *)pContext;
+
+    *ppData = pThis->m_pFileBuffer + offset;
+
+    //
+    // update current file offset for our progress bar
+    //
+
+    pThis->m_dwFileProgress = offset;
+    return num_bytes;
+}
+
+//-----------------------------------------------------------------------------
+// Name: FindFreePacket()
+// Desc: Finds a render packet available for processing.
+//-----------------------------------------------------------------------------
+static BOOL FindFreePacket( SoundStream_t * handle, DWORD* pdwPacketIndex )
+{
+    for( DWORD dwPacketIndex = 0; dwPacketIndex < WMASTRM_PACKET_COUNT; dwPacketIndex++ )
+    {
+        if( XMEDIAPACKET_STATUS_PENDING != handle->m_adwPacketStatus[dwPacketIndex] )
+        {
+            if( pdwPacketIndex )
+                (*pdwPacketIndex) = dwPacketIndex;
+
+            return TRUE;
+        }
+    }
+
+    return FALSE;
+}
+
+
+
+
+//-----------------------------------------------------------------------------
+// Name: ProcessSource()
+// Desc: Reads data from the source filter.
+//-----------------------------------------------------------------------------
+static HRESULT ProcessSource(SoundStream_t * handle, DWORD dwPacketIndex)
+{
+    DWORD        dwTotalSourceUsed   = 0;
+    DWORD        dwSourceUsed;
+    XMEDIAPACKET xmp;
+    HRESULT      hr;
+    
+    // We're going to read a full packet's worth of data into the source
+    // buffer.  Since we're playing in an infinite loop, we'll just spin
+    // until we've read enough data, even if that means wrapping around the
+    // end of the file.
+
+    ZeroMemory( &xmp, sizeof(xmp) );
+    xmp.pvBuffer         = (BYTE*)handle->m_pvSourceBuffer + (dwPacketIndex * WMASTRM_SOURCE_PACKET_BYTES);
+    xmp.dwMaxSize        = WMASTRM_SOURCE_PACKET_BYTES;
+    xmp.pdwCompletedSize = &dwSourceUsed;
+
+    while( dwTotalSourceUsed < WMASTRM_SOURCE_PACKET_BYTES )
+    {
+        // Read from the source
+        hr = handle->m_pSourceFilter->Process(NULL, &xmp);
+        if( FAILED(hr) )
+            return hr;
+
+        // Add the amount read to the total
+        dwTotalSourceUsed += dwSourceUsed;
+
+        // If we read less than the amount requested, it's because we hit
+        // the end of the file.  Seek back to the start and keep going.
+        if( dwSourceUsed < xmp.dwMaxSize )
+        {
+            xmp.pvBuffer  = (BYTE*)xmp.pvBuffer + dwSourceUsed;
+            xmp.dwMaxSize = xmp.dwMaxSize - dwSourceUsed;
+            
+            hr = handle->m_pSourceFilter->Flush();
+			handle->m_pRenderFilter->Release();
+			handle->isValid = false;
+			return -1;
+        }
+    }
+
+    return S_OK;
+}
+
+//-----------------------------------------------------------------------------
+// Name: ProcessRenderer()
+// Desc: Sends data to the renderer.
+//-----------------------------------------------------------------------------
+static HRESULT ProcessRenderer( SoundStream_t * handle, DWORD dwPacketIndex )
+{
+    // There's a full packet's worth of data ready for us to send to the
+    // renderer.  We want to track the status of this packet since the
+    // render filter is asynchronous and we need to know when the packet is
+    // completed.
+    XMEDIAPACKET xmp;
+    ZeroMemory( &xmp, sizeof(xmp) );
+    xmp.pvBuffer  = (BYTE*)handle->m_pvSourceBuffer + (dwPacketIndex * WMASTRM_SOURCE_PACKET_BYTES );
+    xmp.dwMaxSize = WMASTRM_SOURCE_PACKET_BYTES;
+    xmp.pdwStatus = &handle->m_adwPacketStatus[dwPacketIndex];
+
+    return handle->m_pRenderFilter->Process( &xmp, NULL );
+}
+
+//-----------------------------------------------------------------------------
+// Name: Process()
+// Desc: Performs any work necessary to keep the stream playing.
+//-----------------------------------------------------------------------------
+HRESULT Process( SoundStream_t * handle)
+{
+    DWORD   dwPacketIndex;
+    HRESULT hr;
+    
+    // Find a free packet.  If there's none free, we don't have anything
+    // to do
+    while( FindFreePacket( handle, &dwPacketIndex ) )
+    {
+         // Read from the source filter
+		if (ProcessSource(handle, dwPacketIndex) == S_OK) {
+			// Send the data to the renderer
+			hr = ProcessRenderer(handle, dwPacketIndex);
+			if( FAILED(hr) )
+				return hr;
+		} else {
+			break;
+		}
+    }
+
+    return S_OK;
+}
+
+#endif
+
 JSY_ERROR_T JsyAudioOpen(JSYAudioHandle * pHandle) {
 
     JsyAudioInternalT * handle = (JsyAudioInternalT *)malloc(sizeof(JsyAudioInternalT));
 #ifdef _XBOX
+
+	memset(handle, 0,sizeof(JsyAudioInternalT));
+	DirectSoundCreate( NULL, &handle->m_pDSound, NULL );
+    // download the standard DirectSound effects image
+    DSEFFECTIMAGELOC EffectLoc;
+    EffectLoc.dwI3DL2ReverbIndex = GraphI3DL2_I3DL2Reverb;
+    EffectLoc.dwCrosstalkIndex   = GraphXTalk_XTalk;
+    XAudioDownloadEffectsImage( "D:\\Media\\dsstdfx.bin", 
+								&EffectLoc, 
+								XAUDIO_DOWNLOADFX_EXTERNFILE, 
+								NULL );
+	*pHandle = (JSYAudioHandle *)handle;
+	g_audio = handle;
 #else
     ZeroMemory(handle, sizeof(JsyAudioInternalT));
     if (!handle)
@@ -997,7 +1169,69 @@ JSY_ERROR_T JsyAudioClose(JSYAudioHandle handle) {
 uint32_t JsyAudioLoad(JSYAudioHandle handle, const char8_t * fileName) {
     JsyAudioInternalT * localhandle = (JsyAudioInternalT *)handle;
 #ifdef _XBOX
-	return 0;
+	SoundNode_t * newNode = (SoundNode_t*)malloc(sizeof(SoundNode_t));
+	memset(newNode, 0, sizeof(SoundNode_t));
+	// Put into the internal list
+    newNode->id = ++(localhandle->id_cnt);
+    newNode->nextSound = NULL;
+    if (localhandle->listSounds == NULL) {
+        localhandle->listSounds = newNode;
+    }
+    if (localhandle->tailSounds != NULL) {
+        localhandle->tailSounds->nextSound = newNode;
+    }
+    localhandle->tailSounds = newNode;
+
+    HRESULT        hr;
+    
+    // before we create the in memory decoder, we must read the WMA file
+    // and have it in memory. The WmaCreateInMemoryDecoder function
+    // will start calling our callback immediately for data...
+
+    newNode->m_hFile = CreateFile( fileName, GENERIC_READ, FILE_SHARE_READ, NULL,
+                          OPEN_EXISTING, 0, NULL );
+    if( newNode->m_hFile == INVALID_HANDLE_VALUE )
+    {
+        hr = HRESULT_FROM_WIN32(GetLastError());
+        return hr;
+    }
+
+    // Determine size of WMA file
+    newNode->m_dwFileLength = SetFilePointer( newNode->m_hFile, 0, NULL, FILE_END );
+    if( newNode->m_dwFileLength == INVALID_SET_FILE_POINTER )
+    {
+        hr = HRESULT_FROM_WIN32(GetLastError());
+        return hr;
+    }
+    
+    // restore file pointer to beginning of file
+    SetFilePointer( newNode->m_hFile, 0, NULL, FILE_BEGIN );
+
+    // allocate the buffer for the wma file
+    newNode->m_pFileBuffer = new BYTE[newNode->m_dwFileLength];
+    if( newNode->m_pFileBuffer == NULL ) 
+    {
+        return E_OUTOFMEMORY;
+    }
+
+    // read the whole file in. We are doing this for simplicity.
+    // You can instead read a little bit at time making sure you stay ahead
+    // of the WMA request file offset, passed in the callback..
+    DWORD dwBytesRead = 0;
+
+    if( !ReadFile( newNode->m_hFile, newNode->m_pFileBuffer, newNode->m_dwFileLength, &dwBytesRead, NULL ) )
+    {
+        hr = HRESULT_FROM_WIN32(GetLastError());
+        return hr;
+    }
+
+    // Create the source (wma file) filter
+    hr = WmaCreateInMemoryDecoder( WMAStreamCallback, newNode, 0, // don't yield
+                                  &newNode->wfxSourceFormat, &newNode->m_pSourceFilter );
+    if( FAILED(hr) )
+        return hr;
+
+	return newNode->id;
 #else
     // Load the sound file into the SoundManager
     SoundNode_t * newNode = (SoundNode_t*)malloc(sizeof(SoundNode_t));
@@ -1072,9 +1306,7 @@ static void putChannel(JsyAudioInternalT * localhandle, FMOD::Channel * channel)
 
 JSY_ERROR_T JsyAudioPlaySound(JSYAudioHandle handle, uint32_t resourceId) {
     JsyAudioInternalT * localhandle = (JsyAudioInternalT *)handle;
-#ifdef _XBOX
-#else
-    SoundNode_t* currentSoundNode = localhandle->listSounds;
+	SoundNode_t* currentSoundNode = localhandle->listSounds;
     if (currentSoundNode == NULL) return JSY_SUCCEED;
     // Loop through the list until we find the sound resource
     while (currentSoundNode->id != resourceId) {
@@ -1082,6 +1314,41 @@ JSY_ERROR_T JsyAudioPlaySound(JSYAudioHandle handle, uint32_t resourceId) {
         if (currentSoundNode == NULL)
             return JSY_SUCCEED;
     }
+#ifdef _XBOX
+	if (currentSoundNode->id == resourceId) {
+		SoundStream_t* stream = NULL;
+		HRESULT hr;
+		for (int i = 0; i < 256; i++) {
+			if (currentSoundNode->streams[i] == NULL) {
+				stream = (SoundStream_t*)malloc(sizeof(SoundStream_t));
+				memset(stream, 0, sizeof(SoundStream_t));
+				currentSoundNode->streams[i] = stream;
+				stream->m_pSourceFilter = currentSoundNode->m_pSourceFilter;
+				stream->isValid = true;
+				break;
+			}
+		}
+
+		// Create the render (DirectSoundStream) filter
+		DSSTREAMDESC   dssd;
+		ZeroMemory( &dssd, sizeof(dssd) );
+		dssd.dwMaxAttachedPackets = WMASTRM_PACKET_COUNT;
+		dssd.lpwfxFormat          = &currentSoundNode->wfxSourceFormat;
+
+		hr = DirectSoundCreateStream( &dssd, &stream->m_pRenderFilter );
+		if( FAILED(hr) )
+			return JSY_ERROR_INTERNAL;
+
+		// Allocate data buffers.  Since the source filter is synchronous, we only
+		// have to allocate enough data to process a single packet.  The render
+		// filter, however, is asynchronous, so we'll have to allocate enough
+		// space to hold all the packets that could be submitted at any given time.
+		stream->m_pvSourceBuffer = new BYTE[ WMASTRM_SOURCE_PACKET_BYTES * WMASTRM_PACKET_COUNT ];
+		if( NULL == stream->m_pvSourceBuffer )
+			return JSY_ERROR_INTERNAL;
+	}
+#else
+
 
     if (currentSoundNode->id == resourceId) {
         // Fixing FMOD bug, all channels will stop if it randomly pick a low prioirty channel
