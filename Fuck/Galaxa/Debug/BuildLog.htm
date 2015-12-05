@@ -1,0 +1,318 @@
+<html>
+<head>
+<META HTTP-EQUIV="Content-Type" content="text/html; charset=Windows-1252">
+</head>
+<body>
+<pre>
+<table width=100% bgcolor=#CFCFE5><tr> <td> <font face=arial size=+3>
+Build Log
+</font></table><table width=* cellspacing=0 cellpadding=0><tr><td width=0 bgcolor=#EDEDF5>&nbsp;</td><td width=0 bgcolor=#FFFFFF>&nbsp;</td><td width=*><pre>
+<h3>------- Build started: Project: Galaxa, Configuration: Debug|Xbox -------
+</h3>
+</pre></table><table width=100% bgcolor=#DFDFE5><tr><td><font face=arial size=+2>
+Command Lines
+</font></table><table width=* cellspacing=0 cellpadding=0><tr><td width=0 bgcolor=#EDEDF5>&nbsp;</td><td width=0 bgcolor=#FFFFFF>&nbsp;</td><td width=*><pre>Creating temporary file "c:\Documents and Settings\Xboxdev\Desktop\github\Galaxa\Fuck\Galaxa\Debug\BAT000034.bat" with contents
+[
+@echo off
+bundler "c:\Documents and Settings\Xboxdev\Desktop\github\Galaxa\Fuck\Galaxa\resource.rdf"
+if errorlevel 1 goto VCReportError
+goto VCEnd
+:VCReportError
+echo Project : error PRJ0019: A tool returned an error code from "bundler "c:\Documents and Settings\Xboxdev\Desktop\github\Galaxa\Fuck\Galaxa\resource.rdf""
+exit 1
+:VCEnd
+]
+Creating command line ""c:\Documents and Settings\Xboxdev\Desktop\github\Galaxa\Fuck\Galaxa\Debug\BAT000034.bat""
+Creating temporary file "c:\Documents and Settings\Xboxdev\Desktop\github\Galaxa\Fuck\Galaxa\Debug\RSP000035.rsp" with contents
+[
+/Od /I "..\..\OpenGL Framework" /I "C:\Program Files\Microsoft Xbox SDK\Samples\Xbox\Common\Include" /I "C:\Documents and Settings\XBOXDEV\Desktop\github\Galaxa\Fuck\Galaxa" /D "_DEBUG" /D "_XBOX" /D "_MBCS" /Gm /EHsc /RTC1 /MTd /arch:SSE /Fp"Debug/Galaxa.pch" /Fo"Debug/" /Fd"Debug/vc70.pdb" /W3 /c /ZI /TP
+".\xbVoice.cpp"
+".\xbutil.cpp"
+".\xbstrip.cpp"
+".\xbstoragedevice.cpp"
+".\xbstopwatch.cpp"
+".\xbsound.cpp"
+".\xbsocket.cpp"
+".\xbsavedgame.cpp"
+".\xbresource.cpp"
+".\xbRandName.cpp"
+".\xbprofiling.cpp"
+".\xbperf.cpp"
+".\xbOnlineTask.cpp"
+".\xbOnline.cpp"
+".\xbNetMsg.cpp"
+".\xbNet.cpp"
+".\xbmesh.cpp"
+".\xbmemunit.cpp"
+".\xbMediaDebug.cpp"
+".\xbinput.cpp"
+".\xbhelp.cpp"
+".\xbfont.cpp"
+".\xbconfig.cpp"
+".\xbapp.cpp"
+"\Documents and Settings\Xboxdev\Desktop\github\Galaxa\OpenGL Framework\WeaponDrop.cpp"
+"\Documents and Settings\Xboxdev\Desktop\github\Galaxa\OpenGL Framework\Trajectory.cpp"
+"\Documents and Settings\Xboxdev\Desktop\github\Galaxa\OpenGL Framework\stateManager.cpp"
+"\Documents and Settings\Xboxdev\Desktop\github\Galaxa\OpenGL Framework\SpriteManager.cpp"
+"\Documents and Settings\Xboxdev\Desktop\github\Galaxa\OpenGL Framework\Sprite.cpp"
+".\sjis2unicode.cpp"
+"\Documents and Settings\Xboxdev\Desktop\github\Galaxa\OpenGL Framework\SideTrajectory.cpp"
+"\Documents and Settings\Xboxdev\Desktop\github\Galaxa\OpenGL Framework\Scoreboard.cpp"
+"\Documents and Settings\Xboxdev\Desktop\github\Galaxa\OpenGL Framework\random.cpp"
+"\Documents and Settings\Xboxdev\Desktop\github\Galaxa\OpenGL Framework\Player.cpp"
+"\Documents and Settings\Xboxdev\Desktop\github\Galaxa\OpenGL Framework\object.cpp"
+"\Documents and Settings\Xboxdev\Desktop\github\Galaxa\OpenGL Framework\main.cpp"
+"\Documents and Settings\Xboxdev\Desktop\github\Galaxa\OpenGL Framework\jsy\jsy.cpp"
+"\Documents and Settings\Xboxdev\Desktop\github\Galaxa\OpenGL Framework\HorizontalLine.cpp"
+".\gamepad.cpp"
+"\Documents and Settings\Xboxdev\Desktop\github\Galaxa\OpenGL Framework\GameManager.cpp"
+"\Documents and Settings\Xboxdev\Desktop\github\Galaxa\OpenGL Framework\game.cpp"
+"\Documents and Settings\Xboxdev\Desktop\github\Galaxa\OpenGL Framework\FollowTrajectory.cpp"
+"\Documents and Settings\Xboxdev\Desktop\github\Galaxa\OpenGL Framework\FieldManager.cpp"
+"\Documents and Settings\Xboxdev\Desktop\github\Galaxa\OpenGL Framework\field.cpp"
+"\Documents and Settings\Xboxdev\Desktop\github\Galaxa\OpenGL Framework\FallTrajectory.cpp"
+"\Documents and Settings\Xboxdev\Desktop\github\Galaxa\OpenGL Framework\Explosion.cpp"
+"\Documents and Settings\Xboxdev\Desktop\github\Galaxa\OpenGL Framework\Enemy.cpp"
+"\Documents and Settings\Xboxdev\Desktop\github\Galaxa\OpenGL Framework\Bullet.cpp"
+]
+Creating command line "cl.exe @"c:\Documents and Settings\Xboxdev\Desktop\github\Galaxa\Fuck\Galaxa\Debug\RSP000035.rsp" /nologo"
+Creating temporary file "c:\Documents and Settings\Xboxdev\Desktop\github\Galaxa\Fuck\Galaxa\Debug\RSP000036.rsp" with contents
+[
+/Od /I "..\..\OpenGL Framework" /I "C:\Program Files\Microsoft Xbox SDK\Samples\Xbox\Common\Include" /I "C:\Documents and Settings\XBOXDEV\Desktop\github\Galaxa\Fuck\Galaxa" /D "_DEBUG" /D "_XBOX" /D "_MBCS" /Gm /EHsc /RTC1 /MTd /arch:SSE /Yc"stdafx.h" /Fp"Debug/Galaxa.pch" /Fo"Debug/" /Fd"Debug/vc70.pdb" /W3 /c /ZI /TP
+".\stdafx.cpp"
+]
+Creating command line "cl.exe @"c:\Documents and Settings\Xboxdev\Desktop\github\Galaxa\Fuck\Galaxa\Debug\RSP000036.rsp" /nologo"
+Creating temporary file "c:\Documents and Settings\Xboxdev\Desktop\github\Galaxa\Fuck\Galaxa\Debug\RSP000037.rsp" with contents
+[
+/OUT:"Debug/Galaxa.exe" /INCREMENTAL /NOLOGO /DEBUG /PDB:"Debug/Galaxa.pdb" /MAP /subsystem:xbox /MACHINE:I386 xapilibd.lib d3d8d.lib d3dx8d.lib xgraphicsd.lib dsoundd.lib dmusicd.lib xactengd.lib xsndtrkd.lib xvoiced.lib xonlined.lib xboxkrnl.lib xbdm.lib
+".\Debug\Bullet.obj"
+".\Debug\Enemy.obj"
+".\Debug\Explosion.obj"
+".\Debug\FallTrajectory.obj"
+".\Debug\field.obj"
+".\Debug\FieldManager.obj"
+".\Debug\FollowTrajectory.obj"
+".\Debug\game.obj"
+".\Debug\GameManager.obj"
+".\Debug\gamepad.obj"
+".\Debug\HorizontalLine.obj"
+".\Debug\jsy.obj"
+".\Debug\main.obj"
+".\Debug\object.obj"
+".\Debug\Player.obj"
+".\Debug\random.obj"
+".\Debug\Scoreboard.obj"
+".\Debug\SideTrajectory.obj"
+".\Debug\sjis2unicode.obj"
+".\Debug\Sprite.obj"
+".\Debug\SpriteManager.obj"
+".\Debug\stateManager.obj"
+".\Debug\stdafx.obj"
+".\Debug\Trajectory.obj"
+".\Debug\WeaponDrop.obj"
+".\Debug\xbapp.obj"
+".\Debug\xbconfig.obj"
+".\Debug\xbfont.obj"
+".\Debug\xbhelp.obj"
+".\Debug\xbinput.obj"
+".\Debug\xbMediaDebug.obj"
+".\Debug\xbmemunit.obj"
+".\Debug\xbmesh.obj"
+".\Debug\xbNet.obj"
+".\Debug\xbNetMsg.obj"
+".\Debug\xbOnline.obj"
+".\Debug\xbOnlineTask.obj"
+".\Debug\xbperf.obj"
+".\Debug\xbprofiling.obj"
+".\Debug\xbRandName.obj"
+".\Debug\xbresource.obj"
+".\Debug\xbsavedgame.obj"
+".\Debug\xbsocket.obj"
+".\Debug\xbsound.obj"
+".\Debug\xbstopwatch.obj"
+".\Debug\xbstoragedevice.obj"
+".\Debug\xbstrip.obj"
+".\Debug\xbutil.obj"
+".\Debug\xbVoice.obj"
+]
+Creating command line "link.exe @"c:\Documents and Settings\Xboxdev\Desktop\github\Galaxa\Fuck\Galaxa\Debug\RSP000037.rsp""
+Creating temporary file "c:\Documents and Settings\Xboxdev\Desktop\github\Galaxa\Fuck\Galaxa\Debug\RSP000038.rsp" with contents
+[
+/OUT:"c:\Documents and Settings\Xboxdev\Desktop\github\Galaxa\Fuck\Galaxa\Debug\Galaxa.xbe" /stack:"0x10000" /debug /dontmountud /nolibwarn /testid:"0xffff881c" /testname:"Galaxa" /testxbeversion:"4096"
+".\Debug\Galaxa.exe"
+]
+Creating command line "imagebld.exe @"c:\Documents and Settings\Xboxdev\Desktop\github\Galaxa\Fuck\Galaxa\Debug\RSP000038.rsp" /nologo"
+Creating temporary file "c:\Documents and Settings\Xboxdev\Desktop\github\Galaxa\Fuck\Galaxa\Debug\RSP000039.rsp" with contents
+[
+"c:\Documents and Settings\Xboxdev\Desktop\github\Galaxa\Fuck\Galaxa\Media" "xe:\BullShit\Media"
+"c:\Documents and Settings\Xboxdev\Desktop\github\Galaxa\Fuck\Galaxa\Debug\Galaxa.xbe" "xe:\BullShit\Galaxa.xbe"
+]
+Creating command line "xbecopy.exe @"c:\Documents and Settings\Xboxdev\Desktop\github\Galaxa\Fuck\Galaxa\Debug\RSP000039.rsp" /nologo"
+</pre></table><table width=100% bgcolor=#DFDFE5><tr><td><font face=arial size=+2>
+Output Window
+</font></table><table width=* cellspacing=0 cellpadding=0><tr><td width=0 bgcolor=#EDEDF5>&nbsp;</td><td width=0 bgcolor=#FFFFFF>&nbsp;</td><td width=*><pre>bundler "c:\Documents and Settings\Xboxdev\Desktop\github\Galaxa\Fuck\Galaxa\resource.rdf"
+Texture: Wrote AnalogGauge out in format D3DFMT_A8R8G8B8 (131072 bytes)
+     256 x 128, 1 levels
+Texture: Wrote MatteBlack out in format D3DFMT_A8R8G8B8 (65536 bytes)
+     128 x 128, 1 levels
+Texture: Wrote ShinyBlack out in format D3DFMT_A8R8G8B8 (65536 bytes)
+     128 x 128, 1 levels
+Texture: Wrote Cord out in format D3DFMT_A8R8G8B8 (65536 bytes)
+     128 x 128, 1 levels
+Texture: Wrote Sample2_4 out in format D3DFMT_A8R8G8B8 (65536 bytes)
+     128 x 128, 1 levels
+Texture: Wrote Sample16_7 out in format D3DFMT_A8R8G8B8 (65536 bytes)
+     128 x 128, 1 levels
+Texture: Wrote Sample18_9 out in format D3DFMT_A8R8G8B8 (65536 bytes)
+     128 x 128, 1 levels
+Texture: Wrote Sample20_10 out in format D3DFMT_A8R8G8B8 (65536 bytes)
+     128 x 128, 1 levels
+Texture: Wrote Sample21_11 out in format D3DFMT_A8R8G8B8 (65536 bytes)
+     128 x 128, 1 levels
+Texture: Wrote Sample25_15 out in format D3DFMT_A8R8G8B8 (65536 bytes)
+     128 x 128, 1 levels
+Texture: Wrote Sample28_16 out in format D3DFMT_A8R8G8B8 (65536 bytes)
+     128 x 128, 1 levels
+Texture: Wrote Sample29_17 out in format D3DFMT_A8R8G8B8 (65536 bytes)
+     128 x 128, 1 levels
+Texture: Wrote Sample30_18 out in format D3DFMT_A8R8G8B8 (65536 bytes)
+     128 x 128, 1 levels
+Texture: Wrote Sample31_19 out in format D3DFMT_A8R8G8B8 (65536 bytes)
+     128 x 128, 1 levels
+Texture: Wrote GreenGlass out in format D3DFMT_A8R8G8B8 (65536 bytes)
+     128 x 128, 1 levels
+Texture: Wrote WhiteGlass out in format D3DFMT_A8R8G8B8 (65536 bytes)
+     128 x 128, 1 levels
+Texture: Wrote RedGlass out in format D3DFMT_A8R8G8B8 (65536 bytes)
+     128 x 128, 1 levels
+Texture: Wrote BlueGlass out in format D3DFMT_A8R8G8B8 (65536 bytes)
+     128 x 128, 1 levels
+Texture: Wrote YellowGlass out in format D3DFMT_A8R8G8B8 (65536 bytes)
+     128 x 128, 1 levels
+Texture: Wrote GreenBezel out in format D3DFMT_A8R8G8B8 (65536 bytes)
+     128 x 128, 1 levels
+WARNING: Couldn't load Media\title_screen.png natively - attempting to use D3D runtime.
+Texture: Wrote BG_TITLE_SCREEN out in format D3DFMT_X8R8G8B8 (4194304 bytes)
+     1024 x 1024, 1 levels
+WARNING: Couldn't load Media\background2.png natively - attempting to use D3D runtime.
+Texture: Wrote BG_SPACE out in format D3DFMT_X8R8G8B8 (8388608 bytes)
+     1024 x 2048, 1 levels
+WARNING: Couldn't load Media\enemy_green.png natively - attempting to use D3D runtime.
+Texture: Wrote ENEMY_SPRITE_GREEN out in format D3DFMT_A8R8G8B8 (16384 bytes)
+     64 x 64, 1 levels
+WARNING: Couldn't load Media\enemy_purple.png natively - attempting to use D3D runtime.
+Texture: Wrote ENEMY_SPRITE_PURPLE out in format D3DFMT_A8R8G8B8 (16384 bytes)
+     64 x 64, 1 levels
+WARNING: Couldn't load Media\enemy_red.png natively - attempting to use D3D runtime.
+Texture: Wrote ENEMY_SPRITE_RED out in format D3DFMT_A8R8G8B8 (16384 bytes)
+     64 x 64, 1 levels
+WARNING: Couldn't load Media\enemy_yellow.png natively - attempting to use D3D runtime.
+Texture: Wrote ENEMY_SPRITE_YELLOW out in format D3DFMT_A8R8G8B8 (16384 bytes)
+     64 x 64, 1 levels
+WARNING: Couldn't load Media\enemy_ship.png natively - attempting to use D3D runtime.
+Texture: Wrote ENEMY_SPRITE_SHIP out in format D3DFMT_A8R8G8B8 (16384 bytes)
+     64 x 64, 1 levels
+WARNING: Couldn't load Media\fast_weapon.png natively - attempting to use D3D runtime.
+Texture: Wrote FAST_SHOT_WEAPON out in format D3DFMT_A8R8G8B8 (4096 bytes)
+     16 x 64, 1 levels
+WARNING: Couldn't load Media\spread_weapon.png natively - attempting to use D3D runtime.
+Texture: Wrote SPREAD_SHOT_WEAPON out in format D3DFMT_A8R8G8B8 (4096 bytes)
+     16 x 64, 1 levels
+WARNING: Couldn't load Media\homing_weapon.png natively - attempting to use D3D runtime.
+Texture: Wrote HOMING_SHOT_WEAPON out in format D3DFMT_A8R8G8B8 (4096 bytes)
+     16 x 64, 1 levels
+WARNING: Couldn't load Media\missile.png natively - attempting to use D3D runtime.
+Texture: Wrote MISSILE_SPRITE out in format D3DFMT_A8R8G8B8 (2048 bytes)
+     16 x 32, 1 levels
+WARNING: Couldn't load Media\explosion_player.png natively - attempting to use D3D runtime.
+Texture: Wrote EXPLOSION_PLAYER_SPRITE out in format D3DFMT_A8R8G8B8 (262144 bytes)
+     512 x 128, 1 levels
+WARNING: Couldn't load Media\explosion_enemy.png natively - attempting to use D3D runtime.
+Texture: Wrote EXPLOSION_ENEMY_SPRITE out in format D3DFMT_A8R8G8B8 (65536 bytes)
+     256 x 64, 1 levels
+WARNING: Couldn't load Media\scores.png natively - attempting to use D3D runtime.
+Texture: Wrote POINTS_SPRITES out in format D3DFMT_A8R8G8B8 (32768 bytes)
+     512 x 16, 1 levels
+WARNING: Couldn't load Media\gameover.png natively - attempting to use D3D runtime.
+Texture: Wrote GAMEOVER_SPRITE out in format D3DFMT_X8R8G8B8 (131072 bytes)
+     512 x 64, 1 levels
+WARNING: Couldn't load Media\label.png natively - attempting to use D3D runtime.
+Texture: Wrote HIGH_SCORE_SPRITE out in format D3DFMT_A8R8G8B8 (16384 bytes)
+     256 x 16, 1 levels
+WARNING: Couldn't load Media\horizontal_line.png natively - attempting to use D3D runtime.
+Texture: Wrote HORIZONTAL_LINE out in format D3DFMT_A8R8G8B8 (512 bytes)
+     32 x 4, 1 levels
+WARNING: Couldn't load Media\vertical_line.png natively - attempting to use D3D runtime.
+Texture: Wrote VERTICAL_LINE out in format D3DFMT_A8R8G8B8 (512 bytes)
+     4 x 32, 1 levels
+WARNING: Couldn't load Media\player.png natively - attempting to use D3D runtime.
+Texture: Wrote PLAYER_SPRITE out in format D3DFMT_A8R8G8B8 (16384 bytes)
+     64 x 64, 1 levels
+WARNING: Couldn't load Media\numbers.png natively - attempting to use D3D runtime.
+Texture: Wrote NUMBER_SPRITES out in format D3DFMT_A8R8G8B8 (16384 bytes)
+     256 x 16, 1 levels
+Compiling...
+stdafx.cpp
+Compiling...
+xbVoice.cpp
+xbutil.cpp
+xbstrip.cpp
+xbstoragedevice.cpp
+xbstopwatch.cpp
+xbsound.cpp
+xbsocket.cpp
+xbsavedgame.cpp
+xbresource.cpp
+xbRandName.cpp
+xbprofiling.cpp
+xbperf.cpp
+xbOnlineTask.cpp
+xbOnline.cpp
+xbNetMsg.cpp
+xbNet.cpp
+xbmesh.cpp
+xbmemunit.cpp
+xbMediaDebug.cpp
+xbinput.cpp
+Generating Code...
+Compiling...
+xbhelp.cpp
+xbfont.cpp
+xbconfig.cpp
+xbapp.cpp
+WeaponDrop.cpp
+Trajectory.cpp
+stateManager.cpp
+SpriteManager.cpp
+Sprite.cpp
+sjis2unicode.cpp
+SideTrajectory.cpp
+Scoreboard.cpp
+random.cpp
+Player.cpp
+object.cpp
+main.cpp
+jsy.cpp
+HorizontalLine.cpp
+gamepad.cpp
+GameManager.cpp
+Generating Code...
+Compiling...
+game.cpp
+FollowTrajectory.cpp
+FieldManager.cpp
+field.cpp
+FallTrajectory.cpp
+Explosion.cpp
+Enemy.cpp
+Bullet.cpp
+Generating Code...
+Linking...
+Creating Xbox Image...
+Copying files to the Xbox...
+</pre></table><table width=100% bgcolor=#DFDFE5><tr><td><font face=arial size=+2>
+Results
+</font></table><table width=* cellspacing=0 cellpadding=0><tr><td width=0 bgcolor=#EDEDF5>&nbsp;</td><td width=0 bgcolor=#FFFFFF>&nbsp;</td><td width=*><pre>
+Build log was saved at "file://c:\Documents and Settings\Xboxdev\Desktop\github\Galaxa\Fuck\Galaxa\Debug\BuildLog.htm"
+Galaxa - 0 error(s), 0 warning(s)</pre></table><table   width=100% height=20 bgcolor=#CFCFE5><tr><td><font face=arial size=+2>
+</font></table></body></html>
