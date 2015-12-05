@@ -307,12 +307,6 @@
 				RelativePath="..\..\OpenGL Framework\jsy\jsy.cpp">
 			</File>
 			<File
-				RelativePath="..\..\OpenGL Framework\jsy\jsy.h">
-			</File>
-			<File
-				RelativePath="..\..\OpenGL Framework\jsy\jsy_internal.h">
-			</File>
-			<File
 				RelativePath="..\..\OpenGL Framework\main.cpp">
 			</File>
 			<File
@@ -331,9 +325,6 @@
 				RelativePath="..\..\OpenGL Framework\SideTrajectory.cpp">
 			</File>
 			<File
-				RelativePath="..\..\OpenGL Framework\jsy\SOIL.h">
-			</File>
-			<File
 				RelativePath="..\..\OpenGL Framework\Sprite.cpp">
 			</File>
 			<File
@@ -344,9 +335,6 @@
 			</File>
 			<File
 				RelativePath="..\..\OpenGL Framework\Trajectory.cpp">
-			</File>
-			<File
-				RelativePath="..\..\OpenGL Framework\jsy\types.h">
 			</File>
 			<File
 				RelativePath="..\..\OpenGL Framework\WeaponDrop.cpp">
@@ -396,6 +384,12 @@
 				RelativePath="..\..\OpenGL Framework\HorizontalLine.h">
 			</File>
 			<File
+				RelativePath="..\..\OpenGL Framework\jsy\jsy.h">
+			</File>
+			<File
+				RelativePath="..\..\OpenGL Framework\jsy\jsy_internal.h">
+			</File>
+			<File
 				RelativePath="..\..\OpenGL Framework\Object.h">
 			</File>
 			<File
@@ -405,9 +399,6 @@
 				RelativePath="..\..\OpenGL Framework\random.h">
 			</File>
 			<File
-				RelativePath="..\..\Xbox\Input\Gamepad\Resource.h">
-			</File>
-			<File
 				RelativePath=".\Resource.h">
 			</File>
 			<File
@@ -415,6 +406,9 @@
 			</File>
 			<File
 				RelativePath="..\..\OpenGL Framework\SideTrajectory.h">
+			</File>
+			<File
+				RelativePath="..\..\OpenGL Framework\jsy\SOIL.h">
 			</File>
 			<File
 				RelativePath="..\..\OpenGL Framework\Sprite.h">
@@ -427,6 +421,9 @@
 			</File>
 			<File
 				RelativePath="..\..\OpenGL Framework\Trajectory.h">
+			</File>
+			<File
+				RelativePath="..\..\OpenGL Framework\jsy\types.h">
 			</File>
 			<File
 				RelativePath="..\..\OpenGL Framework\WeaponDrop.h">
@@ -484,9 +481,6 @@
 		</File>
 		<File
 			RelativePath=".\ReadMe.txt">
-		</File>
-		<File
-			RelativePath="..\..\Xbox\Input\Gamepad\readme.txt">
 		</File>
 		<File
 			RelativePath="..\..\OpenGL Framework\snoods_default.png">
