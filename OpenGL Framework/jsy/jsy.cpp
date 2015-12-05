@@ -451,6 +451,9 @@ static HRESULT InitD3D(JsyGInternalT * handle)
 
     // Turn on the zbuffer
     handle->g_pd3dDevice->SetRenderState( D3DRS_ZENABLE, TRUE );
+	handle->g_pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	handle->g_pd3dDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	handle->g_pd3dDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
     return S_OK;
 }
