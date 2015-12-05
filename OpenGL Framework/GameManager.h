@@ -64,8 +64,8 @@ private:
 	uint32_t lastSpawnDuration;
 	uint32_t indexEnemy;
 
-	unsigned long mLastUpdateTime;
-	unsigned long mCurrentTime;	
+	uint32_t mLastUpdateTime;
+	uint32_t mCurrentTime;	
 };
 
 #endif

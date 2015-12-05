@@ -113,26 +113,26 @@
 #define MAX_LEVEL_DIGITS	3
 
 #ifdef _XBOX
-#define ENEMY_SPRITE_GREEN	resource_Title_Screen_OFFSET
-#define ENEMY_SPRITE_PURPLE resource_Title_Screen_OFFSET
-#define ENEMY_SPRITE_RED	resource_Title_Screen_OFFSET
-#define ENEMY_SPRITE_YELLOW resource_Title_Screen_OFFSET
-#define ENEMY_SPRITE_SHIP	resource_Title_Screen_OFFSET
-#define FAST_SHOT_WEAPON	resource_Title_Screen_OFFSET
-#define SPREAD_SHOT_WEAPON	resource_Title_Screen_OFFSET
-#define HOMING_SHOT_WEAPON	resource_Title_Screen_OFFSET
-#define MISSILE_SPRITE		resource_Title_Screen_OFFSET
-#define EXPLOSION_PLAYER_SPRITE resource_Title_Screen_OFFSET
-#define EXPLOSION_ENEMY_SPRITE	resource_Title_Screen_OFFSET
-#define POINTS_SPRITES		resource_Title_Screen_OFFSET
-#define GAMEOVER_SPRITE		resource_Title_Screen_OFFSET
-#define HIGH_SCORE_SPRITE	resource_Title_Screen_OFFSET
-#define HORIZONTAL_LINE resource_Title_Screen_OFFSET
-#define VERTICAL_LINE	resource_Title_Screen_OFFSET
-#define BG_TITLE_SCREEN		resource_Title_Screen_OFFSET
-#define BG_SPACE			resource_Background_Screen_OFFSET
-#define PLAYER_SPRITE	resource_Title_Screen_OFFSET
-#define NUMBER_SPRITES		resource_Title_Screen_OFFSET
+#define ENEMY_SPRITE_GREEN	resource_ENEMY_SPRITE_GREEN_OFFSET
+#define ENEMY_SPRITE_PURPLE resource_ENEMY_SPRITE_PURPLE_OFFSET
+#define ENEMY_SPRITE_RED	resource_ENEMY_SPRITE_RED_OFFSET
+#define ENEMY_SPRITE_YELLOW resource_ENEMY_SPRITE_YELLOW_OFFSET
+#define ENEMY_SPRITE_SHIP	resource_ENEMY_SPRITE_SHIP_OFFSET
+#define FAST_SHOT_WEAPON	resource_FAST_SHOT_WEAPON_OFFSET
+#define SPREAD_SHOT_WEAPON	resource_SPREAD_SHOT_WEAPON_OFFSET
+#define HOMING_SHOT_WEAPON	resource_HOMING_SHOT_WEAPON_OFFSET
+#define MISSILE_SPRITE		resource_MISSILE_SPRITE_OFFSET
+#define EXPLOSION_PLAYER_SPRITE resource_EXPLOSION_PLAYER_SPRITE_OFFSET
+#define EXPLOSION_ENEMY_SPRITE	resource_EXPLOSION_ENEMY_SPRITE_OFFSET
+#define POINTS_SPRITES		resource_POINTS_SPRITES_OFFSET
+#define GAMEOVER_SPRITE		resource_GAMEOVER_SPRITE_OFFSET
+#define HIGH_SCORE_SPRITE	resource_HIGH_SCORE_SPRITE_OFFSET
+#define HORIZONTAL_LINE resource_HORIZONTAL_LINE_OFFSET
+#define VERTICAL_LINE	resource_VERTICAL_LINE_OFFSET
+#define BG_TITLE_SCREEN		resource_BG_TITLE_SCREEN_OFFSET
+#define BG_SPACE			resource_BG_SPACE_OFFSET
+#define PLAYER_SPRITE	resource_PLAYER_SPRITE_OFFSET
+#define NUMBER_SPRITES		resource_NUMBER_SPRITES_OFFSET
 #else
 #define ENEMY_SPRITE_GREEN	"assets/enemy_green.png"
 #define ENEMY_SPRITE_PURPLE "assets/enemy_purple.png"

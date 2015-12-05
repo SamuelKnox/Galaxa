@@ -458,7 +458,7 @@ void SpriteManager::CheckBulletCollisions()
 				if (CheckSpriteCollision(player, bullets[i]))
 				{
 					CreateExplosion(player->getPosition()->x, player->getPosition()->y, EXPLOSION_PLAYER, POINTS_NONE);
-					player->playerHit();
+					//player->playerHit();
 
 					delete bullets[i];
 					bullets[i] = nullptr;

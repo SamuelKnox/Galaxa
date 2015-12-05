@@ -431,7 +431,7 @@ static HRESULT InitD3D(JsyGInternalT * handle)
     ZeroMemory( &d3dpp, sizeof(d3dpp) );
     d3dpp.BackBufferWidth        = 640;
     d3dpp.BackBufferHeight       = 480;
-    d3dpp.BackBufferFormat       = D3DFMT_X8R8G8B8;
+    d3dpp.BackBufferFormat       = D3DFMT_A8R8G8B8;
     d3dpp.BackBufferCount        = 1;
     d3dpp.EnableAutoDepthStencil = TRUE;
     d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;
@@ -651,35 +651,29 @@ JSY_ERROR_T JsyGDrawBackGround(JSYGHandle handle, uint32_t resourceId, float_t w
 	pVertices[0].color = pVertices[1].color = pVertices[2].color = pVertices[3].color = 0xffffffff;
 
 	//Set positions and texture coordinates
-	float_t yTexCoordUp = yTexCoord;
-    float_t yTexCoordDown = yTexCoord + (1.0f / numSprites);
+	float_t yTexCoordUp = 1-yTexCoord;
+    float_t yTexCoordDown = 1-yTexCoord + (1.0f / numSprites);
 
 	// 0 - xleft, ytop
 	// 1 - xright, ytop
 	// 2 - xright, ybot
 	// 3 - xleft, ybot
 
-	// Top-Left
+	// Left
 	pVertices[0].u = pVertices[3].u = 0.0f;
 	pVertices[0].x = pVertices[3].x = -width / 2.0f;
 
-	// Top-Right
+	// Right
 	pVertices[1].u = pVertices[2].u = 1.0f;
 	pVertices[1].x = pVertices[2].x = width / 2.0f;
 
-	// Bot-Right
-	pVertices[0].v = pVertices[1].v = yTexCoordUp;
-	pVertices[0].y = pVertices[1].y = height / 2.0f;
+	// Bot
+	pVertices[0].v = pVertices[1].v = yTexCoordDown;
+	pVertices[0].y = pVertices[1].y = -height / 2.0f;
 
-	// Bot-Left
-	pVertices[2].v = pVertices[3].v = yTexCoordDown;
-	pVertices[2].y = pVertices[3].y = -height / 2.0f;
-
-	pVertices[1].u = pVertices[2].u = 1.0f;
-	pVertices[0].u = pVertices[3].u = 0.0f;
-
-	pVertices[0].v = pVertices[1].v = 0.0f;
-	pVertices[2].v = pVertices[3].v = 1.0f;
+	// Top 
+	pVertices[2].v = pVertices[3].v = yTexCoordUp;
+	pVertices[2].y = pVertices[3].y = height / 2.0f;
 
 	/*pVertices[0].x = pVertices[3].x = xPosLeft;
 	pVertices[1].x = pVertices[2].x = xPosRight;
@@ -783,7 +777,59 @@ JSY_ERROR_T JsyGDrawSprite(JSYGHandle handle, uint32_t resourceId, bool8_t isFli
 
     JsyGInternalT * Internal_handle = (JsyGInternalT *)handle;
 #ifdef _XBOX
-	
+
+	/*g_pd3dDevice->CreateVertexBuffer(4 * sizeof(PANELVERTEX), D3DUSAGE_WRITEONLY,
+									D3DFVF_PANELVERTEX, D3DPOOL_MANAGED, &g_pVertices);*/
+	PANELVERTEX* pVertices = NULL;
+	Internal_handle->g_pVertices->Lock(0, 4 * sizeof(PANELVERTEX), (BYTE**)&pVertices, 0);
+
+	//Set all the colors to white
+	pVertices[0].color = pVertices[1].color = pVertices[2].color = pVertices[3].color = 0xffffffff;
+
+	//Set positions and texture coordinates
+	xPosLeft *= RATIO;
+	xPosRight *= RATIO;
+	yPosTop *= RATIO;
+	yPosBot *= RATIO;
+
+
+	float_t xTexCoordLeft = xTexCoord;
+    float_t xTexCoordRight = xTexCoord;
+
+    if (isFlipped)
+    {
+        xTexCoordLeft += (1.0f / numSprites);
+    }
+    else
+    {
+        xTexCoordRight += (1.0f / numSprites);
+    }
+
+	// Left
+	pVertices[0].u = pVertices[3].u = xTexCoordLeft;
+	pVertices[0].x = pVertices[3].x = xPosLeft;
+
+	// Right
+	pVertices[1].u = pVertices[2].u = xTexCoordRight;
+	pVertices[1].x = pVertices[2].x = xPosRight;
+
+	// Bot
+	pVertices[0].v = pVertices[1].v = 1.0f;
+	pVertices[2].y = pVertices[3].y = yPosBot;
+
+	// Top 
+	pVertices[2].v = pVertices[3].v = 0.0f;
+	pVertices[0].y = pVertices[1].y = yPosTop;
+
+
+	pVertices[0].z = pVertices[1].z = pVertices[2].z = pVertices[3].z = 1.0f;
+
+	Internal_handle->g_pVertices->Unlock();
+
+	Internal_handle->g_pd3dDevice->SetTexture(0, Internal_handle->g_pTexture[resourceId]);
+	Internal_handle->g_pd3dDevice->SetVertexShader(D3DFVF_PANELVERTEX);
+	Internal_handle->g_pd3dDevice->SetStreamSource(0, Internal_handle->g_pVertices, sizeof(PANELVERTEX));
+	Internal_handle->g_pd3dDevice->DrawPrimitive(D3DPT_TRIANGLEFAN, 0, 2);
 
 
 #else

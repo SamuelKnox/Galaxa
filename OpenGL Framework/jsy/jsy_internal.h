@@ -67,6 +67,8 @@ typedef struct JsyTextureS
 #define XBOX_WIN_Width 640.0f
 #define XBOX_WIN_Height 480.0f
 
+#define RATIO 0.5f
+
 struct PANELVERTEX
 {
     FLOAT x, y, z;
