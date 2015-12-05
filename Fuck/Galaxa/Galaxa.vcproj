@@ -301,9 +301,6 @@
 				RelativePath="..\..\OpenGL Framework\GameManager.cpp">
 			</File>
 			<File
-				RelativePath="gamepad.cpp">
-			</File>
-			<File
 				RelativePath="..\..\OpenGL Framework\HorizontalLine.cpp">
 			</File>
 			<File
@@ -492,16 +489,16 @@
 				RelativePath="..\..\OpenGL Framework\FollowTrajectory.h">
 			</File>
 			<File
-				RelativePath="..\..\Xbox\Input\Gamepad\font12.h">
-			</File>
-			<File
 				RelativePath=".\font12.h">
 			</File>
 			<File
-				RelativePath="..\..\Xbox\Input\Gamepad\font16.h">
+				RelativePath="..\..\Xbox\Input\Gamepad\font12.h">
 			</File>
 			<File
 				RelativePath=".\font16.h">
+			</File>
+			<File
+				RelativePath="..\..\Xbox\Input\Gamepad\font16.h">
 			</File>
 			<File
 				RelativePath="..\..\OpenGL Framework\game.h">
@@ -525,10 +522,10 @@
 				RelativePath="..\..\OpenGL Framework\random.h">
 			</File>
 			<File
-				RelativePath=".\Resource.h">
+				RelativePath="..\..\Xbox\Input\Gamepad\Resource.h">
 			</File>
 			<File
-				RelativePath="..\..\Xbox\Input\Gamepad\Resource.h">
+				RelativePath=".\Resource.h">
 			</File>
 			<File
 				RelativePath=".\sample.h">
