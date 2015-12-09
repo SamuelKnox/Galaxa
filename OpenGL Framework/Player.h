@@ -19,6 +19,8 @@ public:
 	void DrawLivesLeft();
 
 	void ChangeWeapon(int32_t newWeapon);
+	bool8_t IsInvincible();
+	void EnableInvincible();
 
     void setFireSfxId(uint32_t fireSFXId) { mFireSFXId = fireSFXId; };
 	enum WEAPON_TYPES 
@@ -38,6 +40,9 @@ private:
 	bool8_t mIsMoving;
 	bool8_t mCanMove;
 	bool8_t mCanShoot;
+	
+	int32_t MInvincibleTimer;
+	bool8_t mInvincible;
 
 	int32_t mNumLives;
 

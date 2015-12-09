@@ -459,8 +459,9 @@ void SpriteManager::CheckBulletCollisions()
 
 				// Check if missile fired by enemy has hit the player, then destroy bullet and decrement player lives
 				// Also, increment player score and start explosion animation
-				if (CheckSpriteCollision(player, bullets[i]))
+				if (CheckSpriteCollision(player, bullets[i]) && !player->IsInvincible())
 				{
+					player->EnableInvincible();
 					CreateExplosion(player->getPosition()->x, player->getPosition()->y, EXPLOSION_PLAYER, POINTS_NONE);
 					player->playerHit();
 

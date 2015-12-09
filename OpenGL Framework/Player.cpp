@@ -36,6 +36,7 @@ Player::Player(float_t initPosX, float_t initPosY, float_t initVelX, float_t ini
 {
 //Moved from .h
 	 currentWeapon = NORMAL;
+	 mInvincible = false;
 	 //for(int i = 0; i < MAX_PLAYER_LIVES; i++){
   //       mLives[i] = nullptr;
 	 //}
@@ -94,8 +95,24 @@ Player::~Player()
 	}
 }
 
+bool8_t Player::IsInvincible(){
+	return mInvincible;
+}
+
+void Player::EnableInvincible(){
+	MInvincibleTimer = INVINCIBILITY_TIME;
+	mInvincible = true;
+}
+
 void Player::update(uint32_t milliseconds)
 {
+	if(mInvincible){
+		MInvincibleTimer -= milliseconds;
+		if(MInvincibleTimer <= 0)
+		{
+			mInvincible = false;
+		}
+	}
     milliseconds = (float_t)milliseconds / CGame::GetInstance()->getFrameRatio();
     if (mEnabled)
     {

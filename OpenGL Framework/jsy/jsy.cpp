@@ -475,7 +475,7 @@ XBInput_GetInput( m_Gamepad );
 			*value = m_Gamepad[0].bLastAnalogButtons[XINPUT_GAMEPAD_A] ? 1.0f : 0.0f;
 			break;
         case JSY_INPUT_B: 
-			*value = m_Gamepad[0].bLastAnalogButtons[XINPUT_GAMEPAD_B] ? 1.0f : 0.0f;
+			*value = m_Gamepad[0].bLastAnalogButtons[XINPUT_GAMEPAD_X] ? 1.0f : 0.0f;
 			break;
         case JSY_INPUT_START: 
 			//*value = ???;
