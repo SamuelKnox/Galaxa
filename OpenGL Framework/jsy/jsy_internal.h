@@ -178,6 +178,7 @@ typedef struct JsyAudioInternalS {
     uint32_t id_cnt;
 } JsyAudioInternalT;
 
+#ifdef _XBOX
 HRESULT Process( SoundStream_t * handle);
-
+#endif
 #endif
