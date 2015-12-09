@@ -221,7 +221,7 @@ void Player::CheckForUserInput()
 		}
 	}
 
-    if (keyFrameRatio > 0.0f) {
+    if (keyFrameRatio > 0.0f && bulletTime > 1.0f) {
         if (inBulletTime) {
             inBulletTime = false;
             CGame::GetInstance()->setFrameRatio(1.0f);

@@ -43,6 +43,7 @@ void GameManager::init(int32_t width, int32_t height)
 	// Load background texture maps
 	JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), BG_TITLE_SCREEN, &mTitleScreenBackground);
 	JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), BG_SPACE, &mSpaceBackground);
+    JStGLoadTexture(CGame::GetInstance()->GetJsyGHandle(), BG_SLOW_SPACE, &mSpaceSlowBackground);
 
 	// Initialize background variables
 	mCurrentBackground = mTitleScreenBackground;
@@ -183,12 +184,16 @@ void GameManager::updateBackground(uint32_t milliseconds)
 		mBackgroundOffset = 0.0f;
 		mBackgroundNumSprites = TITLE_NUM_SPRITES;
 	}
-	else if (mGameState == IN_GAME && mCurrentBackground != mSpaceBackground)
+	else if (mGameState == IN_GAME && (mCurrentBackground != mSpaceBackground && mCurrentBackground != mSpaceSlowBackground))
 	{
-		mCurrentBackground = mSpaceBackground;
+		mCurrentBackground = CGame::GetInstance()->getFrameRatio() < 1.0f ? mSpaceSlowBackground : mSpaceBackground;
 		mBackgroundOffset = 0.0f;
 		mBackgroundNumSprites = SPACE_NUM_SPRITES;
 	}
+
+    if (mGameState == IN_GAME) {
+        mCurrentBackground = CGame::GetInstance()->getFrameRatio() < 1.0f ? mSpaceSlowBackground : mSpaceBackground;
+    }
 
 	// Check if offset should be updated for scrolling
 	if (mBackgroundNumSprites > 1)

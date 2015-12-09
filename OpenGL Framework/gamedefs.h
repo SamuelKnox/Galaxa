@@ -156,6 +156,7 @@
 #define VERTICAL_LINE	"assets/sprites/lines/vertical_line.png"
 #define BG_TITLE_SCREEN		"assets/title_screen.png"
 #define BG_SPACE			"assets/background2.png"
+#define BG_SLOW_SPACE       "assets/background3.png"
 #define PLAYER_SPRITE	"assets/player.png"
 #define NUMBER_SPRITES		"assets/numbers.png"
 
