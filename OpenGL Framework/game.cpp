@@ -25,6 +25,7 @@ CGame::CGame(){
     jsyInputHandle = NULL;
     jsyAudioHandle = NULL;
 	mQuit = false;
+    mRatio = 1.0f;
 }
 
 void CGame::init()
@@ -44,6 +45,8 @@ void CGame::init()
 
 void CGame::UpdateFrame(uint32_t milliseconds)
 {
+    uint32_t scaledMillseconds = mRatio * (float_t)milliseconds;
+
     float_t quit;
     JsyInputGetInput(jsyInputHandle, JSY_INPUT_BACK, &quit);
     if (quit > 0.0f)
@@ -51,8 +54,8 @@ void CGame::UpdateFrame(uint32_t milliseconds)
         mQuit = true;
     }
 
-	GameManager::GetInstance()->update(milliseconds);
-	SpriteManager::GetInstance()->updateSprites(milliseconds);
+	GameManager::GetInstance()->update(scaledMillseconds);
+	SpriteManager::GetInstance()->updateSprites(scaledMillseconds);
 }
 
 void CGame::DrawScene(void)											

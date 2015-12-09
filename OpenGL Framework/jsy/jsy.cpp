@@ -55,6 +55,8 @@
 #define		CDS_FULLSCREEN 4									// Compilers. By Defining It This Way,
 #endif															// We Can Avoid Errors
 
+static GL_Window g_window;
+
 static void TerminateApplication(GL_Window* window)							// Terminate The Application
 {
     PostMessage(window->hWnd, WM_QUIT, 0, 0);							// Send A WM_QUIT Message
@@ -320,6 +322,7 @@ JSY_ERROR_T JsyAppInit_XBOX(AppLoop func)
 JSY_ERROR_T JsyAppInit_Win(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow, int width, int height, AppLoop func)
 #endif
 {
+#ifdef _XBOX
 	g_audio = NULL;
 	while (func()) {
 		if (g_audio != NULL) {
@@ -342,6 +345,7 @@ JSY_ERROR_T JsyAppInit_Win(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR l
 		}
 		DirectSoundDoWork();
 	}
+#endif
 #ifdef _MY_DEBUG_
     AllocConsole();
 
@@ -427,7 +431,7 @@ JSY_ERROR_T JsyInputOpen(JSYInputHandle * pHandle) {
     memset(handle, 0, sizeof(JsyInputInternalT));
     if (!handle)
         return JSY_ERROR_OOM;
-
+#ifdef _XBOX
     *pHandle = (JsyInputInternalT *)handle;
 
 		    // Initialize core peripheral port support. Note: If these parameters
@@ -438,7 +442,7 @@ JSY_ERROR_T JsyInputOpen(JSYInputHandle * pHandle) {
     // Create the gamepad devices
     XBInput_CreateGamepads( &m_Gamepad );
 
-
+#endif
     return JSY_SUCCEED;
 }
 
@@ -860,7 +864,7 @@ JSY_ERROR_T JsyGClear(JSYGHandle handle) {
 #else
     glClear(GL_COLOR_BUFFER_BIT);
     // Set the modelview matrix to be the identity matrix
-    glLoadIdentity()
+    glLoadIdentity();
 #endif
     return JSY_SUCCEED;
 }

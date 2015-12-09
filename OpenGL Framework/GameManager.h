@@ -43,6 +43,7 @@ private:
 	// Backgrounds
     uint32_t mTitleScreenBackground;
     uint32_t mSpaceBackground;
+    uint32_t mSpaceSlowBackground;
     uint32_t mCurrentBackground;
 
 	int32_t mBackgroundWidth;

@@ -23,6 +23,9 @@
 #define MOVE_FORCE			3
 #define STARTING_LIVES		3
 #define MAX_PLAYER_LIVES	5
+#define PLAYER_LIVES		10
+#define PLAYER_BULLETTIME	5.0f
+#define PLAYER_BULLETTIME_RATIO 0.1f
 
 // Weapons
 #define WEAPON_DURATION_MS	15000	
@@ -130,6 +133,7 @@
 #define VERTICAL_LINE	resource_VERTICAL_LINE_OFFSET
 #define BG_TITLE_SCREEN		resource_BG_TITLE_SCREEN_OFFSET
 #define BG_SPACE			resource_BG_SPACE_OFFSET
+#define BG_SLOW_SPACE       resource_BG_SLOW_SPACE_OFFSET
 #define PLAYER_SPRITE	resource_PLAYER_SPRITE_OFFSET
 #define NUMBER_SPRITES		resource_NUMBER_SPRITES_OFFSET
 
@@ -157,6 +161,7 @@
 #define VERTICAL_LINE	"assets/sprites/lines/vertical_line.png"
 #define BG_TITLE_SCREEN		"assets/title_screen.png"
 #define BG_SPACE			"assets/background2.png"
+#define BG_SLOW_SPACE       "assets/background3.png"
 #define PLAYER_SPRITE	"assets/player.png"
 #define NUMBER_SPRITES		"assets/numbers.png"
 
