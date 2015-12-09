@@ -67,10 +67,10 @@ typedef struct JsyTextureS
 
 #ifdef _XBOX
 
-#define XBOX_WIN_Width 640.0f
-#define XBOX_WIN_Height 480.0f
-
-#define RATIO 0.5f
+//#define XBOX_WIN_Width 960.0f
+//#define XBOX_WIN_Height 720.0f
+//
+//#define RATIO 0.75f
 
 struct PANELVERTEX
 {
@@ -89,7 +89,9 @@ struct PANELVERTEX
 
 typedef struct JsyGInternalS {
 #ifdef _XBOX
-
+	uint32_t                width;
+	uint32_t                height;
+	float_t					ratio;
 	LPDIRECT3D8             g_pD3D;          // Used to create the D3DDevice
 	LPDIRECT3DDEVICE8       g_pd3dDevice;          // Our rendering device
 	BYTE*                   g_pResourceSysMemData; // Sysmem data for the packed resource

@@ -410,7 +410,7 @@ void SpriteManager::CheckWeaponDropCollisions() {
 	{
 		if (weaponDrops[i] != nullptr && CheckSpriteCollision(weaponDrops[i], player))
 		{
-			player->currentWeapon = weaponDrops[i]->GetWeaponType();
+			player->ChangeWeapon(weaponDrops[i]->GetWeaponType());
 			delete weaponDrops[i];
 			weaponDrops[i] = nullptr;
 		}
@@ -438,6 +438,10 @@ void SpriteManager::CheckBulletCollisions()
 							CreateExplosion(enemies[j]->getPosition()->x, enemies[j]->getPosition()->y, EXPLOSION_ENEMY, enemies[j]->getType());
 							if (enemies[j]->hit())
 							{
+								if (enemies[j]->getType() == ENEMY_SHIP)
+								{
+									player->AddExtraLife();
+								}
 								GameManager::GetInstance()->enemyKilled(points[enemies[j]->getType()]);
 								delete enemies[j];
 								enemies[j] = nullptr;
@@ -501,7 +505,7 @@ void SpriteManager::spawnEnemy(uint32_t indexEnemy) {
 		// Set random spawn position
 		float_t bgWidth = (float_t)GameManager::GetInstance()->getBackgroundWidth() - enemies[indexEnemy]->getWidth();
 		float_t bgHeight = (float_t)GameManager::GetInstance()->getBackgroundHeight() - enemies[indexEnemy]->getHeight();
-		enemies[indexEnemy]->setPosition(getRangedRandom(-bgWidth / 2.0f, bgWidth / 2.0f), getRangedRandom(bgHeight / 4.0f, bgHeight / 2.0f));
+		enemies[indexEnemy]->setPosition(getRangedRandom(-bgWidth / 3.0f, bgWidth / 3.0f), getRangedRandom(bgHeight / 4.0f, bgHeight / 2.0f));
 		enemies[indexEnemy]->reset();
 	}
 }

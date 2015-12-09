@@ -79,7 +79,11 @@ void CGame::shutdown()
 
 void CGame::DestroyGame(void)
 {
+	JsyAudioClose(jsyAudioHandle);
+	JsyInputClose(jsyInputHandle);
+	JsyGClose(jsyGHandle);
+
 	delete SpriteManager::GetInstance();
 	delete FieldManagerC::GetInstance();	
-	delete GameManager::GetInstance();
+	delete GameManager::GetInstance();	
 }

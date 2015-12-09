@@ -36,9 +36,9 @@ Player::Player(float_t initPosX, float_t initPosY, float_t initVelX, float_t ini
 {
 //Moved from .h
 	 currentWeapon = NORMAL;
-	 for(int i = 0; i < PLAYER_LIVES; i++){
-         mLives[i] = nullptr;
-	 }
+	 //for(int i = 0; i < MAX_PLAYER_LIVES; i++){
+  //       mLives[i] = nullptr;
+	 //}
 
 	// Object
 	mPosition.x = initPosX;
@@ -63,20 +63,32 @@ Player::Player(float_t initPosX, float_t initPosY, float_t initVelX, float_t ini
 	mCanMove = true;
 	mCanShoot = true;
 	mShotTimer = 0;
-	mNumLives = PLAYER_LIVES;
+	mPowerupTimer = 0;
+	mNumLives = STARTING_LIVES;
 
-	for (int32_t i = 1; i <= mNumLives; i++)
+	for (int32_t i = 1; i <= MAX_PLAYER_LIVES; i++)
 	{
 		// Get position for lives based on screen size and half player's actual size to
 		//	place them in the bottom-left corner;
 		float_t xPos = (-BG_WIDTH / 2.0f) + i * (mWidth / 2.0f);
-		float_t yPos = (-BG_HEIGHT / 2.0f) + (mHeight / 2.0f);
+		float_t yPos = (-BG_HEIGHT / 2.0f) + (mHeight);
 		mLives[i - 1] = new Sprite(xPos, yPos, mWidth / 2.0f, mHeight / 2.0f, SpriteManager::PLAYER);
+
+		if (i > mNumLives)
+			mLives[i -1]->disable();
 	}
 }
 
 Player::~Player()
-{};
+{
+	for (int32_t i = 0; i < mNumLives; i++)
+	{
+		if (mLives[i] != nullptr) {
+			delete mLives[i];
+			mLives[i] = nullptr;
+		}	
+	}
+}
 
 void Player::updateET(uint32_t milliseconds)
 {
@@ -85,6 +97,16 @@ void Player::updateET(uint32_t milliseconds)
 	{
 		SpriteManager::GetInstance()->endGame();
 		return;
+	}
+
+	// Update weapon powerup timer
+	if (currentWeapon != NORMAL)
+	{
+		mPowerupTimer -= milliseconds;
+		if (mPowerupTimer <= 0)
+		{
+			currentWeapon = NORMAL;
+		}
 	}
 
 	// Update shot timer
@@ -137,11 +159,18 @@ void Player::playerHit()
     JsyAudioPlaySound(CGame::GetInstance()->GetJsyAudioHandle(), mHitSFXId);
 	if (mNumLives >= 0)
 	{
-		delete mLives[mNumLives];
-		mLives[mNumLives] = nullptr;
+		mLives[mNumLives]->disable();
 	}
 
 }
+
+void Player::AddExtraLife() {
+	if (mNumLives < MAX_PLAYER_LIVES) {
+		mLives[mNumLives]->enable();
+		mNumLives++;
+	}
+}
+
 
 void Player::CheckForUserInput()
 {
@@ -255,3 +284,10 @@ void Player::DrawLivesLeft()
 		mLives[i]->render();
 	}
 }
+
+void Player::ChangeWeapon(int32_t newWeapon) 
+{
+	mPowerupTimer = WEAPON_DURATION_MS;
+	currentWeapon = newWeapon;
+}
+

@@ -57,6 +57,7 @@ private:
 	int32_t mEnemiesAlive;
 	int32_t mEnemiesLeftInWave;
 	int32_t mWavesInLevel;
+	int32_t mWaveTimer;
 
 	Sprite* levelDisplay[MAX_LEVEL_DIGITS];
 

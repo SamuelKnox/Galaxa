@@ -330,6 +330,7 @@ JSY_ERROR_T JsyAppInit_Win(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR l
 					if (currentSoundNode->streams[i] != NULL) {
 						Process(currentSoundNode->streams[i]);
 						if (!currentSoundNode->streams[i]->isValid) {
+							free(currentSoundNode->streams[i]->m_pvSourceBuffer);
 							free(currentSoundNode->streams[i]);
 							currentSoundNode->streams[i] = NULL;
 						}
@@ -519,11 +520,40 @@ static HRESULT InitD3D(JsyGInternalT * handle)
     if( NULL == ( handle->g_pD3D = Direct3DCreate8( D3D_SDK_VERSION ) ) )
         return E_FAIL;
 
+	D3DDISPLAYMODE dispmode, bestmode;
+	handle->g_pD3D->EnumAdapterModes( D3DADAPTER_DEFAULT, D3DFMT_A8R8G8B8, &bestmode );
+	for( UINT i = 1; i < handle->g_pD3D->GetAdapterModeCount( D3DADAPTER_DEFAULT); i++ )
+	{
+		handle->g_pD3D->EnumAdapterModes( D3DADAPTER_DEFAULT, D3DFMT_A8R8G8B8, &dispmode );
+		if( dispmode.Width > bestmode.Width )
+		{
+			bestmode.Width = dispmode.Width;
+			bestmode.Height = dispmode.Height;
+			bestmode.RefreshRate = dispmode.RefreshRate;
+			continue;
+		}
+		if( dispmode.Height > bestmode.Height )
+		{
+			bestmode.Height = dispmode.Height;
+			bestmode.RefreshRate = dispmode.RefreshRate;
+			continue;
+		}
+		if( dispmode.RefreshRate > bestmode.RefreshRate )
+		{
+			bestmode.RefreshRate = dispmode.RefreshRate;
+			continue;
+		}
+	}
+
+
+
     // Set up the structure used to create the D3DDevice.
     D3DPRESENT_PARAMETERS d3dpp; 
     ZeroMemory( &d3dpp, sizeof(d3dpp) );
-    d3dpp.BackBufferWidth        = 640;
-    d3dpp.BackBufferHeight       = 480;
+    d3dpp.BackBufferWidth        = bestmode.Width;
+	d3dpp.BackBufferHeight       = bestmode.Height;
+	//d3dpp.BackBufferWidth        = XBOX_WIN_Width;
+    //d3dpp.BackBufferHeight       = XBOX_WIN_Height;
     d3dpp.BackBufferFormat       = D3DFMT_A8R8G8B8;
     d3dpp.BackBufferCount        = 1;
     d3dpp.EnableAutoDepthStencil = TRUE;
@@ -535,7 +565,9 @@ static HRESULT InitD3D(JsyGInternalT * handle)
                                       D3DCREATE_HARDWARE_VERTEXPROCESSING,
                                       &d3dpp, &handle->g_pd3dDevice ) ) )
         return E_FAIL;
-
+	handle->height = bestmode.Height;
+	handle->width = bestmode.Width;
+	handle->ratio = handle->height / 960.0f;
     // Turn off culling
     handle->g_pd3dDevice->SetRenderState( D3DRS_CULLMODE, D3DCULL_NONE );
 
@@ -627,7 +659,7 @@ static void PostInitialize(JsyGInternalT * handle)
 	D3DXMATRIX Ortho2D;	
 	D3DXMATRIX Identity;
 	
-	D3DXMatrixOrthoLH(&Ortho2D, XBOX_WIN_Width, XBOX_WIN_Height, 0.0f, 1.0f);
+	D3DXMatrixOrthoLH(&Ortho2D, handle->width, handle->height, 0.0f, 1.0f);
 	D3DXMatrixIdentity(&Identity);
 
 	handle->g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &Ortho2D);
@@ -735,9 +767,8 @@ JSY_ERROR_T JsyGDrawBackGround(JSYGHandle handle, uint32_t resourceId, float_t w
 
     JsyGInternalT * Internal_handle = (JsyGInternalT *)handle;
 #ifdef _XBOX
-	float_t ratio = XBOX_WIN_Height / height;
-	width = width * ratio;
-	height = height * ratio;
+	width = width * Internal_handle->ratio;
+	height = height * Internal_handle->ratio;
 	/*g_pd3dDevice->CreateVertexBuffer(4 * sizeof(PANELVERTEX), D3DUSAGE_WRITEONLY,
 									D3DFVF_PANELVERTEX, D3DPOOL_MANAGED, &g_pVertices);*/
 	PANELVERTEX* pVertices = NULL;
@@ -883,10 +914,10 @@ JSY_ERROR_T JsyGDrawSprite(JSYGHandle handle, uint32_t resourceId, bool8_t isFli
 	pVertices[0].color = pVertices[1].color = pVertices[2].color = pVertices[3].color = 0xffffffff;
 
 	//Set positions and texture coordinates
-	xPosLeft *= RATIO;
-	xPosRight *= RATIO;
-	yPosTop *= RATIO;
-	yPosBot *= RATIO;
+	xPosLeft *= Internal_handle->ratio;
+	xPosRight *= Internal_handle->ratio;
+	yPosTop *= Internal_handle->ratio;
+	yPosBot *= Internal_handle->ratio;
 
 
 	float_t xTexCoordLeft = xTexCoord;

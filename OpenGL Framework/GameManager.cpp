@@ -50,6 +50,7 @@ void GameManager::init(int32_t width, int32_t height)
 	mBackgroundHeight = height;
 	mBackgroundOffset = 0.0f;
 	mBackgroundNumSprites = TITLE_NUM_SPRITES;
+	mWaveTimer = WAVE_DELAY_MS;
 	lastSpawnDuration = 0;
 	indexEnemy = 0;
 
@@ -83,8 +84,7 @@ void GameManager::render()
 
 		for (int32_t i = 0; i < MAX_LEVEL_DIGITS; i++)
 		{
-			double placeVal = pow(10, -i);
-			int32_t digit = (int32_t)(mLevelNum * placeVal) % 10;
+			int32_t digit = (mLevelNum / (int32_t)pow(10, i)) % 10;
 			levelDisplay[i]->setCurrentSprite(digit);
 			levelDisplay[i]->render();
 		}
@@ -99,9 +99,18 @@ void GameManager::update(uint32_t milliseconds)
 	// Update background offset for scrolling
 	updateBackground(milliseconds);
 
+	// Update wave
+	if (mWaveTimer > 0) {
+		mWaveTimer -= milliseconds;
+		return;
+	}
+
 	// Spawn enemies for current wave 
 	lastSpawnDuration += milliseconds;
-	if ((mEnemiesLeftInWave > 0) && (lastSpawnDuration >= ENEMY_RESPAWN_TIME_MILLISEC))
+	int respawnTime = (1-(mLevelNum / 100)) * ENEMY_RESPAWN_TIME_MILLISEC;
+	respawnTime = max(respawnTime, ENEMY_RESPAWN_TIME_MILLISEC / 2);
+
+	if ((mEnemiesLeftInWave > 0) && (lastSpawnDuration >= respawnTime))
 	{
 		lastSpawnDuration = 0;
 		if (++indexEnemy == ENEMY_MAX_ENEMIES)
@@ -208,6 +217,7 @@ void GameManager::updateLevelWaves()
 	if (mEnemiesLeftInWave == 0 && mEnemiesAlive == 0)
 	{
 		mWaveNum++;
+		mWaveTimer = WAVE_DELAY_MS;
 
 		// If last wave for level, then transition to next level
 		if (mWaveNum > mWavesInLevel)

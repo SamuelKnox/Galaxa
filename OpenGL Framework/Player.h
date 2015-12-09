@@ -14,7 +14,10 @@ public:
 
 	void updateET(uint32_t milliseconds);
 	void playerHit();
+	void AddExtraLife();
 	void DrawLivesLeft();
+
+	void ChangeWeapon(int32_t newWeapon);
 
     void setFireSfxId(uint32_t fireSFXId) { mFireSFXId = fireSFXId; };
 	enum WEAPON_TYPES 
@@ -24,7 +27,6 @@ public:
 		SPREAD,
 		HOMING
 	};
-	int32_t currentWeapon;
 
 private:
     Player(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType);
@@ -37,12 +39,15 @@ private:
 
 	int32_t mNumLives;
 
+	int32_t currentWeapon;
+	uint32_t mPowerupTimer;
+
 	float_t mMoveForce;
-    uint32_t mShotTimer;
+    int32_t mShotTimer;
 
     uint32_t mFireSFXId;
     uint32_t mHitSFXId;
-	Sprite* mLives[PLAYER_LIVES];
+	Sprite* mLives[MAX_PLAYER_LIVES];
 
 	void CheckForUserInput();
 	void CheckBoundaries();
