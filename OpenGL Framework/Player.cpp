@@ -68,7 +68,7 @@ Player::Player(float_t initPosX, float_t initPosY, float_t initVelX, float_t ini
 	mNumLives = STARTING_LIVES;
     bulletTime = PLAYER_BULLETTIME;
     inBulletTime = false;
-
+    bulletTimeDebounce = false;
 
 	for (int32_t i = 1; i <= MAX_PLAYER_LIVES; i++)
 	{
@@ -252,15 +252,24 @@ void Player::CheckForUserInput()
 		}
 	}
 
-    if (keyFrameRatio > 0.0f && bulletTime > 1.0f) {
-        if (inBulletTime) {
-            inBulletTime = false;
-            CGame::GetInstance()->setFrameRatio(1.0f);
+    if (keyFrameRatio > 0.0f) {
+        if (!bulletTimeDebounce) {
+            bulletTimeDebounce = true;
+            if (inBulletTime) {
+                inBulletTime = false;
+                CGame::GetInstance()->setFrameRatio(1.0f);
+            }
+            else {
+                if (bulletTime > 0.5f) {
+                    inBulletTime = true;
+                    CGame::GetInstance()->setFrameRatio(PLAYER_BULLETTIME_RATIO);
+                }
+            }
         }
-        else {
-            inBulletTime = true;
-            CGame::GetInstance()->setFrameRatio(PLAYER_BULLETTIME_RATIO);
-        }
+    }
+
+    if (keyFrameRatio < 0.1f) {
+        bulletTimeDebounce = false;
     }
 }
 

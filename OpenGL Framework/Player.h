@@ -32,7 +32,7 @@ public:
 private:
     Player(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType);
 
-
+    bool bulletTimeDebounce;
     float_t bulletTime;
     bool inBulletTime;
 	bool8_t mIsMoving;
