@@ -260,8 +260,10 @@ void Player::CheckForUserInput()
                 CGame::GetInstance()->setFrameRatio(1.0f);
             }
             else {
-                inBulletTime = true;
-                CGame::GetInstance()->setFrameRatio(PLAYER_BULLETTIME_RATIO);
+                if (bulletTime > 0.5f) {
+                    inBulletTime = true;
+                    CGame::GetInstance()->setFrameRatio(PLAYER_BULLETTIME_RATIO);
+                }
             }
         }
     }
