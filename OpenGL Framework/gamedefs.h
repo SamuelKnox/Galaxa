@@ -22,6 +22,8 @@
 #define PLAYER_NUM_SPRITES	1
 #define MOVE_FORCE			3
 #define PLAYER_LIVES		10
+#define PLAYER_BULLETTIME	5.0f
+#define PLAYER_BULLETTIME_RATIO 0.1f
 
 // Weapons
 #define SHOT_FORCE			6

@@ -29,6 +29,8 @@ public:
     };
 
     bool GetQuit() { return mQuit; };
+    float_t getFrameRatio() { return mRatio; }
+    void setFrameRatio(float_t ratio) { mRatio = ratio; }
 
 	static const uint32_t mBitsPerPixel = 32;
 private:
@@ -38,6 +40,8 @@ private:
     JSYGHandle jsyGHandle;
     JSYInputHandle jsyInputHandle;
     JSYAudioHandle jsyAudioHandle;
+
+    float_t mRatio;
 
     bool mQuit;
 

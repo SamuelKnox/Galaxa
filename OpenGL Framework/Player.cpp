@@ -64,6 +64,8 @@ Player::Player(float_t initPosX, float_t initPosY, float_t initVelX, float_t ini
 	mCanShoot = true;
 	mShotTimer = 0;
 	mNumLives = PLAYER_LIVES;
+    bulletTime = PLAYER_BULLETTIME;
+    inBulletTime = false;
 
 	for (int32_t i = 1; i <= mNumLives; i++)
 	{
@@ -78,8 +80,32 @@ Player::Player(float_t initPosX, float_t initPosY, float_t initVelX, float_t ini
 Player::~Player()
 {};
 
+void Player::update(uint32_t milliseconds)
+{
+    milliseconds = (float_t)milliseconds / CGame::GetInstance()->getFrameRatio();
+    if (mEnabled)
+    {
+        mPosition.x += mVelocity.x * milliseconds / 10;
+        mPosition.y += mVelocity.y * milliseconds / 10;
+    }
+}
+
 void Player::updateET(uint32_t milliseconds)
 {
+    milliseconds = (float_t)milliseconds/CGame::GetInstance()->getFrameRatio();
+
+    if (inBulletTime) {
+        bulletTime -= (float_t)milliseconds / 1000.0f;
+        if (bulletTime < 0.0f) {
+            bulletTime = 0.0f;
+            CGame::GetInstance()->setFrameRatio(1.0f);
+            inBulletTime = false;
+        }
+    }
+    else {
+        bulletTime += ((float_t)milliseconds / 1000.0f) * PLAYER_BULLETTIME / 60.0f;
+    }
+
 	// Check if dead
 	if (mNumLives < 0)
 	{
@@ -146,13 +172,14 @@ void Player::playerHit()
 void Player::CheckForUserInput()
 {
 
-	float_t keyLeft, keyRight, keyUp, keyDown, keyShoot;
+    float_t keyLeft, keyRight, keyUp, keyDown, keyShoot, keyFrameRatio;
 
 	JsyInputGetInput(CGame::GetInstance()->GetJsyInputHandle(), JSY_INPUT_LEFT, &keyLeft);
 	JsyInputGetInput(CGame::GetInstance()->GetJsyInputHandle(), JSY_INPUT_RIGHT, &keyRight);
 	JsyInputGetInput(CGame::GetInstance()->GetJsyInputHandle(), JSY_INPUT_UP, &keyUp);
 	JsyInputGetInput(CGame::GetInstance()->GetJsyInputHandle(), JSY_INPUT_DOWN, &keyDown);
 	JsyInputGetInput(CGame::GetInstance()->GetJsyInputHandle(), JSY_INPUT_A, &keyShoot);
+    JsyInputGetInput(CGame::GetInstance()->GetJsyInputHandle(), JSY_INPUT_B, &keyFrameRatio);
 
 	// Check vertical movement
 	if ((keyUp > 0.0f))
@@ -193,6 +220,17 @@ void Player::CheckForUserInput()
             JsyAudioPlaySound(CGame::GetInstance()->GetJsyAudioHandle(), mFireSFXId);
 		}
 	}
+
+    if (keyFrameRatio > 0.0f) {
+        if (inBulletTime) {
+            inBulletTime = false;
+            CGame::GetInstance()->setFrameRatio(1.0f);
+        }
+        else {
+            inBulletTime = true;
+            CGame::GetInstance()->setFrameRatio(PLAYER_BULLETTIME_RATIO);
+        }
+    }
 }
 
 void Player::Shoot() {

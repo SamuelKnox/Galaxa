@@ -12,6 +12,7 @@ public:
     static Player* CreatePlayer(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType);
 	~Player();
 
+    void update(uint32_t milliseconds);
 	void updateET(uint32_t milliseconds);
 	void playerHit();
 	void DrawLivesLeft();
@@ -30,7 +31,8 @@ private:
     Player(float_t initPosX, float_t initPosY, float_t initVelX, float_t initVelY, int32_t gameObjectType);
 
 
-
+    float_t bulletTime;
+    bool inBulletTime;
 	bool8_t mIsMoving;
 	bool8_t mCanMove;
 	bool8_t mCanShoot;

@@ -10,7 +10,7 @@ public:
 	Sprite(float_t initPosX, float_t initPosY, float_t width, float_t height, int32_t gameObjectType, int32_t spriteNum, int32_t numSprites);
 	~Sprite();
 
-	void update(uint32_t milliseconds);
+	virtual void update(uint32_t milliseconds);
 	virtual void render();
 	void disable() { mEnabled = false; };
 	void enable() { mEnabled = true; };
