@@ -152,6 +152,7 @@ void GameManager::startNewGame()
 	mEnemiesLeftInWave = BASE_ENEMIES_PER_WAVE;
 	mEnemiesAlive = 0;
 	lastSpawnDuration = 0;
+	indexEnemy = 0;
 
 	mGameState = IN_GAME;
 	SpriteManager::GetInstance()->startGame();

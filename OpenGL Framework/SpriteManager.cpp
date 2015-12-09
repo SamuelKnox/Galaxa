@@ -505,7 +505,7 @@ void SpriteManager::spawnEnemy(uint32_t indexEnemy) {
 		// Set random spawn position
 		float_t bgWidth = (float_t)GameManager::GetInstance()->getBackgroundWidth() - enemies[indexEnemy]->getWidth();
 		float_t bgHeight = (float_t)GameManager::GetInstance()->getBackgroundHeight() - enemies[indexEnemy]->getHeight();
-		enemies[indexEnemy]->setPosition(getRangedRandom(-bgWidth / 3.0f, bgWidth / 3.0f), getRangedRandom(bgHeight / 4.0f, bgHeight / 2.0f));
+		enemies[indexEnemy]->setPosition(getRangedRandom(-bgWidth / 3.0f, bgWidth / 3.0f), getRangedRandom(bgHeight / 4.0f, (bgHeight / 2.0f) - ENEMY_HEIGHT));
 		enemies[indexEnemy]->reset();
 	}
 }

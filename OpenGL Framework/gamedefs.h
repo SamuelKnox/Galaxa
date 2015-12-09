@@ -111,7 +111,7 @@
 #define SCOREBOARD_Y	(BG_HEIGHT / 2.0f) - 4 * (SCOREBOARD_VERTICAL_HEIGHT / 2.0f)
 
 #define LEVEL_X				(BG_WIDTH / 2.0f) - NUMBER_WIDTH
-#define LEVEL_Y				-(BG_HEIGHT / 2.0f) + (3.0f * NUMBER_HEIGHT)
+#define LEVEL_Y				-(BG_HEIGHT / 2.0f) + (2.0f * NUMBER_HEIGHT)
 #define MAX_LEVEL_DIGITS	3
 
 #ifdef _XBOX
