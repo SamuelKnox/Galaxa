@@ -42,7 +42,7 @@ private:
 	int32_t mNumLives;
 
 	int32_t currentWeapon;
-	uint32_t mPowerupTimer;
+	int32_t mPowerupTimer;
 
 	float_t mMoveForce;
     int32_t mShotTimer;
